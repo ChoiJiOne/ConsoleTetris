@@ -22,3 +22,13 @@ enum class EConsoleTextColor : int32_t
 	BrightWhite = 15
 };
 
+class ConsoleUtil
+{
+public:
+	static void SetConsoleTitle(const std::string& title);
+	static void SetConsoleTextColor(EConsoleTextColor color);
+	static void SetConsoleCursorVisible(bool bIsVisible);
+	static void MoveConsoleCursor(int32_t x, int32_t y);
+	static void ClearConsole();
+	static void ShowTextInConsole(int32_t x, int32_t y, const std::string& text, EConsoleTextColor color);
+};
