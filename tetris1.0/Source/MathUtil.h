@@ -42,3 +42,22 @@ Vector2i operator-(const Vector2i& v0, const Vector2i& v1);
 Vector2i operator*(const Vector2i& v0, const Vector2i& v1);
 Vector2i operator*(const Vector2i& v, int32_t scale);
 Vector2i operator*(int32_t scale, const Vector2i& v);
+
+class MathUtil
+{
+public:
+	template <typename T>
+	inline static T GenerateRandomNumber(T minValue, T maxValue)
+	{
+		if (minValue > maxValue)
+		{
+			std::swap(minValue, maxValue);
+		}
+
+		static std::random_device randomDevice;
+		static std::mt19937 generator(randomDevice());
+		static std::uniform_int_distribution<T> distribution(minValue, maxValue);
+
+		return distribution(generator);
+	}
+};
