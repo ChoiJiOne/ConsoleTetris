@@ -142,12 +142,16 @@
     <ClCompile Include="Source\ConsoleUtil.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\MathUtil.cpp" />
+    <ClCompile Include="Source\Tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\ConsoleUtil.h" />
     <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\MathUtil.h" />
     <ClInclude Include="Source\StringUtil.h" />
+    <ClInclude Include="Source\Tetromino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

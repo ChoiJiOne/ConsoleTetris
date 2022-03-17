@@ -13,4 +13,5 @@ public:
 
 private:
 	bool bIsDoneGame = false;
+	bool bIsDraw     = true;
 };
