@@ -21,6 +21,14 @@ void ConsoleUtil::SetConsoleCursorVisible(bool bIsVisible)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
+void ConsoleUtil::SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t height)
+{
+	HWND hWnd = GetConsoleWindow();
+	RECT rect = { x, y, x + width, y + height };
+
+	MoveWindow(hWnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
+}
+
 void ConsoleUtil::MoveConsoleCursor(int32_t x, int32_t y)
 {
 	COORD position = { static_cast<SHORT>(2 * x), static_cast<SHORT>(y) };

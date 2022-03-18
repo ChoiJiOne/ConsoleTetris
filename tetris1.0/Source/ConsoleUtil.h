@@ -28,6 +28,8 @@ public:
 	static void SetConsoleTitle(const std::string& title);
 	static void SetConsoleTextColor(EConsoleTextColor color);
 	static void SetConsoleCursorVisible(bool bIsVisible);
+	static void SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t height);
+
 	static void MoveConsoleCursor(int32_t x, int32_t y);
 	static void ClearConsole();
 	static void ShowTextInConsole(int32_t x, int32_t y, const std::string& text, EConsoleTextColor color);
