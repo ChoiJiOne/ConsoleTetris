@@ -15,6 +15,7 @@ Game::~Game()
 
 void Game::Setup()
 {
+	ConsoleUtil::SetConsoleWindow(100, 100, 400, 400);
 	ConsoleUtil::SetConsoleTitle("tetris1.0");
 	ConsoleUtil::SetConsoleCursorVisible(false);
 }
