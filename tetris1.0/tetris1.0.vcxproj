@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Board.cpp" />
     <ClCompile Include="Source\ConsoleUtil.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Source\Tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Board.h" />
     <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\ConsoleUtil.h" />
     <ClInclude Include="Source\Game.h" />

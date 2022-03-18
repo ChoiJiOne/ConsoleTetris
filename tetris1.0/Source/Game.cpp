@@ -1,3 +1,4 @@
+#include "Board.h"
 #include "ConsoleUtil.h"
 #include "StringUtil.h"
 #include "Tetromino.h"
@@ -20,7 +21,8 @@ void Game::Setup()
 
 void Game::Run()
 {
-	Tetromino tetromino(Vector2i(3, 0), Tetromino::EShape::L);
+	Tetromino tetromino(Vector2i(4, 0), Tetromino::EShape::L);
+	Board board;
 
 	while (!bIsDoneGame)
 	{
@@ -44,7 +46,24 @@ void Game::Run()
 
 			for (const auto& position : positions)
 			{
-				ConsoleUtil::ShowTextInConsole(position.x, position.y, "бс", EConsoleTextColor::Blue);
+				ConsoleUtil::ShowTextInConsole(absolPos.x + position.x, absolPos.y + position.y, "бс", EConsoleTextColor::Blue);
+			}
+
+			Vector2i boardPos = Vector2i(0, 0);
+			int32_t rowSize = board.GetRowSize();
+			int32_t colSize = board.GetColSize();
+
+			for (int32_t y = 0; y < rowSize; ++y)
+			{
+				for (int32_t x = 0; x < colSize; ++x)
+				{
+					Board::EBlockState state = board.GetBoardBlockState(x, y);
+
+					if (state == Board::EBlockState::Fill || state == Board::EBlockState::Fix)
+					{
+						ConsoleUtil::ShowTextInConsole(x + boardPos.x, y + boardPos.y, "бс", EConsoleTextColor::Green);
+					}
+				}
 			}
 
 			bIsDraw = false;
