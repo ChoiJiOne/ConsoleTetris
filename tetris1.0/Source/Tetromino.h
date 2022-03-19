@@ -56,3 +56,18 @@ private:
 	Vector2i absolutePosition;
 	std::vector<Vector2i> relativePositions;
 };
+
+class TetrominoGenerator
+{
+public:
+	static std::shared_ptr<Tetromino> GenerateTetromino(const Vector2i& position, Tetromino::EShape shape)
+	{
+		return std::make_shared<Tetromino>(position, shape);
+	}
+
+	static std::shared_ptr<Tetromino> GenerateRandomTetromino(const Vector2i& position)
+	{
+		int32_t randomShape = MathUtil::GenerateRandomNumber<int32_t>(0, static_cast<int32_t>(Tetromino::EShape::Count) - 1);
+		return GenerateTetromino(position, static_cast<Tetromino::EShape>(randomShape));
+	}
+};
