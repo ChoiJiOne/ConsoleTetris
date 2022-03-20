@@ -109,7 +109,7 @@ void Tetromino::GenerateRelativePositions(EShape shape)
 		break;
 
 	case EShape::O:
-		areaSize = 2;
+		areaSize = 4;
 		relativePositions[0] = Vector2i(1, 1);
 		relativePositions[1] = Vector2i(2, 1);
 		relativePositions[2] = Vector2i(1, 2);
