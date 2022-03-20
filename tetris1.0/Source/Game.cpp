@@ -22,7 +22,6 @@ void Game::Setup()
 	ConsoleUtil::SetConsoleCursorVisible(false);
 
 	uiPositionCache["tetrisBoard"]   = Vector2i(10, 0);
-	uiPositionCache["nextTetromino"] = Vector2i(22, 2);
 	uiPositionCache["remainingTime"] = Vector2i(22, 8);
 	uiPositionCache["level"]         = Vector2i(22, 9);
 	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
@@ -90,52 +89,11 @@ void Game::Draw()
 {
 	if (bIsDraw)
 	{
-		ConsoleUtil::ClearConsole();
-
-		Vector2i boardPos = uiPositionCache["tetrisBoard"];
-		int32_t rowSize = tetrisBoard->GetRowSize();
-		int32_t colSize = tetrisBoard->GetColSize();
-
-		for (int32_t y = 0; y < rowSize; ++y)
-		{
-			for (int32_t x = 0; x < colSize; ++x)
-			{
-				Board::EBlockState state = tetrisBoard->GetBoardBlockState(x, y);
-
-				if (state == Board::EBlockState::Fix)
-				{
-					ConsoleUtil::ShowTextInConsole(x + boardPos.x, y + boardPos.y, "■", EConsoleTextColor::Green);
-				}
-				else if (state == Board::EBlockState::Fill)
-				{
-					ConsoleUtil::ShowTextInConsole(x + boardPos.x, y + boardPos.y, "■", EConsoleTextColor::Blue);
-				}
-			}
-		}
-
-		Vector2i nextTetrominoPos = uiPositionCache["nextTetromino"];
-		ConsoleUtil::ShowTextInConsole(nextTetrominoPos.x, nextTetrominoPos.y, "다음 테트로미노", EConsoleTextColor::Green);
-		const std::vector<Vector2i>& positions = nextTetromino->GetRelativePositions();
-
-		for (const auto& position : positions)
-		{
-			Vector2i consolePos = nextTetrominoPos + position;
-			ConsoleUtil::ShowTextInConsole(consolePos.x + 1, consolePos.y + 1, "■", EConsoleTextColor::Blue);
-			ConsoleUtil::ShowTextInConsole(consolePos.x + 1, consolePos.y + 1, "■", EConsoleTextColor::Blue);
-		}
-
-		Vector2i remainingTimePos = uiPositionCache["remainingTime"];
-		ConsoleUtil::ShowTextInConsole(remainingTimePos.x, remainingTimePos.y, "남은 시간 : s", EConsoleTextColor::Green);
-
-		Vector2i levelPos = uiPositionCache["level"];
-		ConsoleUtil::ShowTextInConsole(levelPos.x, levelPos.y, "현재 레벨 : ", EConsoleTextColor::Green);
-
-		Vector2i keyArrowPos = uiPositionCache["keyArrow"];
-		ConsoleUtil::ShowTextInConsole(keyArrowPos.x, keyArrowPos.y, "■", EConsoleTextColor::Green);
-		ConsoleUtil::ShowTextInConsole(keyArrowPos.x - 1, keyArrowPos.y, "←", EConsoleTextColor::Green);
-		ConsoleUtil::ShowTextInConsole(keyArrowPos.x + 1, keyArrowPos.y, "→", EConsoleTextColor::Green);
-		ConsoleUtil::ShowTextInConsole(keyArrowPos.x, keyArrowPos.y - 1, "↑", EConsoleTextColor::Green);
-		ConsoleUtil::ShowTextInConsole(keyArrowPos.x, keyArrowPos.y + 1, "↓", EConsoleTextColor::Green);
+		DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
+		
+		DrawRemainTime(uiPositionCache["remainingTime"], 10);
+		DrawGameLevel(uiPositionCache["level"], 1);
+		DrawPushKeyArrow(uiPositionCache["keyArrow"]);
 
 		bIsDraw = false;
 	}
@@ -268,4 +226,60 @@ bool Game::SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& boa
 
 	AddTetrominoInBoard(tetromino, board);
 	return bCanMove;
+}
+
+void Game::DrawTetrisBoard(const Vector2i& consolePos, Board& board)
+{
+	int32_t rowSize = board.GetRowSize();
+	int32_t colSize = board.GetColSize();
+
+	for (int32_t y = 0; y < rowSize; ++y)
+	{
+		for (int32_t x = 0; x < colSize; ++x)
+		{
+			Board::EBlockState state = board.GetBoardBlockState(x, y);
+
+			if (state == Board::EBlockState::Fix)
+			{
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", EConsoleTextColor::LightGreen);
+			}
+			else if (state == Board::EBlockState::Fill)
+			{
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", EConsoleTextColor::LightBlue);
+			}
+			else
+			{
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "  ", EConsoleTextColor::Black);
+			}
+		}
+	}
+}
+
+void Game::DrawRemainTime(const Vector2i& consolePos, int32_t remainTime)
+{
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x,
+		consolePos.y,
+		StringUtil::StringFormat("남은 시간 : %2d", remainTime),
+		(remainTime > 10 ? EConsoleTextColor::BrightWhite : EConsoleTextColor::Red)
+	);
+}
+
+void Game::DrawGameLevel(const Vector2i& consolePos, int32_t level)
+{
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x,
+		consolePos.y,
+		StringUtil::StringFormat("현재 레벨 : %2d", level),
+		EConsoleTextColor::BrightWhite
+	);
+}
+
+void Game::DrawPushKeyArrow(const Vector2i& consolePos)
+{
+	ConsoleUtil::ShowTextInConsole(    consolePos.x,     consolePos.y, "■", EConsoleTextColor::Green);
+	ConsoleUtil::ShowTextInConsole(consolePos.x - 1,     consolePos.y, "←", EConsoleTextColor::Green);
+	ConsoleUtil::ShowTextInConsole(consolePos.x + 1,     consolePos.y, "→", EConsoleTextColor::Green);
+	ConsoleUtil::ShowTextInConsole(    consolePos.x, consolePos.y - 1, "↑", EConsoleTextColor::Green);
+	ConsoleUtil::ShowTextInConsole(    consolePos.x, consolePos.y + 1, "↓", EConsoleTextColor::Green);
 }

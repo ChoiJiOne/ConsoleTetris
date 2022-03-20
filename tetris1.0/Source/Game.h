@@ -2,6 +2,7 @@
 
 #include "Common.h"
 
+struct Vector2i;
 
 class Tetromino;
 class Board;
@@ -30,6 +31,11 @@ private:
 	bool SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
 	bool SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
 
+	void DrawTetrisBoard(const Vector2i& consolePos, Board& board);
+	void DrawRemainTime(const Vector2i& consolePos, int32_t remainTime);
+	void DrawGameLevel(const Vector2i& consolePos, int32_t level);
+	void DrawPushKeyArrow(const Vector2i& consolePos);
+
 
 private:
 	bool bIsDoneGame = false;
@@ -39,5 +45,5 @@ private:
 	std::shared_ptr<Tetromino> currTetromino = nullptr;
 	std::shared_ptr<Tetromino> nextTetromino = nullptr;
 
-	std::unordered_map<std::string, struct Vector2i> uiPositionCache;
+	std::unordered_map<std::string, Vector2i> uiPositionCache;
 };
