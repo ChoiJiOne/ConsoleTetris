@@ -23,22 +23,9 @@ Game::~Game()
 
 void Game::Setup()
 {
-	ConsoleUtil::SetConsoleTitle("tetris1.0");
-	ConsoleUtil::SetConsoleCursorVisible(false);
-
-	inputSystem = std::make_shared<InputSystem>();
-	globalTimer = std::make_shared<GameTimer>();
-
-	uiPositionCache["tetrisBoard"]   = Vector2i(10, 0);
-	uiPositionCache["remainingTime"] = Vector2i(22, 8);
-	uiPositionCache["level"]         = Vector2i(22, 9);
-	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
-	
-	tetrisBoard = std::make_shared<Board>();
-	currTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
-	nextTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
-
-	AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+	SetupGame();
+	SetupTetrisBoard();
+	SetupTetromino();
 }
 
 void Game::Run()
@@ -68,48 +55,98 @@ void Game::Update()
 
 	if (inputSystem->IsCurrKeyPress("KeyUp") && !inputSystem->IsPrevKeyPress("KeyUp"))
 	{
-		if (SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard))
-		{
-			bIsDraw = true;
-		}
-	}
-
-	if (inputSystem->IsCurrKeyPress("KeyDown") && !inputSystem->IsPrevKeyPress("KeyDown"))
-	{
-		if (MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
-		{
-			bIsDraw = true;
-		}
+		SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard);
 	}
 
 	if (inputSystem->IsCurrKeyPress("KeyLeft") && !inputSystem->IsPrevKeyPress("KeyLeft"))
 	{
-		if (MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard))
-		{
-			bIsDraw = true;
-		}
+		MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard);
 	}
 
 	if (inputSystem->IsCurrKeyPress("KeyRight") && !inputSystem->IsPrevKeyPress("KeyRight"))
 	{
-		if (MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard))
+		MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard);
+	}
+
+	if (inputSystem->IsCurrKeyPress("KeyDown") && !inputSystem->IsPrevKeyPress("KeyDown"))
+	{
+		if (!MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
-			bIsDraw = true;
+			SetupTetrisBoard();
+			SetupTetromino();
 		}
+	}
+
+	if (inputSystem->IsCurrKeyPress("KeySpace") && !inputSystem->IsPrevKeyPress("KeySpace"))
+	{
+		while (MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
+		{
+			 
+		}
+
+		SetupTetrisBoard();
+		SetupTetromino();
 	}
 }
 
 void Game::Draw()
 {
-	if (bIsDraw)
-	{
-		DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
-		
-		DrawRemainTime(uiPositionCache["remainingTime"], 10);
-		DrawGameLevel(uiPositionCache["level"], 1);
-		DrawPushKeyArrow(uiPositionCache["keyArrow"]);
+	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
 
-		bIsDraw = false;
+	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(globalTimer->TotalTime()));
+	DrawGameLevel(uiPositionCache["level"], 1);
+	DrawPushKeyArrow(uiPositionCache["keyArrow"]);
+}
+
+void Game::SetupGame()
+{
+	ConsoleUtil::SetConsoleTitle("tetris1.0");
+	ConsoleUtil::SetConsoleCursorVisible(false);
+
+	inputSystem = std::make_shared<InputSystem>();
+	globalTimer = std::make_shared<GameTimer>();
+
+	uiPositionCache["tetrisBoard"]   = Vector2i(10, 0);
+	uiPositionCache["remainingTime"] = Vector2i(22, 8);
+	uiPositionCache["level"]         = Vector2i(22, 9);
+	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
+}
+
+void Game::SetupTetrisBoard()
+{
+	if (tetrisBoard == nullptr)
+	{
+		tetrisBoard = std::make_shared<Board>();
+	}
+	else
+	{
+		tetrisBoard->UpdateBoardState();
+	}
+}
+
+void Game::SetupTetromino()
+{
+	if (currTetromino == nullptr && nextTetromino == nullptr)
+	{
+		currTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
+		nextTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
+
+		AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+	}
+	else
+	{
+		currTetromino.reset();
+		currTetromino = nextTetromino;
+		nextTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
+
+		if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
+		{
+			bIsDoneGame = true;
+		}
+		else
+		{
+			AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+		}
 	}
 }
 
@@ -291,9 +328,28 @@ void Game::DrawGameLevel(const Vector2i& consolePos, int32_t level)
 
 void Game::DrawPushKeyArrow(const Vector2i& consolePos)
 {
-	ConsoleUtil::ShowTextInConsole(    consolePos.x,     consolePos.y, "¡á", EConsoleTextColor::Green);
-	ConsoleUtil::ShowTextInConsole(consolePos.x - 1,     consolePos.y, "¡ç", EConsoleTextColor::Green);
-	ConsoleUtil::ShowTextInConsole(consolePos.x + 1,     consolePos.y, "¡æ", EConsoleTextColor::Green);
-	ConsoleUtil::ShowTextInConsole(    consolePos.x, consolePos.y - 1, "¡è", EConsoleTextColor::Green);
-	ConsoleUtil::ShowTextInConsole(    consolePos.x, consolePos.y + 1, "¡é", EConsoleTextColor::Green);
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y, "¡á", 
+		inputSystem->IsCurrKeyPress("KeySpace") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x - 1, consolePos.y, "¡ç",  
+		inputSystem->IsCurrKeyPress("KeyLeft") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x + 1, consolePos.y, "¡æ", 
+		inputSystem->IsCurrKeyPress("KeyRight") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y - 1, "¡è",  
+		inputSystem->IsCurrKeyPress("KeyUp") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y + 1, "¡é", 
+		inputSystem->IsCurrKeyPress("KeyDown") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
 }
