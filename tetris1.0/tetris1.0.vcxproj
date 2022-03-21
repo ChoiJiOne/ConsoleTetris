@@ -143,6 +143,7 @@
     <ClCompile Include="Source\ConsoleUtil.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameTimer.cpp" />
+    <ClCompile Include="Source\InputSystem.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MathUtil.cpp" />
     <ClCompile Include="Source\Tetromino.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Source\ConsoleUtil.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameTimer.h" />
+    <ClInclude Include="Source\InputSystem.h" />
     <ClInclude Include="Source\MathUtil.h" />
     <ClInclude Include="Source\StringUtil.h" />
     <ClInclude Include="Source\Tetromino.h" />
