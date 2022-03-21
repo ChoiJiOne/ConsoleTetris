@@ -2,7 +2,6 @@
 
 GameTimer::GameTimer()
 {
-	Reset();
 }
 
 GameTimer::~GameTimer()
