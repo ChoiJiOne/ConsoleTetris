@@ -66,7 +66,7 @@ void Game::Update()
 		bIsDoneGame = true;
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyUp"))
+	if (inputSystem->IsCurrKeyPress("KeyUp") && !inputSystem->IsPrevKeyPress("KeyUp"))
 	{
 		if (SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -74,7 +74,7 @@ void Game::Update()
 		}
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyDown"))
+	if (inputSystem->IsCurrKeyPress("KeyDown") && !inputSystem->IsPrevKeyPress("KeyDown"))
 	{
 		if (MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -82,7 +82,7 @@ void Game::Update()
 		}
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyLeft"))
+	if (inputSystem->IsCurrKeyPress("KeyLeft") && !inputSystem->IsPrevKeyPress("KeyLeft"))
 	{
 		if (MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -90,7 +90,7 @@ void Game::Update()
 		}
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyRight"))
+	if (inputSystem->IsCurrKeyPress("KeyRight") && !inputSystem->IsPrevKeyPress("KeyRight"))
 	{
 		if (MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
