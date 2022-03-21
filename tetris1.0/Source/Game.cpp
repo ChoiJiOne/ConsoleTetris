@@ -1,5 +1,7 @@
 #include "Board.h"
 #include "ConsoleUtil.h"
+#include "GameTimer.h"
+#include "InputSystem.h"
 #include "StringUtil.h"
 #include "Tetromino.h"
 
@@ -14,12 +16,18 @@ Game::~Game()
 	nextTetromino.reset();
 	currTetromino.reset();
 	tetrisBoard.reset();
+
+	globalTimer.reset();
+	inputSystem.reset();
 }
 
 void Game::Setup()
 {
 	ConsoleUtil::SetConsoleTitle("tetris1.0");
 	ConsoleUtil::SetConsoleCursorVisible(false);
+
+	inputSystem = std::make_shared<InputSystem>();
+	globalTimer = std::make_shared<GameTimer>();
 
 	uiPositionCache["tetrisBoard"]   = Vector2i(10, 0);
 	uiPositionCache["remainingTime"] = Vector2i(22, 8);
@@ -35,8 +43,12 @@ void Game::Setup()
 
 void Game::Run()
 {
+	globalTimer->Reset();
+
 	while (!bIsDoneGame)
 	{
+		globalTimer->Tick();
+
 		Update();
 		Draw();
 	}
@@ -47,12 +59,14 @@ void Game::Run()
 
 void Game::Update()
 {
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	inputSystem->Update();
+
+	if (inputSystem->IsCurrKeyPress("KeyEscape"))
 	{
 		bIsDoneGame = true;
 	}
 
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	if (inputSystem->IsCurrKeyPress("KeyUp"))
 	{
 		if (SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -60,7 +74,7 @@ void Game::Update()
 		}
 	}
 
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	if (inputSystem->IsCurrKeyPress("KeyDown"))
 	{
 		if (MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -68,7 +82,7 @@ void Game::Update()
 		}
 	}
 
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	if (inputSystem->IsCurrKeyPress("KeyLeft"))
 	{
 		if (MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
@@ -76,7 +90,7 @@ void Game::Update()
 		}
 	}
 
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8001)
+	if (inputSystem->IsCurrKeyPress("KeyRight"))
 	{
 		if (MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{

@@ -4,8 +4,10 @@
 
 struct Vector2i;
 
+class InputSystem;
 class Tetromino;
 class Board;
+class GameTimer;
 
 class Game
 {
@@ -36,8 +38,12 @@ private:
 	void DrawGameLevel(const Vector2i& consolePos, int32_t level);
 	void DrawPushKeyArrow(const Vector2i& consolePos);
 
-
 private:
+	std::shared_ptr<InputSystem> inputSystem = nullptr;
+	std::shared_ptr<GameTimer>   globalTimer = nullptr;
+
+	std::unordered_map<std::string, Vector2i> uiPositionCache;
+
 	bool bIsDoneGame = false;
 	bool bIsDraw     = true;
 
@@ -45,5 +51,6 @@ private:
 	std::shared_ptr<Tetromino> currTetromino = nullptr;
 	std::shared_ptr<Tetromino> nextTetromino = nullptr;
 
-	std::unordered_map<std::string, Vector2i> uiPositionCache;
+	int32_t playerLevel = 1;
+
 };
