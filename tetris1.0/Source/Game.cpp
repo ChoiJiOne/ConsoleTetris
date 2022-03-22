@@ -99,6 +99,7 @@ void Game::SetupGame()
 	uiPositionCache["remainingTime"] = Vector2i(22, 8);
 	uiPositionCache["level"]         = Vector2i(22, 9);
 	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
+	uiPositionCache["countDown"]     = Vector2i(12, 10);
 }
 
 void Game::UpdatePlay()
@@ -169,9 +170,9 @@ void Game::UpdateWait()
 }
 
 void Game::DrawPlay()
-{
-	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
-	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(levelPlayTime - userPlayTime));
+{ 
+	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard );
+	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(99))  ;
 	DrawGameLevel(uiPositionCache["level"], userLevel);
 	DrawPushKeyArrow(uiPositionCache["keyArrow"]);
 }
@@ -387,5 +388,14 @@ void Game::DrawPushKeyArrow(const Vector2i& consolePos)
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, "бщ", 
 		inputSystem->IsCurrKeyPress("KeyDown") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+	);
+}
+
+void Game::DrawCountDown(const Vector2i& consolePos, int32_t countDown)
+{
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y,
+		StringUtil::StringFormat("count down : %d", countDown),
+		EConsoleTextColor::BrightWhite
 	);
 }
