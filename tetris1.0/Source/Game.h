@@ -63,5 +63,9 @@ private:
 
 	int32_t userLevel = 1;
 	float userPlayTime = 0.0f;
+	float userStepTime = 0.0f;
 	float waitTime = 0.0f;
+
+	const float gamePlayTime = 99.0f;
+	const float gameWaitTime = 3.0f;
 };
