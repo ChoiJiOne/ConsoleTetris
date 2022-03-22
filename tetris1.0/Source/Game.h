@@ -62,4 +62,6 @@ private:
 	std::shared_ptr<Tetromino> nextTetromino = nullptr;
 
 	int32_t userLevel = 1;
+	float userPlayTime = 0.0f;
+	float waitTime = 0.0f;
 };
