@@ -66,6 +66,6 @@ private:
 	float userStepTime = 0.0f;
 	float waitTime = 0.0f;
 
-	const float gamePlayTime = 99.0f;
+	const float gamePlayTime = 100.0f;
 	const float gameWaitTime = 3.0f;
 };

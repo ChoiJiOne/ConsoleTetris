@@ -412,7 +412,7 @@ void Game::DrawRemainTime(const Vector2i& consolePos, int32_t remainTime)
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x,
 		consolePos.y,
-		StringUtil::StringFormat("남은 시간 : %2d", remainTime),
+		StringUtil::StringFormat("남은 시간 :%3d", remainTime),
 		(remainTime > 10 ? EConsoleTextColor::BrightWhite : EConsoleTextColor::Red)
 	);
 }
