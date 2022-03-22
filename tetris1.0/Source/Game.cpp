@@ -25,18 +25,7 @@ void Game::Setup()
 {
 	SetupGame();
 
-
 	tetrisBoard = std::make_shared<Board>();
-
-	currTetromino = TetrominoGenerator::GenerateRandomTetromino(
-		Vector2i(tetrisBoard->GetColSize() / 3, 0)
-	);
-
-	nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
-		Vector2i(tetrisBoard->GetColSize() / 3, 0)
-	);
-
-	AddTetrominoInBoard(*currTetromino, *tetrisBoard);
 }
 
 void Game::Run()

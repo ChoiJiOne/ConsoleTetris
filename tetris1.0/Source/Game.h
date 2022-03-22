@@ -55,16 +55,16 @@ private:
 	std::unordered_map<std::string, Vector2i> uiPositionCache;
 
 	bool bIsDoneGame  = false;
-	bool bIsWaitNextLevel = false;
+	bool bIsWaitNextLevel = true;
 
 	std::shared_ptr<Board>     tetrisBoard   = nullptr;
 	std::shared_ptr<Tetromino> currTetromino = nullptr;
 	std::shared_ptr<Tetromino> nextTetromino = nullptr;
 
-	int32_t userLevel = 1;
+	int32_t userLevel  = 0;
 	float userPlayTime = 0.0f;
 	float userStepTime = 0.0f;
-	float waitTime = 0.0f;
+	float waitTime     = 0.0f;
 
 	const float gamePlayTime = 100.0f;
 	const float gameWaitTime = 3.0f;
