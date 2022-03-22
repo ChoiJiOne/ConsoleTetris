@@ -23,19 +23,18 @@ public:
 
 private:
 	void SetupGame();
-	void SetupTetrisBoard();
-	void SetupTetromino();
 
 	void AddTetrominoInBoard(Tetromino& tetromino, Board& board);
 	void RemoveTetrominoInBoard(Tetromino& tetromino, Board& board);
 	bool IsCrashTetrominoAndBoard(Tetromino& tetromino, Board& board);
 
 	bool MoveDownTetrominoInBoard(Tetromino& tetromino, Board& board);
-	bool MoveLeftTetrominoInBoard(Tetromino& tetromino, Board& board);
-	bool MoveRightTetrominoInBoard(Tetromino& tetromino, Board& board);
+	void MoveLeftTetrominoInBoard(Tetromino& tetromino, Board& board);
+	void MoveRightTetrominoInBoard(Tetromino& tetromino, Board& board);
+	void MoveBottomTetrominoInBoard(Tetromino& tetromino, Board& board);
 
-	bool SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
-	bool SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
+	void SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
+	void SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board);
 
 	void DrawTetrisBoard(const Vector2i& consolePos, Board& board);
 	void DrawRemainTime(const Vector2i& consolePos, int32_t remainTime);
@@ -49,7 +48,6 @@ private:
 	std::unordered_map<std::string, Vector2i> uiPositionCache;
 
 	bool bIsDoneGame  = false;
-	bool bIsNextStep  = false;
 	bool bIsNextLevel = false;
 	bool bIsWaitNextLevel = false;
 
@@ -57,6 +55,10 @@ private:
 	std::shared_ptr<Tetromino> currTetromino = nullptr;
 	std::shared_ptr<Tetromino> nextTetromino = nullptr;
 
-	int32_t playerLevel      = 1;
-	int32_t playerRemainTime = 0;
+	int32_t userLevel    = 1;
+	float   userPlayTime = 0.0f;
+	float   userStepTime = 0.0f;
+	float gameStepTime = 1.0f;
+	const float levelPlayTime = 99.0f;
+	const float waitNextPlayTime = 3.0f;
 };

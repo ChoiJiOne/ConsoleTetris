@@ -24,8 +24,19 @@ Game::~Game()
 void Game::Setup()
 {
 	SetupGame();
-	SetupTetrisBoard();
-	SetupTetromino();
+
+
+	tetrisBoard = std::make_shared<Board>();
+
+	currTetromino = TetrominoGenerator::GenerateRandomTetromino(
+		Vector2i(tetrisBoard->GetColSize() / 3, 0)
+	);
+
+	nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+		Vector2i(tetrisBoard->GetColSize() / 3, 0)
+	);
+
+	AddTetrominoInBoard(*currTetromino, *tetrisBoard);
 }
 
 void Game::Run()
@@ -48,44 +59,137 @@ void Game::Update()
 {
 	inputSystem->Update();
 
+	
 	if (inputSystem->IsCurrKeyPress("KeyEscape"))
 	{
 		bIsDoneGame = true;
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyUp") && !inputSystem->IsPrevKeyPress("KeyUp"))
+	if(!bIsWaitNextLevel)
 	{
-		SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard);
+		if (inputSystem->IsCurrKeyPress("KeyUp") && !inputSystem->IsPrevKeyPress("KeyUp"))
+		{
+			SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard);
+		}
+
+		if (inputSystem->IsCurrKeyPress("KeyLeft") && !inputSystem->IsPrevKeyPress("KeyLeft"))
+		{
+			MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard);
+		}
+
+		if (inputSystem->IsCurrKeyPress("KeyRight") && !inputSystem->IsPrevKeyPress("KeyRight"))
+		{
+			MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard);
+		}
+
+		if (inputSystem->IsCurrKeyPress("KeyDown") && !inputSystem->IsPrevKeyPress("KeyDown"))
+		{
+			if (!MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
+			{
+				tetrisBoard->UpdateBoardState();
+
+				currTetromino.reset();
+				currTetromino = nextTetromino;
+				nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+					Vector2i(tetrisBoard->GetColSize() / 3, 0)
+				);
+
+				if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
+				{
+					bIsDoneGame = true;
+				}
+				else
+				{
+					AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+				}
+			}
+
+			userStepTime = 0.0f;
+		}
+
+		if (inputSystem->IsCurrKeyPress("KeySpace") && !inputSystem->IsPrevKeyPress("KeySpace"))
+		{
+			MoveBottomTetrominoInBoard(*currTetromino, *tetrisBoard);
+			
+			tetrisBoard->UpdateBoardState();
+
+			currTetromino.reset();
+			currTetromino = nextTetromino;
+			nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+				Vector2i(tetrisBoard->GetColSize() / 3, 0)
+			);
+
+			if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
+			{
+				bIsDoneGame = true;
+			}
+			else
+			{
+				AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+			}
+		}
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeyLeft") && !inputSystem->IsPrevKeyPress("KeyLeft"))
-	{
-		MoveLeftTetrominoInBoard(*currTetromino, *tetrisBoard);
-	}
+	userPlayTime += globalTimer->DeltaTime();
+	userStepTime += globalTimer->DeltaTime();
 
-	if (inputSystem->IsCurrKeyPress("KeyRight") && !inputSystem->IsPrevKeyPress("KeyRight"))
-	{
-		MoveRightTetrominoInBoard(*currTetromino, *tetrisBoard);
-	}
-
-	if (inputSystem->IsCurrKeyPress("KeyDown") && !inputSystem->IsPrevKeyPress("KeyDown"))
+	if (userStepTime > gameStepTime)
 	{
 		if (!MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
 		{
-			SetupTetrisBoard();
-			SetupTetromino();
+			tetrisBoard->UpdateBoardState();
+
+			currTetromino.reset();
+			currTetromino = nextTetromino;
+			nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+				Vector2i(tetrisBoard->GetColSize() / 3, 0)
+			);
+
+			if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
+			{
+				bIsDoneGame = true;
+			}
+			else
+			{
+				AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+			}
 		}
+
+		userStepTime = 0.0f;
 	}
 
-	if (inputSystem->IsCurrKeyPress("KeySpace") && !inputSystem->IsPrevKeyPress("KeySpace"))
-	{
-		while (MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
-		{
-			 
-		}
 
-		SetupTetrisBoard();
-		SetupTetromino();
+	if (!bIsWaitNextLevel)
+	{
+		if (userPlayTime > levelPlayTime)
+		{
+			userPlayTime = 0.0f;
+			bIsWaitNextLevel = true;
+
+			currTetromino.reset();
+			nextTetromino.reset();
+
+			tetrisBoard->ResetBoardState();
+		}
+	}
+	else
+	{
+
+		if (userPlayTime > waitNextPlayTime)
+		 {
+			userPlayTime = 0.0f;
+			bIsWaitNextLevel = false;
+
+			currTetromino = TetrominoGenerator::GenerateRandomTetromino(
+				Vector2i(tetrisBoard->GetColSize() / 3, 0)
+			);
+
+			nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+				Vector2i(tetrisBoard->GetColSize() / 3, 0)
+			);
+
+			AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+		}
 	}
 }
 
@@ -93,13 +197,14 @@ void Game::Draw()
 {
 	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
 
-	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(globalTimer->TotalTime()));
-	DrawGameLevel(uiPositionCache["level"], 1);
+	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(levelPlayTime - userPlayTime));
+	DrawGameLevel(uiPositionCache["level"], userLevel);
 	DrawPushKeyArrow(uiPositionCache["keyArrow"]);
 }
 
 void Game::SetupGame()
 {
+	ConsoleUtil::ClearConsole();          
 	ConsoleUtil::SetConsoleTitle("tetris1.0");
 	ConsoleUtil::SetConsoleCursorVisible(false);
 
@@ -110,44 +215,7 @@ void Game::SetupGame()
 	uiPositionCache["remainingTime"] = Vector2i(22, 8);
 	uiPositionCache["level"]         = Vector2i(22, 9);
 	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
-}
 
-void Game::SetupTetrisBoard()
-{
-	if (tetrisBoard == nullptr)
-	{
-		tetrisBoard = std::make_shared<Board>();
-	}
-	else
-	{
-		tetrisBoard->UpdateBoardState();
-	}
-}
-
-void Game::SetupTetromino()
-{
-	if (currTetromino == nullptr && nextTetromino == nullptr)
-	{
-		currTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
-		nextTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
-
-		AddTetrominoInBoard(*currTetromino, *tetrisBoard);
-	}
-	else
-	{
-		currTetromino.reset();
-		currTetromino = nextTetromino;
-		nextTetromino = TetrominoGenerator::GenerateRandomTetromino(Vector2i(tetrisBoard->GetColSize() / 3, 0));
-
-		if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
-		{
-			bIsDoneGame = true;
-		}
-		else
-		{
-			AddTetrominoInBoard(*currTetromino, *tetrisBoard);
-		}
-	}
 }
 
 void Game::AddTetrominoInBoard(Tetromino& tetromino, Board& board)
@@ -211,9 +279,8 @@ bool Game::MoveDownTetrominoInBoard(Tetromino& tetromino, Board& board)
 	return bCanMove;
 }
 
-bool Game::MoveLeftTetrominoInBoard(Tetromino& tetromino, Board& board)
+void Game::MoveLeftTetrominoInBoard(Tetromino& tetromino, Board& board)
 {
-	bool bCanMove = true;
 	RemoveTetrominoInBoard(tetromino, board);
 
 	tetromino.Move(Tetromino::EMove::Left);
@@ -221,16 +288,13 @@ bool Game::MoveLeftTetrominoInBoard(Tetromino& tetromino, Board& board)
 	if (IsCrashTetrominoAndBoard(tetromino, board))
 	{
 		tetromino.Move(Tetromino::EMove::Right);
-		bCanMove = false;
 	}
 
 	AddTetrominoInBoard(tetromino, board);
-	return bCanMove;
 }
 
-bool Game::MoveRightTetrominoInBoard(Tetromino& tetromino, Board& board)
+void Game::MoveRightTetrominoInBoard(Tetromino& tetromino, Board& board)
 {
-	bool bCanMove = true;
 	RemoveTetrominoInBoard(tetromino, board);
 
 	tetromino.Move(Tetromino::EMove::Right);
@@ -238,16 +302,31 @@ bool Game::MoveRightTetrominoInBoard(Tetromino& tetromino, Board& board)
 	if (IsCrashTetrominoAndBoard(tetromino, board))
 	{
 		tetromino.Move(Tetromino::EMove::Left);
-		bCanMove = false;
 	}
 
 	AddTetrominoInBoard(tetromino, board);
-	return bCanMove;
 }
 
-bool Game::SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board)
+void Game::MoveBottomTetrominoInBoard(Tetromino& tetromino, Board& board)
 {
-	bool bCanMove = true;
+	RemoveTetrominoInBoard(tetromino, board);
+
+	while (true)
+	{
+		tetromino.Move(Tetromino::EMove::Down);
+
+		if (IsCrashTetrominoAndBoard(tetromino, board))
+		{
+			tetromino.Move(Tetromino::EMove::Up);
+			break;
+		}
+	}
+
+	AddTetrominoInBoard(tetromino, board);
+}
+
+void Game::SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board)
+{
 	RemoveTetrominoInBoard(tetromino, board);
 
 	tetromino.Spin(Tetromino::ESpin::CW);
@@ -255,16 +334,13 @@ bool Game::SpinClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board)
 	if (IsCrashTetrominoAndBoard(tetromino, board))
 	{
 		tetromino.Spin(Tetromino::ESpin::CCW);
-		bCanMove = false;
 	}
 
 	AddTetrominoInBoard(tetromino, board);
-	return bCanMove;
 }
 
-bool Game::SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board)
+void Game::SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& board)
 {
-	bool bCanMove = true;
 	RemoveTetrominoInBoard(tetromino, board);
 
 	tetromino.Spin(Tetromino::ESpin::CCW);
@@ -272,11 +348,9 @@ bool Game::SpinCounterClockWiseTetrominoInBoard(Tetromino& tetromino, Board& boa
 	if (IsCrashTetrominoAndBoard(tetromino, board))
 	{
 		tetromino.Spin(Tetromino::ESpin::CW);
-		bCanMove = false;
 	}
 
 	AddTetrominoInBoard(tetromino, board);
-	return bCanMove;
 }
 
 void Game::DrawTetrisBoard(const Vector2i& consolePos, Board& board)
