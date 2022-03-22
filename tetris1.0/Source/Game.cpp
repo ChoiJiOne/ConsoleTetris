@@ -104,6 +104,9 @@ void Game::SetupGame()
 
 void Game::UpdatePlay()
 {
+	userPlayTime += globalTimer->DeltaTime();
+	userStepTime += globalTimer->DeltaTime();
+
 	if (inputSystem->IsCurrKeyPress("KeyUp") && !inputSystem->IsPrevKeyPress("KeyUp"))
 	{
 		SpinClockWiseTetrominoInBoard(*currTetromino, *tetrisBoard);
@@ -139,6 +142,8 @@ void Game::UpdatePlay()
 			{
 				AddTetrominoInBoard(*currTetromino, *tetrisBoard);
 			}
+
+			userStepTime = 0.0f;
 		}
 	}
 
@@ -163,16 +168,73 @@ void Game::UpdatePlay()
 			AddTetrominoInBoard(*currTetromino, *tetrisBoard);
 		}
 	}
+
+	if (userPlayTime > gamePlayTime)
+	{
+		userPlayTime = 0.0f;
+		userStepTime = 0.0f;
+		bIsWaitNextLevel = true;
+
+		currTetromino.reset();
+		nextTetromino.reset();
+
+		tetrisBoard->ResetBoardState();
+	}
+	else
+	{
+		if (userStepTime > 1.0f)
+		{
+			if (!MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
+			{
+				tetrisBoard->UpdateBoardState();
+
+				currTetromino.reset();
+				currTetromino = nextTetromino;
+				nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+					Vector2i(tetrisBoard->GetColSize() / 3, 0)
+				);
+
+				if (IsCrashTetrominoAndBoard(*currTetromino, *tetrisBoard))
+				{
+					bIsDoneGame = true;
+				}
+				else
+				{
+					AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+				}
+			}
+
+			userStepTime = 0.0f;
+		}
+	}
 }
 
 void Game::UpdateWait()
 {
+	waitTime += globalTimer->DeltaTime();
+
+	if (waitTime > 3.0f)
+	{
+		userLevel++;
+		waitTime = 0.0f;
+		bIsWaitNextLevel = false;
+
+		currTetromino = TetrominoGenerator::GenerateRandomTetromino(
+			Vector2i(tetrisBoard->GetColSize() / 3, 0)
+		);
+
+		nextTetromino = TetrominoGenerator::GenerateRandomTetromino(
+			Vector2i(tetrisBoard->GetColSize() / 3, 0)
+		);
+
+		AddTetrominoInBoard(*currTetromino, *tetrisBoard);
+	}
 }
 
 void Game::DrawPlay()
 { 
 	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard );
-	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(99))  ;
+	DrawRemainTime(uiPositionCache["remainingTime"], static_cast<int32_t>(gamePlayTime - userPlayTime));
 	DrawGameLevel(uiPositionCache["level"], userLevel);
 	DrawPushKeyArrow(uiPositionCache["keyArrow"]);
 }
@@ -180,7 +242,7 @@ void Game::DrawPlay()
 void Game::DrawWait()
 {
 	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
-	DrawCountDown(uiPositionCache["countDown"], static_cast<int32_t>(3 - waitTime));
+	DrawCountDown(uiPositionCache["countDown"], static_cast<int32_t>(gameWaitTime - waitTime));
 }
 
 void Game::AddTetrominoInBoard(Tetromino& tetromino, Board& board)
