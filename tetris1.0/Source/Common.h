@@ -14,3 +14,5 @@
 #include <Windows.h>
 
 #undef SetConsoleTitle
+#undef max
+#undef min
