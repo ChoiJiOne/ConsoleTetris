@@ -28,10 +28,10 @@
 
 
 ## 플레이
-- 
+<img src="play.gif" width="1000" height="800">
 <br><br>
 
 
 ## 노트
-- 
+- 실행 시 콘솔 창을 임의로 종료할 경우 memory leak issue 발생 확인
 <br><br>
