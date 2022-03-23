@@ -84,11 +84,11 @@ void Game::SetupGame()
 	inputSystem = std::make_shared<InputSystem>();
 	globalTimer = std::make_shared<GameTimer>();
 
-	uiPositionCache["tetrisBoard"]   = Vector2i(10, 0);
-	uiPositionCache["remainingTime"] = Vector2i(22, 8);
-	uiPositionCache["level"]         = Vector2i(22, 9);
+	uiPositionCache["tetrisBoard"]   = Vector2i(10,  0);
+	uiPositionCache["remainingTime"] = Vector2i(22,  8);
+	uiPositionCache["level"]         = Vector2i(22,  9);
 	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
-	uiPositionCache["countDown"]     = Vector2i(12, 10);
+	uiPositionCache["countDown"]     = Vector2i(22 , 8);
 }
 
 void Game::UpdatePlay()
