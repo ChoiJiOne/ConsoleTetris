@@ -469,7 +469,7 @@ void Game::DrawEndingScene(const Vector2i& consolePos)
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, 
-		StringUtil::StringFormat("your play time : %d", static_cast<int32_t>(globalTimer->TotalTime())), 
+		StringUtil::StringFormat("your play time : %d s", static_cast<int32_t>(globalTimer->TotalTime())), 
 		EConsoleTextColor::BrightWhite
 	);
 
