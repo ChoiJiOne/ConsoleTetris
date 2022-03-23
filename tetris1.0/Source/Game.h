@@ -47,6 +47,7 @@ private:
 	void DrawGameLevel(const Vector2i& consolePos, int32_t level);
 	void DrawPushKeyArrow(const Vector2i& consolePos);
 	void DrawCountDown(const Vector2i& consolePos, int32_t waitTime);
+	void DrawEndingScene(const Vector2i& consolePos);
 
 private:
 	std::shared_ptr<InputSystem> inputSystem = nullptr;

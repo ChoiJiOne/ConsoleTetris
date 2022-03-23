@@ -40,8 +40,7 @@ void Game::Run()
 		Draw();
 	}
 
-	ConsoleUtil::ClearConsole();
-	ConsoleUtil::ShowTextInConsole(0, 0, "thank you for your play", EConsoleTextColor::BrightWhite);
+	DrawEndingScene(uiPositionCache["ending"]);
 }
 
 void Game::Update()
@@ -89,6 +88,7 @@ void Game::SetupGame()
 	uiPositionCache["level"]         = Vector2i(22,  9);
 	uiPositionCache["keyArrow"]      = Vector2i(24, 12);
 	uiPositionCache["countDown"]     = Vector2i(22 , 8);
+	uiPositionCache["ending"]        = Vector2i( 0,  0);
 }
 
 void Game::UpdatePlay()
@@ -453,6 +453,29 @@ void Game::DrawCountDown(const Vector2i& consolePos, int32_t countDown)
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y,
 		StringUtil::StringFormat("count down : %d", countDown),
+		EConsoleTextColor::BrightWhite
+	);
+}
+
+void Game::DrawEndingScene(const Vector2i& consolePos)
+{
+	ConsoleUtil::ClearConsole();
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y, 
+		"thank you for your play", 
+		EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y + 1, 
+		StringUtil::StringFormat("your play time : %d", static_cast<int32_t>(globalTimer->TotalTime())), 
+		EConsoleTextColor::BrightWhite
+	);
+
+	ConsoleUtil::ShowTextInConsole(
+		consolePos.x, consolePos.y + 2, 
+		StringUtil::StringFormat("your level : %d", userLevel), 
 		EConsoleTextColor::BrightWhite
 	);
 }
