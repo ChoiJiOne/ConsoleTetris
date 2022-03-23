@@ -28,7 +28,7 @@
 
 
 ## 플레이
-<img src="play.gif" width="1000" height="800">
+<img src="play.gif" width="960" height="540">
 <br><br>
 
 
