@@ -206,6 +206,10 @@ void Game::UpdateWait()
 	{
 		userLevel++;
 		waitTime = 0.0f;
+
+		gameStepTime -= 0.1f;
+		gameStepTime = std::max(0.1f, gameStepTime);
+
 		bIsWaitNextLevel = false;
 
 		currTetromino = TetrominoGenerator::GenerateRandomTetromino(
