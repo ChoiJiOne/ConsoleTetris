@@ -171,7 +171,7 @@ void Game::UpdatePlay()
 	}
 	else
 	{
-		if (userStepTime > 1.0f)
+		if (userStepTime > gameStepTime)
 		{
 			if (!MoveDownTetrominoInBoard(*currTetromino, *tetrisBoard))
 			{
