@@ -2,3 +2,10 @@
 Debug
 Release
 x64
+CMakeFiles
+*.dir
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.cmake
