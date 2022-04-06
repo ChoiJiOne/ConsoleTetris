@@ -9,3 +9,4 @@ CMakeFiles
 *.vcxproj.filters
 *.vcxproj.user
 *.cmake
+CMakeCache.txt
