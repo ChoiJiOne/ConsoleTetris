@@ -236,6 +236,7 @@ void Game::DrawWait()
 {
 	DrawTetrisBoard(uiPositionCache["tetrisBoard"], *tetrisBoard);
 	DrawCountDown(uiPositionCache["countDown"], static_cast<int32_t>(gameWaitTime - waitTime));
+	DrawPushKeyArrow(uiPositionCache["keyArrow"]);
 }
 
 void Game::AddTetrominoInBoard(Tetromino& tetromino, Board& board)
