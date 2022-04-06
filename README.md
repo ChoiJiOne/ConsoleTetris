@@ -32,12 +32,15 @@
 ### 1. 사전 준비
 
 다음 요소를 설치  
-
+  
 - [git](https://git-scm.com/)
 - [cmake](https://cmake.org/)
 - [Visual Studio](https://visualstudio.microsoft.com/ko/)
 
 ### 2. Visual Studio 솔루션 생성
+
+`CMD` 혹은 `Windows Tetminal ` 에서 아래와 같이 수행  
+  
 ```
 // 소스 얻기
 > git clone https://github.com/ChoiJiOne/tetris1.0
@@ -68,7 +71,7 @@
 > 
 ```
 
-### 프로젝트 빌드
+### 3. 프로젝트 빌드
 `tetris1.0.sln` 실행 후 `tetris1.0` 프로젝트를 빌드  
 <br><br>
 
