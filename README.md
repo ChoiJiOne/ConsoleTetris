@@ -39,7 +39,7 @@
 
 ### 2. Visual Studio 솔루션 생성
 
-`CMD` 혹은 `Windows Tetminal ` 에서 아래와 같이 수행  
+`CMD` 혹은 `Windows Tetminal` 에서 아래와 같이 수행  
   
 ```
 // 소스 얻기
