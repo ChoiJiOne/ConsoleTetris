@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 file(GLOB source
-    "Source/*.h"
-    "Source/*.cpp"
+    "source/*.h"
+    "source/*.cpp"
 )
 
 add_executable(
