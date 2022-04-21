@@ -33,7 +33,6 @@
 다음 요소를 설치  
   
 - [git](https://git-scm.com/)
-- [cmake](https://cmake.org/)
 - [Visual Studio](https://visualstudio.microsoft.com/ko/)
 
 ### Visual Studio 솔루션 생성
