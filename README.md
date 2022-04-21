@@ -42,7 +42,7 @@
 
 
 ## play
-<img src="misc/play.gif" width="960" height="540">
+<img src="Misc/Play.gif" width="960" height="540">
 <br><br>
 
 
