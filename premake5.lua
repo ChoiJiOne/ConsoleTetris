@@ -1,10 +1,10 @@
-workspace "tetris1.0"
+workspace "ConsoleTetris"
 
    configurations { "Debug", "Release" }
    platforms { "Win64" }
-   location "tetris1.0"
+   location "ConsoleTetris"
 
-   project "tetris1.0"
+   project "ConsoleTetris"
       kind "ConsoleApp"
       language "C++"
       
