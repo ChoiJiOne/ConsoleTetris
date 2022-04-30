@@ -33,7 +33,7 @@
 다음 요소를 설치  
   
 - [git](https://git-scm.com/)
-- [Visual Studio](https://visualstudio.microsoft.com/ko/)
+- [Visual Studio 2019](https://visualstudio.microsoft.com/ko/)
 
 ### Visual Studio 솔루션 생성
 - `GenerateProjectFiles.bat` 파일을 실행
