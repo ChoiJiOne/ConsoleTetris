@@ -77,7 +77,7 @@ void Game::Draw()
 void Game::SetupGame()
 {
 	ConsoleUtil::ClearConsole();          
-	ConsoleUtil::SetConsoleTitle("tetris1.0");
+	ConsoleUtil::SetConsoleTitle("ConsoleTetris");
 	ConsoleUtil::SetConsoleCursorVisible(false);
 
 	inputSystem = std::make_shared<InputSystem>();
