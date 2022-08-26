@@ -1,5 +1,5 @@
 #include "Board.h"
-#include "ConsoleUtil.h"
+#include "Console.h"
 #include "GameTimer.h"
 #include "InputSystem.h"
 #include "StringUtil.h"
@@ -76,9 +76,9 @@ void Game::Draw()
 
 void Game::SetupGame()
 {
-	ConsoleUtil::ClearConsole();          
-	ConsoleUtil::SetConsoleTitle("ConsoleTetris");
-	ConsoleUtil::SetConsoleCursorVisible(false);
+	Console::ClearConsole();          
+	Console::SetConsoleTitle("ConsoleTetris");
+	Console::SetConsoleCursorVisible(false);
 
 	inputSystem = std::make_shared<InputSystem>();
 	globalTimer = std::make_shared<GameTimer>();
@@ -387,15 +387,15 @@ void Game::DrawTetrisBoard(const Vector2i& consolePos, Board& board)
 
 			if (state == Board::EBlockState::Fix)
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", ConsoleUtil::ETextColor::LightGreen);
+				Console::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", Console::ETextColor::LightGreen);
 			}
 			else if (state == Board::EBlockState::Fill)
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", ConsoleUtil::ETextColor::LightBlue);
+				Console::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", Console::ETextColor::LightBlue);
 			}
 			else
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "  ", ConsoleUtil::ETextColor::Black);
+				Console::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "  ", Console::ETextColor::Black);
 			}
 		}
 	}
@@ -403,80 +403,80 @@ void Game::DrawTetrisBoard(const Vector2i& consolePos, Board& board)
 
 void Game::DrawRemainTime(const Vector2i& consolePos, int32_t remainTime)
 {
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x,
 		consolePos.y,
 		StringUtil::StringFormat("남은 시간 :%3d", remainTime),
-		(remainTime > 10 ? ConsoleUtil::ETextColor::BrightWhite : ConsoleUtil::ETextColor::Red)
+		(remainTime > 10 ? Console::ETextColor::BrightWhite : Console::ETextColor::Red)
 	);
 }
 
 void Game::DrawGameLevel(const Vector2i& consolePos, int32_t level)
 {
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x,
 		consolePos.y,
 		StringUtil::StringFormat("현재 레벨 : %2d", level),
-		ConsoleUtil::ETextColor::BrightWhite
+		Console::ETextColor::BrightWhite
 	);
 }
 
 void Game::DrawPushKeyArrow(const Vector2i& consolePos)
 {
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y, "■", 
-		inputSystem->IsCurrKeyPress("KeySpace") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeySpace") ? Console::ETextColor::LightRed : Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x - 1, consolePos.y, "←",  
-		inputSystem->IsCurrKeyPress("KeyLeft") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyLeft") ? Console::ETextColor::LightRed : Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x + 1, consolePos.y, "→", 
-		inputSystem->IsCurrKeyPress("KeyRight") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyRight") ? Console::ETextColor::LightRed : Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y - 1, "↑",  
-		inputSystem->IsCurrKeyPress("KeyUp") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyUp") ? Console::ETextColor::LightRed : Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, "↓", 
-		inputSystem->IsCurrKeyPress("KeyDown") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyDown") ? Console::ETextColor::LightRed : Console::ETextColor::BrightWhite
 	);
 }
 
 void Game::DrawCountDown(const Vector2i& consolePos, int32_t countDown)
 {
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y,
 		StringUtil::StringFormat("count down : %d", countDown),
-		ConsoleUtil::ETextColor::BrightWhite
+		Console::ETextColor::BrightWhite
 	);
 }
 
 void Game::DrawEndingScene(const Vector2i& consolePos)
 {
-	ConsoleUtil::ClearConsole();
+	Console::ClearConsole();
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y, 
 		"thank you for your play", 
-		ConsoleUtil::ETextColor::BrightWhite
+		Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, 
 		StringUtil::StringFormat("your play time : %d s", static_cast<int32_t>(globalTimer->TotalTime())), 
-		ConsoleUtil::ETextColor::BrightWhite
+		Console::ETextColor::BrightWhite
 	);
 
-	ConsoleUtil::ShowTextInConsole(
+	Console::ShowTextInConsole(
 		consolePos.x, consolePos.y + 2, 
 		StringUtil::StringFormat("your level : %d", userLevel), 
-		ConsoleUtil::ETextColor::BrightWhite
+		Console::ETextColor::BrightWhite
 	);
 }

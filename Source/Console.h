@@ -5,7 +5,7 @@
 /**
  * 콘솔 관련 기능을 담당하는 클래스입니다.
  */
-class ConsoleUtil
+class Console
 {
 public:
 	/**
@@ -41,7 +41,7 @@ public:
 	/**
 	 * 
 	 */
-	static void SetConsoleTextColor(ConsoleUtil::ETextColor color);
+	static void SetConsoleTextColor(Console::ETextColor color);
 
 
 	/**
@@ -71,5 +71,5 @@ public:
 	/**
 	 * 
 	 */
-	static void ShowTextInConsole(int32_t x, int32_t y, const std::string& text, ConsoleUtil::ETextColor color);
+	static void ShowTextInConsole(int32_t x, int32_t y, const std::string& text, Console::ETextColor color);
 };

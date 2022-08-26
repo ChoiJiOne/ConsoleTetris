@@ -1,17 +1,17 @@
 #include "StringUtil.h"
-#include "ConsoleUtil.h"
+#include "Console.h"
 
-void ConsoleUtil::SetConsoleTitle(const std::string& title)
+void Console::SetConsoleTitle(const std::string& title)
 {
 	system(StringUtil::StringFormat("title %s", title.c_str()).c_str());
 }
 
-void ConsoleUtil::SetConsoleTextColor(ConsoleUtil::ETextColor color)
+void Console::SetConsoleTextColor(Console::ETextColor color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<WORD>(color));
 }
 
-void ConsoleUtil::SetConsoleCursorVisible(bool bIsVisible)
+void Console::SetConsoleCursorVisible(bool bIsVisible)
 {
 	CONSOLE_CURSOR_INFO cursorInfo = { 0 };
 
@@ -21,7 +21,7 @@ void ConsoleUtil::SetConsoleCursorVisible(bool bIsVisible)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
-void ConsoleUtil::SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t height)
+void Console::SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t height)
 {
 	HWND hWnd = GetConsoleWindow();
 	RECT rect = { x, y, x + width, y + height };
@@ -29,19 +29,19 @@ void ConsoleUtil::SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t 
 	MoveWindow(hWnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
 }
 
-void ConsoleUtil::MoveConsoleCursor(int32_t x, int32_t y)
+void Console::MoveConsoleCursor(int32_t x, int32_t y)
 {
 	COORD position = { static_cast<SHORT>(2 * x), static_cast<SHORT>(y) };
 
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
 }
 
-void ConsoleUtil::ClearConsole()
+void Console::ClearConsole()
 {
 	system("cls");
 }
 
-void ConsoleUtil::ShowTextInConsole(int32_t x, int32_t y, const std::string& text, ConsoleUtil::ETextColor color)
+void Console::ShowTextInConsole(int32_t x, int32_t y, const std::string& text, Console::ETextColor color)
 {
 	MoveConsoleCursor(x, y);
 	SetConsoleTextColor(color);
