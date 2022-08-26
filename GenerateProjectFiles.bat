@@ -4,9 +4,9 @@ echo Generate Project Files ...
 
 if exist ConsoleTetris (
 	echo Remove Legacy Folder
-	rmdir /s /q tetris1.0
+	rmdir /s /q ConsoleTetris
 )
 
 mkdir ConsoleTetris
-premake5.exe vs2019
+Bin\\premake5.exe vs2019
 PAUSE
