@@ -1,50 +1,58 @@
-#include "StringUtil.h"
+#include <iostream>
+#include <Windows.h>
+
+#include "Macro.h"
 #include "Console.h"
 
-void Console::SetConsoleTitle(const std::string& title)
+void Console::SetTitle(const std::string& InTitle)
 {
-	system(StringUtil::StringFormat("title %s", title.c_str()).c_str());
+	CHECK(system(Text::Format("title %s", InTitle.c_str()).c_str()), "failed to call system");
 }
 
-void Console::SetConsoleTextColor(Console::ETextColor color)
+void Console::SetTextColor(const Console::ETextColor& InColor)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<WORD>(color));
+	CHECK(SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<WORD>(InColor)), "failed to set text color");
 }
 
-void Console::SetConsoleCursorVisible(bool bIsVisible)
+void Console::SetCursorVisible(bool bIsVisible)
 {
-	CONSOLE_CURSOR_INFO cursorInfo = { 0 };
+	CONSOLE_CURSOR_INFO CursorInfo = { 0 };
 
-	cursorInfo.dwSize = 1;
-	cursorInfo.bVisible = bIsVisible ? TRUE : FALSE;
+	CursorInfo.dwSize = 1;
+	CursorInfo.bVisible = bIsVisible ? TRUE : FALSE;
 
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+	CHECK(SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CursorInfo), "failed to set cursor visible");
 }
 
-void Console::SetConsoleWindow(int32_t x, int32_t y, int32_t width, int32_t height)
+void Console::SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, const int32_t& InWidth, const int32_t& InHeight)
 {
-	HWND hWnd = GetConsoleWindow();
-	RECT rect = { x, y, x + width, y + height };
+	HWND ConsoleWindowHandle = GetConsoleWindow();
+	RECT Rect = { 
+		InPositionX, 
+		InPositionY, 
+		InPositionX + InWidth,
+		InPositionY + InHeight
+	};
 
-	MoveWindow(hWnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, TRUE);
+	CHECK(MoveWindow(ConsoleWindowHandle, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, TRUE), "failed to move console window");
 }
 
-void Console::MoveConsoleCursor(int32_t x, int32_t y)
+void Console::MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY)
 {
-	COORD position = { static_cast<SHORT>(2 * x), static_cast<SHORT>(y) };
+	COORD ConsolePosition = { static_cast<SHORT>(2 * InPositionX), static_cast<SHORT>(InPositionY) };
 
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
+	CHECK(SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), ConsolePosition), "failed to move cursor");
 }
 
-void Console::ClearConsole()
+void Console::Clear()
 {
-	system("cls");
+	CHECK(system("cls"), "failed to clear console");
 }
 
-void Console::ShowTextInConsole(int32_t x, int32_t y, const std::string& text, Console::ETextColor color)
+void Console::DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor)
 {
-	MoveConsoleCursor(x, y);
-	SetConsoleTextColor(color);
+	MoveCursor(InPositionX, InPositionY);
+	SetTextColor(InColor);
 
-	std::cout << text;
+	std::cout << InText;
 }
