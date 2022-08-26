@@ -40,7 +40,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void SetTitle(const std::string& InTitle);
+	static void _SetTitle(const std::string& InTitle);
 
 
 	/**
@@ -50,7 +50,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void SetTextColor(const Console::ETextColor& InColor);
+	static void _SetTextColor(const Console::ETextColor& InColor);
 
 
 	/**
@@ -60,7 +60,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void SetCursorVisible(bool bIsVisible);
+	static void _SetCursorVisible(bool bIsVisible);
 
 
 	/**
@@ -73,7 +73,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, const int32_t& InWidth, const int32_t& InHeight);
+	static void _SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, const int32_t& InWidth, const int32_t& InHeight);
 
 
 	/**
@@ -84,7 +84,7 @@ public:
 	 * 
 	 * @throws 커서 이동에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
+	static void _MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
 
 
 	/**
@@ -92,7 +92,7 @@ public:
 	 * 
 	 * @throws 콘솔 창 초기화에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void Clear();
+	static void _Clear();
 
 
 	/**
@@ -105,5 +105,5 @@ public:
 	 * 
 	 * @throws 콘솔 창에 텍스트 그리기를 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor);
+	static void _DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor);
 };

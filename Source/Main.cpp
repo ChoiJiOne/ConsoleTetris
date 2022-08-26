@@ -1,4 +1,9 @@
-#include "Game.h"
+#define _CRTDBG_MAP_ALLOC
+
+#include <stdexcept>
+#include <crtdbg.h>
+
+#include "Console.h"
 
 int main(void)
 {
@@ -6,16 +11,7 @@ int main(void)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	try
-	{
-		auto game = std::make_shared<Game>();
-		game->Setup();
-		game->Run();
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << '\n';
-	}
+	Console::_DrawText(10, 10, "Hello World", Console::ETextColor::BrightWhite);
 
 	return 0;
 }
