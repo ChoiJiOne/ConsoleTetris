@@ -387,15 +387,15 @@ void Game::DrawTetrisBoard(const Vector2i& consolePos, Board& board)
 
 			if (state == Board::EBlockState::Fix)
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", EConsoleTextColor::LightGreen);
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", ConsoleUtil::ETextColor::LightGreen);
 			}
 			else if (state == Board::EBlockState::Fill)
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", EConsoleTextColor::LightBlue);
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "■", ConsoleUtil::ETextColor::LightBlue);
 			}
 			else
 			{
-				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "  ", EConsoleTextColor::Black);
+				ConsoleUtil::ShowTextInConsole(x + consolePos.x, y + consolePos.y, "  ", ConsoleUtil::ETextColor::Black);
 			}
 		}
 	}
@@ -407,7 +407,7 @@ void Game::DrawRemainTime(const Vector2i& consolePos, int32_t remainTime)
 		consolePos.x,
 		consolePos.y,
 		StringUtil::StringFormat("남은 시간 :%3d", remainTime),
-		(remainTime > 10 ? EConsoleTextColor::BrightWhite : EConsoleTextColor::Red)
+		(remainTime > 10 ? ConsoleUtil::ETextColor::BrightWhite : ConsoleUtil::ETextColor::Red)
 	);
 }
 
@@ -417,7 +417,7 @@ void Game::DrawGameLevel(const Vector2i& consolePos, int32_t level)
 		consolePos.x,
 		consolePos.y,
 		StringUtil::StringFormat("현재 레벨 : %2d", level),
-		EConsoleTextColor::BrightWhite
+		ConsoleUtil::ETextColor::BrightWhite
 	);
 }
 
@@ -425,27 +425,27 @@ void Game::DrawPushKeyArrow(const Vector2i& consolePos)
 {
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y, "■", 
-		inputSystem->IsCurrKeyPress("KeySpace") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeySpace") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x - 1, consolePos.y, "←",  
-		inputSystem->IsCurrKeyPress("KeyLeft") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyLeft") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x + 1, consolePos.y, "→", 
-		inputSystem->IsCurrKeyPress("KeyRight") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyRight") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y - 1, "↑",  
-		inputSystem->IsCurrKeyPress("KeyUp") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyUp") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, "↓", 
-		inputSystem->IsCurrKeyPress("KeyDown") ? EConsoleTextColor::LightRed : EConsoleTextColor::BrightWhite
+		inputSystem->IsCurrKeyPress("KeyDown") ? ConsoleUtil::ETextColor::LightRed : ConsoleUtil::ETextColor::BrightWhite
 	);
 }
 
@@ -454,7 +454,7 @@ void Game::DrawCountDown(const Vector2i& consolePos, int32_t countDown)
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y,
 		StringUtil::StringFormat("count down : %d", countDown),
-		EConsoleTextColor::BrightWhite
+		ConsoleUtil::ETextColor::BrightWhite
 	);
 }
 
@@ -465,18 +465,18 @@ void Game::DrawEndingScene(const Vector2i& consolePos)
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y, 
 		"thank you for your play", 
-		EConsoleTextColor::BrightWhite
+		ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y + 1, 
 		StringUtil::StringFormat("your play time : %d s", static_cast<int32_t>(globalTimer->TotalTime())), 
-		EConsoleTextColor::BrightWhite
+		ConsoleUtil::ETextColor::BrightWhite
 	);
 
 	ConsoleUtil::ShowTextInConsole(
 		consolePos.x, consolePos.y + 2, 
 		StringUtil::StringFormat("your level : %d", userLevel), 
-		EConsoleTextColor::BrightWhite
+		ConsoleUtil::ETextColor::BrightWhite
 	);
 }

@@ -6,7 +6,7 @@ void ConsoleUtil::SetConsoleTitle(const std::string& title)
 	system(StringUtil::StringFormat("title %s", title.c_str()).c_str());
 }
 
-void ConsoleUtil::SetConsoleTextColor(EConsoleTextColor color)
+void ConsoleUtil::SetConsoleTextColor(ConsoleUtil::ETextColor color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), static_cast<WORD>(color));
 }
@@ -41,7 +41,7 @@ void ConsoleUtil::ClearConsole()
 	system("cls");
 }
 
-void ConsoleUtil::ShowTextInConsole(int32_t x, int32_t y, const std::string& text, EConsoleTextColor color)
+void ConsoleUtil::ShowTextInConsole(int32_t x, int32_t y, const std::string& text, ConsoleUtil::ETextColor color)
 {
 	MoveConsoleCursor(x, y);
 	SetConsoleTextColor(color);
