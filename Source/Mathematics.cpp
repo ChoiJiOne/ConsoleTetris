@@ -1,4 +1,4 @@
-#include "Math.h"
+#include "Mathematics.h"
 
 namespace Math
 {
@@ -150,4 +150,5 @@ namespace Math
 	Vec4f operator*(const float& InScale, const Vec4f& InVec4f)
 	{
 		return Vec4f(InScale * InVec4f.x, InScale * InVec4f.y, InScale * InVec4f.z, InScale * InVec4f.w);
+	}
 }
