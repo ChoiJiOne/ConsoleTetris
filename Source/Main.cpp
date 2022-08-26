@@ -11,7 +11,7 @@ int main(void)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	Console::_DrawText(10, 10, "Hello World", Console::ETextColor::BrightWhite);
+	Console::DrawText(10, 10, "Hello World", Console::ETextColor::BrightWhite);
 
 	return 0;
 }

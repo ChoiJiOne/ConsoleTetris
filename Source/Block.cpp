@@ -50,5 +50,5 @@ void Block::Draw(const Math::Vec2i& InPosition)
 		break;
 	}
 
-	Console::_DrawText(InPosition.x, InPosition.y, "бс", ConsoleColor);
+	Console::DrawText(InPosition.x, InPosition.y, "бс", ConsoleColor);
 }

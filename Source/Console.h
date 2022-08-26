@@ -2,6 +2,10 @@
 
 #include <string>
 
+#if defined(WIN32) || defined(WIN64)
+#undef DrawText
+#endif
+
 
 /**
  * 콘솔 관련 기능을 담당하는 클래스입니다.
@@ -40,7 +44,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _SetTitle(const std::string& InTitle);
+	static void SetTitle(const std::string& InTitle);
 
 
 	/**
@@ -50,7 +54,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _SetTextColor(const Console::ETextColor& InColor);
+	static void SetTextColor(const Console::ETextColor& InColor);
 
 
 	/**
@@ -60,7 +64,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _SetCursorVisible(bool bIsVisible);
+	static void SetCursorVisible(bool bIsVisible);
 
 
 	/**
@@ -73,7 +77,7 @@ public:
 	 * 
 	 * @throws 설정에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, const int32_t& InWidth, const int32_t& InHeight);
+	static void SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, const int32_t& InWidth, const int32_t& InHeight);
 
 
 	/**
@@ -84,7 +88,7 @@ public:
 	 * 
 	 * @throws 커서 이동에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
+	static void MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
 
 
 	/**
@@ -92,7 +96,7 @@ public:
 	 * 
 	 * @throws 콘솔 창 초기화에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _Clear();
+	static void Clear();
 
 
 	/**
@@ -105,5 +109,5 @@ public:
 	 * 
 	 * @throws 콘솔 창에 텍스트 그리기를 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static void _DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor);
+	static void DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor);
 };
