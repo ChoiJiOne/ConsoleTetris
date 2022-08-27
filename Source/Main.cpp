@@ -3,7 +3,11 @@
 #include <stdexcept>
 #include <crtdbg.h>
 
-#include "Console.h"
+#include "Board.h"
+#include "Tetromino.h"
+#include "Block.h"
+#include "Input.h"
+#include "Game.h"
 
 int main(void)
 {
@@ -11,7 +15,17 @@ int main(void)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	Console::DrawText(10, 10, "Hello World", Console::ETextColor::BrightWhite);
+	try
+	{
+		std::unique_ptr<Game> Tetris = std::make_unique<Game>();
+		Tetris->Init();
+		Tetris->Run();
+	}
+	catch (const std::exception& Exception)
+	{
+		Console::Clear();
+		Console::DrawText(0, 0, Exception.what(), Console::ETextColor::Red);
+	}
 
 	return 0;
 }
