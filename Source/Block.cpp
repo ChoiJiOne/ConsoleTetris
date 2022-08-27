@@ -4,12 +4,13 @@
 
 void Block::Draw(const Math::Vec2i& InPosition)
 {
+	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
+
 	if (Color == EColor::Empty)
 	{
+		Console::DrawText(InPosition.x, InPosition.y, "  ", ConsoleColor);
 		return;
 	}
-
-	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
 
 	switch (Color)
 	{
