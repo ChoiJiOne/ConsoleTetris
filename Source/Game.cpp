@@ -112,15 +112,16 @@ void Game::Update()
 
 void Game::Render()
 {
-	TetrisBoard->Draw(Math::Vec2i(0, 3));
+	Math::Vec2i BoardPosition = Math::Vec2i(5, 5);
+	TetrisBoard->Draw(BoardPosition);
 
-	std::list<std::unique_ptr<Tetromino>>::iterator Iter = Tetrominos.begin();
-
-	int32_t y = 3;
-	Iter++;
-	for (; Iter != Tetrominos.end(); ++Iter)
+	Math::Vec2i TetrominoPosition = Math::Vec2i(17, 5);
+	for (auto& TetrominoElement = Tetrominos.begin(); TetrominoElement != Tetrominos.end(); ++TetrominoElement)
 	{
-		Iter->get()->Draw(Math::Vec2i(12, y));
-		y += 4;
+		if (TetrominoElement != CurrentTetromino)
+		{
+			TetrominoElement->get()->Draw(TetrominoPosition);
+			TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
+		}
 	}
 }
