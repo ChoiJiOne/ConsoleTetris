@@ -138,6 +138,14 @@ public:
 
 
 	/**
+	 * 테트로미노의 영역 크기를 얻습니다.
+	 * 
+	 * @return 테트로미노의 영역 크기를 반환합니다.
+	 */
+	int32_t GetAreaSize() const { return AreaSize; }
+
+
+	/**
 	 * 테트로미노를 움직입니다.
 	 *
 	 * @param InMovement - 테트로미노의 움직임 종류 입니다.
