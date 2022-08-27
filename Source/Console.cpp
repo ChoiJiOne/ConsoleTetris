@@ -6,7 +6,7 @@
 
 void Console::SetTitle(const std::string& InTitle)
 {
-	CHECK(system(Text::Format("title %s", InTitle.c_str()).c_str()), "failed to call system");
+	CHECK((system(Text::Format("title %s", InTitle.c_str()).c_str()) == 0), "failed to call system");
 }
 
 void Console::SetTextColor(const Console::ETextColor& InColor)
@@ -46,7 +46,7 @@ void Console::MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY)
 
 void Console::Clear()
 {
-	CHECK(system("cls"), "failed to clear console");
+	CHECK((system("cls") == 0), "failed to clear console");
 }
 
 void Console::DrawText(const int32_t& InPositionX, const int32_t& InPositionY, const std::string& InText, const ETextColor& InColor)
