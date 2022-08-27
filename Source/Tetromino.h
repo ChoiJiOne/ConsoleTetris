@@ -167,6 +167,17 @@ private:
 	static void CreateRelativePositions(const EType& InType, std::vector<Math::Vec2i>& OutRelativePositions, int32_t& OutAreaSize, int32_t& OutBoundSize);
 
 
+	/**
+	 * 테트로미노 블럭의 상대 위치를 저장하고 있는지 확인합니다.
+	 * 
+	 * @param InRelativePositions - 테트로미노 블럭의 상대적인 위치입니다.
+	 * @param InTargetPosition - 테트로미노 블럭의 상대 위치를 저장하고 있는지 확인할 좌표입니다.
+	 * 
+	 * @return 테트로미노 블럭의 상대 위치를 저장하고 있으면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	static bool HaveRelativePosition(const std::vector<Math::Vec2i>& InRelativePositions, const Math::Vec2i& InTargetPosition);
+	
+
 private:
 	/**
 	 * 테트로미노의 블럭입니다.

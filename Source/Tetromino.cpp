@@ -1,4 +1,5 @@
 #include "Macro.h"
+#include "Console.h"
 #include "Tetromino.h"
 
 Tetromino::Tetromino(const Math::Vec2i& InAbsolutionPosition, const EType& InType, const Block::EColor& InBlockColor)
@@ -162,10 +163,23 @@ void Tetromino::Move(const EMovement& InMovement)
 
 void Tetromino::Draw(const Math::Vec2i& InPosition)
 {
-	for (const auto& RelativePosition : RelativePositions)
+	for (int32_t x = 0; x < AreaSize; ++x)
 	{
-		Math::Vec2i CurrentPosition = InPosition + RelativePosition;
-		TetrominoBlock.Draw(CurrentPosition);
+		for (int32_t y = 0; y < AreaSize; ++y)
+		{
+			Math::Vec2i RelativePosition = Math::Vec2i(x, y);
+			Math::Vec2i CurrentPosition = InPosition + RelativePosition;
+			bool bHaveRelativePosition = HaveRelativePosition(RelativePositions, RelativePosition);
+
+			if (bHaveRelativePosition)
+			{
+				TetrominoBlock.Draw(CurrentPosition);
+			}
+			else
+			{
+				Console::DrawText(CurrentPosition.x, CurrentPosition.y, "  ", Console::ETextColor::Black);
+			}
+		}
 	}
 }
 
@@ -235,4 +249,20 @@ void Tetromino::CreateRelativePositions(const EType& InType, std::vector<Math::V
 	default:
 		ENFORCE_THROW_EXCEPTION("undefined tetromino type");
 	}
+}
+
+bool Tetromino::HaveRelativePosition(const std::vector<Math::Vec2i>& InRelativePositions, const Math::Vec2i& InTargetPosition)
+{
+	bool bHaveRelativePosition = false;
+
+	for (const auto& RelativePosition : InRelativePositions)
+	{
+		if (RelativePosition.x == InTargetPosition.x && RelativePosition.y == InTargetPosition.y)
+		{
+			bHaveRelativePosition = true;
+			break;
+		}
+	}
+
+	return bHaveRelativePosition;
 }
