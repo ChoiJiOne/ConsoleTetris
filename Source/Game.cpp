@@ -19,7 +19,8 @@ void Game::Init()
 
 	StartPosition = Math::Vec2i(3, 0);
 
-	for (int32_t CountOfTetromino = 1; CountOfTetromino <= 6; ++CountOfTetromino)
+	const int32_t CountOfTetromino = 6;
+	for (int32_t Count = 1; Count <= CountOfTetromino; ++Count)
 	{
 		std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
 		Tetrominos.push_back(std::move(NewTetromino));
@@ -52,59 +53,65 @@ void Game::ProcessInput()
 	bCanMove = false;
 	CurrentStepTime += GameTimer.DeltaTime();
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+	if (CurrentGameState == GameState::Play)
 	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::CW;
-	}
+		if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+		{
+			bCanMove = true;
+			Movement = Tetromino::EMovement::CW;
+		}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Down;
-	}
+		if (GameInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
+		{
+			bCanMove = true;
+			Movement = Tetromino::EMovement::Down;
+		}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Left) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Left;
-	}
+		if (GameInput.GetKeyPressState(Input::EKeyType::Left) == Input::EPressState::Pressed)
+		{
+			bCanMove = true;
+			Movement = Tetromino::EMovement::Left;
+		}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Right) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Right;
-	}
+		if (GameInput.GetKeyPressState(Input::EKeyType::Right) == Input::EPressState::Pressed)
+		{
+			bCanMove = true;
+			Movement = Tetromino::EMovement::Right;
+		}
 
-	if (CurrentStepTime >= MaxStepTime)
-	{
-		CurrentStepTime = 0.0f;
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Down;
+		if (CurrentStepTime >= MaxStepTime)
+		{
+			CurrentStepTime = 0.0f;
+			bCanMove = true;
+			Movement = Tetromino::EMovement::Down;
+		}
 	}
 }
 
 void Game::Update()
 {
-	if (bCanMove)
+	if (CurrentGameState == GameState::Play)
 	{
-		TetrisBoard->UnregisterTetromino(*CurrentTetromino->get());
-		CurrentTetromino->get()->Move(Movement);
-
-		if (!TetrisBoard->RegisterTetromino(*CurrentTetromino->get()))
+		if (bCanMove)
 		{
-			CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
-			TetrisBoard->RegisterTetromino(*CurrentTetromino->get());
+			TetrisBoard->UnregisterTetromino(*CurrentTetromino->get());
+			CurrentTetromino->get()->Move(Movement);
 
-			if (Movement == Tetromino::EMovement::Down)
+			if (!TetrisBoard->RegisterTetromino(*CurrentTetromino->get()))
 			{
-				TetrisBoard->Update();
-
-				CurrentTetromino = Tetrominos.erase(CurrentTetromino);
-				std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
-				Tetrominos.push_back(std::move(NewTetromino));
-
+				CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
 				TetrisBoard->RegisterTetromino(*CurrentTetromino->get());
+
+				if (Movement == Tetromino::EMovement::Down)
+				{
+					TetrisBoard->Update();
+
+					CurrentTetromino = Tetrominos.erase(CurrentTetromino);
+					std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
+					Tetrominos.push_back(std::move(NewTetromino));
+
+					TetrisBoard->RegisterTetromino(*CurrentTetromino->get());
+				}
 			}
 		}
 	}
@@ -112,16 +119,19 @@ void Game::Update()
 
 void Game::Render()
 {
-	Math::Vec2i BoardPosition = Math::Vec2i(5, 5);
-	TetrisBoard->Draw(BoardPosition);
-
-	Math::Vec2i TetrominoPosition = Math::Vec2i(17, 5);
-	for (auto& TetrominoElement = Tetrominos.begin(); TetrominoElement != Tetrominos.end(); ++TetrominoElement)
+	if (CurrentGameState == GameState::Play)
 	{
-		if (TetrominoElement != CurrentTetromino)
+		Math::Vec2i BoardPosition = Math::Vec2i(5, 5);
+		TetrisBoard->Draw(BoardPosition);
+
+		Math::Vec2i TetrominoPosition = Math::Vec2i(17, 5);
+		for (auto& TetrominoElement = Tetrominos.begin(); TetrominoElement != Tetrominos.end(); ++TetrominoElement)
 		{
-			TetrominoElement->get()->Draw(TetrominoPosition);
-			TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
+			if (TetrominoElement != CurrentTetromino)
+			{
+				TetrominoElement->get()->Draw(TetrominoPosition);
+				TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
+			}
 		}
 	}
 }

@@ -115,7 +115,7 @@ private:
 	/**
 	 * 현재 게임 상태입니다.
 	 */
-	GameState CurrentGameState = GameState::Start;
+	GameState CurrentGameState = GameState::Play;
 
 
 	/**
