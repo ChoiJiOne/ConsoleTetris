@@ -220,6 +220,12 @@ private:
 
 
 	/**
+	 * 테트로미노가 가장 아래칸으로 이동할 수 있는지 확인합니다.
+	 */
+	bool bCanMoveToBottom = false;
+
+
+	/**
 	 * 테트로미노의 움직임 방향입니다.
 	 */
 	Tetromino::EMovement Movement;

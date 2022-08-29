@@ -150,6 +150,7 @@ void Game::InitGameMenu()
 void Game::ProcessGamePlayInput()
 {
 	bCanMove = false;
+	bCanMoveToBottom = false;
 
 	if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
 	{
@@ -175,6 +176,13 @@ void Game::ProcessGamePlayInput()
 		Movement = Tetromino::EMovement::Right;
 	}
 
+	if (GameInput.GetKeyPressState(Input::EKeyType::Space) == Input::EPressState::Pressed)
+	{
+		bCanMove = true;
+		bCanMoveToBottom = true;
+		Movement = Tetromino::EMovement::Down;
+	}
+	
 	if (GameInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
 		CurrentGameState = GameState::Paused;
@@ -233,6 +241,39 @@ void Game::UpdateGamePlay()
 		return;
 	}
 
+	if (bCanMoveToBottom)
+	{
+		bool bSuccess = true;
+
+		while (bSuccess)
+		{
+			GameBoard->UnregisterTetromino(*CurrentTetromino->get());
+			CurrentTetromino->get()->Move(Movement);
+
+			if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+			{
+				bSuccess = false;
+
+				CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
+				GameBoard->RegisterTetromino(*CurrentTetromino->get());
+
+				GameBoard->Update();
+
+				CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
+				std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
+				GameTetrominos.push_back(std::move(NewTetromino));
+
+				if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+				{
+					CurrentGameState = GameState::Done;
+					Console::Clear();
+				}
+			}
+		}
+
+		return;
+	}
+
 	GameBoard->UnregisterTetromino(*CurrentTetromino->get());
 	CurrentTetromino->get()->Move(Movement);
 
@@ -252,6 +293,7 @@ void Game::UpdateGamePlay()
 			if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
 			{
 				CurrentGameState = GameState::Done;
+				Console::Clear();
 			}
 		}
 	}
