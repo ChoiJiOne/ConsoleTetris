@@ -108,6 +108,54 @@ private:
 
 private:
 	/**
+	 * 테트리스 게임의 콘솔을 초기화합니다.
+	 */
+	void InitGameConsole();
+
+
+	/**
+	 * 테트리스 게임의 테트로미노를 초기화합니다.
+	 */
+	void InitGameTetromino();
+
+
+	/**
+	 * 테트리스 게임의 보드를 초기화합니다.
+	 */
+	void InitGameBoard();
+
+
+	/**
+	 * 테트리스 게임의 메뉴를 초기화합니다.
+	 */
+	void InitGameMenu();
+
+
+	/**
+	 * 테트리스 게임 플레이 상태의 입력을 처리합니다.
+	 */
+	void ProcessGamePlayInput();
+
+
+	/**
+	 * 테트리스 게임 메뉴 상태의 입력을 처리합니다.
+	 */
+	void ProcessGameMenuInput();
+
+
+	/**
+	 * 테트리스 게임 플레이 상태를 업데이트합니다.
+	 */
+	void UpdateGamePlay();
+
+
+	/**
+	 * 테트리스 게임 메뉴 상태를 업데이트합니다.
+	 */
+	void UpdateGameMenu();
+
+
+	/**
 	 * 테트리스 게임의 타이틀 화면을 그립니다.
 	 * 
 	 * @param InPositions - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
@@ -138,13 +186,13 @@ private:
 	/**
 	 * 테트리스 게임 내의 보드입니다.
 	 */
-	std::unique_ptr<Board> TetrisBoard = nullptr;
+	std::unique_ptr<Board> GameBoard = nullptr;
 
 
 	/**
 	 * 테트리스 게임 내의 테트로미노들입니다.
 	 */
-	std::list<std::unique_ptr<Tetromino>> Tetrominos;
+	std::list<std::unique_ptr<Tetromino>> GameTetrominos;
 
 
 	/**
@@ -192,5 +240,5 @@ private:
 	/**
 	 * 테트리스 게임의 메뉴입니다.
 	 */
-	std::unique_ptr<Menu> StartMenu = nullptr;
+	std::unordered_map<GameState, std::unique_ptr<Menu>> GameMenus;
 };
