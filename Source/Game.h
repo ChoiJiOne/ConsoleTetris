@@ -6,6 +6,7 @@
 #include "Board.h"
 #include "Input.h"
 #include "Console.h"
+#include "Menu.h"
 #include "Tetromino.h"
 #include "Timer.h"
 
@@ -102,7 +103,17 @@ private:
 	/**
 	 * 테트리스 게임을 화면에 그립니다.
 	 */
-	void Render();
+	void Draw();
+
+
+private:
+	/**
+	 * 테트리스 게임의 타이틀 화면을 그립니다.
+	 * 
+	 * @param InPositions - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
+	 * @param InColor - 타이틀 화면의 색상입니다.
+	 */
+	void DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor);
 
 
 private:
@@ -115,7 +126,7 @@ private:
 	/**
 	 * 현재 게임 상태입니다.
 	 */
-	GameState CurrentGameState = GameState::Play;
+	GameState CurrentGameState = GameState::Start;
 
 
 	/**
@@ -176,4 +187,10 @@ private:
 	 * 테트리스 게임의 현재 스텝 시간입니다.
 	 */
 	float CurrentStepTime = 0.0f;
+
+
+	/**
+	 * 테트리스 게임의 메뉴입니다.
+	 */
+	std::unique_ptr<Menu> StartMenu = nullptr;
 };

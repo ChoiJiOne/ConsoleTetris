@@ -3,6 +3,8 @@
 
 Game::~Game()
 {
+	StartMenu.reset();
+
 	for (auto& TargetTetromino : Tetrominos)
 	{
 		TargetTetromino.reset();
@@ -30,6 +32,10 @@ void Game::Init()
 
 	TetrisBoard = std::make_unique<Board>(10, 20);
 	TetrisBoard->RegisterTetromino(*CurrentTetromino->get());
+
+	StartMenu = std::make_unique<Menu>(Console::ETextColor::Blue, Console::ETextColor::White);
+	StartMenu->AddElement("бс Start");
+	StartMenu->AddElement("бс Quit");
 }
 
 void Game::Run()
@@ -40,7 +46,7 @@ void Game::Run()
 	{
 		ProcessInput();
 		Update();
-		Render();
+		Draw();
 	}
 }
 
@@ -53,7 +59,32 @@ void Game::ProcessInput()
 	bCanMove = false;
 	CurrentStepTime += GameTimer.DeltaTime();
 
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == GameState::Start)
+	{
+		if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+		{
+			StartMenu->MoveSelect(Menu::ESelectDirection::Up);
+		}
+
+		if (GameInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
+		{
+			StartMenu->MoveSelect(Menu::ESelectDirection::Down);
+		}
+
+		if (GameInput.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
+		{
+			if (StartMenu->GetCurrentSelectElement().compare("Start"))
+			{
+				CurrentGameState = GameState::Play;
+				Console::Clear();
+			}
+			else if(StartMenu->GetCurrentSelectElement().compare("Quit"))
+			{
+				bIsDone = true;
+			}
+		}
+	}
+	else if (CurrentGameState == GameState::Play)
 	{
 		if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
 		{
@@ -90,7 +121,11 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == GameState::Start)
+	{
+
+	}
+	else if (CurrentGameState == GameState::Play)
 	{
 		if (bCanMove)
 		{
@@ -117,9 +152,17 @@ void Game::Update()
 	}
 }
 
-void Game::Render()
+void Game::Draw()
 {
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == GameState::Start)
+	{
+		Math::Vec2i TitlePosition = Math::Vec2i(0, 0);
+		DrawTitle(TitlePosition, Console::ETextColor::LightAqua);
+
+		Math::Vec2i MenuPosition = Math::Vec2i(0, 12);
+		StartMenu->Draw(MenuPosition);
+	}
+	else if (CurrentGameState == GameState::Play)
 	{
 		Math::Vec2i BoardPosition = Math::Vec2i(5, 5);
 		TetrisBoard->Draw(BoardPosition);
@@ -133,5 +176,30 @@ void Game::Render()
 				TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
 			}
 		}
+	}
+}
+
+void Game::DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor)
+{
+	static std::string Title[] = {
+		"   _____                      _      ",
+		"  / ____|                    | |     ",
+		" | |     ___  _ __  ___  ___ | | ___ ",
+		" | |    / _ \\| \'_ \\/ __|/ _ \\| |/ _ \\",
+		" | |___| (_) | | | \\__ \\ (_) | |  __/",
+		"  \\_____\\___/|_| |_|___/\\___/|_|\\___|",
+		"  _______ ______ _______ _____  _____  _____ ",
+		" |__   __|  ____|__   __|  __ \\|_   _|/ ____|",
+		"    | |  | |__     | |  | |__) | | | | (___  ",
+		"    | |  |  __|    | |  |  _  /  | |  \\___ \\ ",
+		"    | |  | |____   | |  | | \\ \\ _| |_ ____) |",
+		"    |_|  |______|  |_|  |_|  \\_\\_____|_____/ ",
+	};
+
+	Math::Vec2i Position = InPosition;
+	for (const auto& TitleLine : Title)
+	{
+		Console::DrawText(Position.x, Position.y, TitleLine, InColor);
+		Position.y += 1;
 	}
 }
