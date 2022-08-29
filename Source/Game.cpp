@@ -230,6 +230,8 @@ void Game::ProcessGameMenuInput()
 		{
 			CurrentGameState = GameState::Play;
 			Console::Clear();
+
+			ResetGame();
 		}
 	}
 }
@@ -301,6 +303,21 @@ void Game::UpdateGamePlay()
 
 void Game::UpdateGameMenu()
 {
+}
+
+void Game::ResetGame()
+{
+	for (auto& GameTetromino : GameTetrominos)
+	{
+		GameTetromino.reset();
+	}
+
+	GameTetrominos.resize(0);
+
+	GameBoard.reset();
+
+	InitGameTetromino();
+	InitGameBoard();
 }
 
 void Game::DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor)
