@@ -41,7 +41,8 @@ public:
 		Left   = VK_LEFT,
 		Right  = VK_RIGHT,
 		Escape = VK_ESCAPE,
-		Space  = VK_SPACE
+		Space  = VK_SPACE,
+		Enter  = VK_RETURN,
 	};
 
 

@@ -6,7 +6,8 @@ static Input::EKeyType KeyTypes[] = {
 	Input::EKeyType::Left,
 	Input::EKeyType::Right,
 	Input::EKeyType::Escape,
-	Input::EKeyType::Space
+	Input::EKeyType::Space,
+	Input::EKeyType::Enter,
 };
 
 Input::Input()
