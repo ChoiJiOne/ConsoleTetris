@@ -33,9 +33,11 @@ void Game::Init()
 	TetrisBoard = std::make_unique<Board>(10, 20);
 	TetrisBoard->RegisterTetromino(*CurrentTetromino->get());
 
-	StartMenu = std::make_unique<Menu>(Console::ETextColor::Blue, Console::ETextColor::White);
-	StartMenu->AddElement("бс Start");
-	StartMenu->AddElement("бс Quit");
+	std::vector<std::string> StartMenuElement = {
+		"бс Start",
+		"бс Quit"
+	};
+	StartMenu = std::make_unique<Menu>(StartMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
 }
 
 void Game::Run()
