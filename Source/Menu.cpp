@@ -1,11 +1,16 @@
 #include "Macro.h"
 #include "Menu.h"
 
-Menu::Menu(const Console::ETextColor& InSelectColor, const Console::ETextColor& InNormalColor)
-	: SelectColor(InSelectColor)
-	, NormalColor(InNormalColor)
-	, CurrentSelectElement(0)
+Menu::Menu(
+	const std::vector<std::string>& InElements, 
+	const Console::ETextColor& InSelectColor, 
+	const Console::ETextColor& InNormalColor
+): Elements(InElements),
+   SelectColor(InSelectColor), 
+   NormalColor(InNormalColor), 
+   CurrentSelectElement(0)
 {
+	CHECK((Elements.size() > 0), "number of menu is 0");
 }
 
 Menu::Menu(Menu&& InInstance) noexcept
@@ -52,21 +57,9 @@ Menu& Menu::operator=(const Menu& InInstance) noexcept
 	return *this;
 }
 
-void Menu::AddElement(const std::string& InName)
-{
-	Elements.push_back(InName);
-}
-
 const std::string& Menu::GetCurrentSelectElement() const
 {
-	if (Elements.empty())
-	{
-		return std::string("");
-	}
-	else
-	{
-		return Elements[CurrentSelectElement];
-	}
+	return Elements[CurrentSelectElement];
 }
 
 void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
@@ -88,22 +81,17 @@ void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
 
 void Menu::Draw(const Math::Vec2i& InPosition)
 {
-	if (Elements.empty())
-	{
-		return;
-	}
-
 	Math::Vec2i Position = InPosition;
 
-	for (std::vector<std::string>::size_type CurrentElementIndex = 0; CurrentElementIndex < Elements.size(); ++CurrentElementIndex)
+	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements.size(); ++ElementIndex)
 	{
-		if (CurrentElementIndex == CurrentSelectElement)
+		if (ElementIndex == CurrentSelectElement)
 		{
-			Console::DrawText(Position.x, Position.y, Elements[CurrentElementIndex], SelectColor);
+			Console::DrawText(Position.x, Position.y, Elements[ElementIndex], SelectColor);
 		}
 		else
 		{
-			Console::DrawText(Position.x, Position.y, Elements[CurrentElementIndex], NormalColor);
+			Console::DrawText(Position.x, Position.y, Elements[ElementIndex], NormalColor);
 		}
 
 		Position.y += 1;

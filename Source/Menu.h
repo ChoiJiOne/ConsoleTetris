@@ -27,11 +27,14 @@ public:
 public:
 	/**
 	 * 메뉴 클래스의 생성자입니다.
+	 * 이때, 최소 한 개의 요소를 포함해야 합니다.
 	 * 
+	 * @param InElements - 메뉴의 요소들입니다.
 	 * @param InSelectColor - 메뉴 중 한 요소를 선택했을 때의 색상입니다.
 	 * @param InNormalColor - 메뉴 중 한 요소를 선택하지 않았을 떄의 생상입니다.
 	 */
 	explicit Menu(
+		const std::vector<std::string>& InElements,
 		const Console::ETextColor& InSelectColor,
 		const Console::ETextColor& InNormalColor
 	);
@@ -77,14 +80,6 @@ public:
 	 * @return 복사를 수행한 객체의 참조자를 반환합니다.
 	 */
 	Menu& operator=(const Menu& InInstance) noexcept;
-
-	
-	/**
-	 * 메뉴의 요소를 추가합니다.
-	 * 
-	 * @param InName - 추가할 메뉴 요소의 이름입니다.
-	 */
-	void AddElement(const std::string& InName);
 
 
 	/**
