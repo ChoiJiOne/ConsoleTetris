@@ -137,28 +137,29 @@ private:
 	void ProcessGamePlayInput();
 
 
-	/**
+ 	/**
 	 * 테트리스 게임 메뉴 상태의 입력을 처리합니다.
 	 */
-	void ProcessGameMenuInput();
+	void ProcessGameMenuInput() ;
 
-
-	/**
+	 
+	/** 
 	 * 테트리스 게임 플레이 상태를 업데이트합니다.
 	 */
 	void UpdateGamePlay();
 
 
-	/**
-	 * 테트리스 게임 메뉴 상태를 업데이트합니다.
+	 /**
+  	  * 테트리스 게임 메뉴 상태를 업데이트합니다.
 	 */
-	void UpdateGameMenu();
+ 	void UpdateGameMenu() ;
 
-
-	/**
-	 * 테트리스 게임을 리셋합니다.
+	 
+	  /**
+	 * 테트리스 게임을 리셋합니다. 
 	 */
 	void ResetGame();
+
 
 
 	/**
@@ -175,6 +176,18 @@ private:
 	 * 게임 종료 여부를 확인합니다.
 	 */
 	bool bIsDone = false;
+
+
+	/**
+	 * 테트로미노가 움직일 수 있는지를 확인합니다.
+	 */
+	bool bCanMove = false;
+
+
+	/**
+	 * 테트로미노가 가장 아래칸으로 이동할 수 있는지 확인합니다.
+	 */
+	bool bCanMoveToBottom = false;
 
 
 	/**
@@ -208,6 +221,12 @@ private:
 
 
 	/**
+	 * 테트리스 게임의 메뉴입니다.
+	 */
+	std::unordered_map<GameState, std::unique_ptr<Menu>> GameMenus;
+
+
+	/**
 	 * 테트리스 게임의 타이머입니다.
 	 */
 	Timer GameTimer;
@@ -217,18 +236,6 @@ private:
 	 * 테트로미노의 시작점입니다.
 	 */
 	Math::Vec2i StartPosition;
-
-
-	/**
-	 * 테트로미노가 움직일 수 있는지를 확인합니다.
-	 */
-	bool bCanMove = false;
-
-
-	/**
-	 * 테트로미노가 가장 아래칸으로 이동할 수 있는지 확인합니다.
-	 */
-	bool bCanMoveToBottom = false;
 
 
 	/**
@@ -247,10 +254,4 @@ private:
 	 * 테트리스 게임의 현재 스텝 시간입니다.
 	 */
 	float CurrentStepTime = 0.0f;
-
-
-	/**
-	 * 테트리스 게임의 메뉴입니다.
-	 */
-	std::unordered_map<GameState, std::unique_ptr<Menu>> GameMenus;
 };

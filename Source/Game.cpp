@@ -72,7 +72,7 @@ void Game::Draw()
 		Math::Vec2i BoardPosition = Math::Vec2i(7, 2);
 		GameBoard->Draw(BoardPosition);
 
-		Math::Vec2i TetrominoPosition = Math::Vec2i(19, 2);
+		Math::Vec2i TetrominoPosition = Math::Vec2i(19, 3);
 		for (auto& TetrominoElement = GameTetrominos.begin(); TetrominoElement != GameTetrominos.end(); ++TetrominoElement)
 		{
 			if (TetrominoElement != CurrentTetromino)
