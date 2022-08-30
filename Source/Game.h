@@ -155,11 +155,10 @@ private:
  	void UpdateGameMenu() ;
 
 	 
-	  /**
+	/**
 	 * 테트리스 게임을 리셋합니다. 
 	 */
 	void ResetGame();
-
 
 
 	/**
@@ -254,4 +253,10 @@ private:
 	 * 테트리스 게임의 현재 스텝 시간입니다.
 	 */
 	float CurrentStepTime = 0.0f;
+
+
+	/**
+	 * 현재 삭제한 라인 수입니다.
+	 */
+	int32_t CurrentRemoveLine = 0;
 };

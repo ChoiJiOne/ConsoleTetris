@@ -81,6 +81,8 @@ void Game::Draw()
 				TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
 			}
 		}
+
+		Console::DrawText(2, 2, Text::Format("%d", CurrentRemoveLine), Console::ETextColor::White);
 	}
 	else
 	{
@@ -259,7 +261,7 @@ void Game::UpdateGamePlay()
 				CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
 				GameBoard->RegisterTetromino(*CurrentTetromino->get());
 
-				GameBoard->Update();
+				CurrentRemoveLine += GameBoard->Update();
 
 				CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
 				std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
@@ -286,7 +288,7 @@ void Game::UpdateGamePlay()
 
 		if (Movement == Tetromino::EMovement::Down)
 		{
-			GameBoard->Update();
+			CurrentRemoveLine += GameBoard->Update();
 
 			CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
 			std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
@@ -318,6 +320,8 @@ void Game::ResetGame()
 
 	InitGameTetromino();
 	InitGameBoard();
+
+	CurrentRemoveLine = 0;
 }
 
 void Game::DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor)
