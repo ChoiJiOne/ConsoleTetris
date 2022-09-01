@@ -24,7 +24,7 @@ public:
 	/**
 	 * 테트리스 게임의 상태입니다.
 	 */
-	enum class GameState : int32_t
+	enum class EGameState : int32_t
 	{
 		Start  = 0,
 		Play   = 1,
@@ -192,7 +192,7 @@ private:
 	/**
 	 * 현재 게임 상태입니다.
 	 */
-	GameState CurrentGameState = GameState::Start;
+	EGameState CurrentGameState = EGameState::Start;
 
 
 	/**
@@ -222,7 +222,7 @@ private:
 	/**
 	 * 테트리스 게임의 메뉴입니다.
 	 */
-	std::unordered_map<GameState, std::unique_ptr<Menu>> GameMenus;
+	std::unordered_map<EGameState, std::unique_ptr<Menu>> GameMenus;
 
 
 	/**

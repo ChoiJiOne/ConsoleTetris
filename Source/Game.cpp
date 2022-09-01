@@ -43,7 +43,7 @@ void Game::ProcessInput()
 
 	CurrentStepTime += GameTimer.DeltaTime();
 
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == EGameState::Play)
 	{
 		ProcessGamePlayInput();
 	}
@@ -55,7 +55,7 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == EGameState::Play)
 	{
 		UpdateGamePlay();
 	}
@@ -67,7 +67,7 @@ void Game::Update()
 
 void Game::Draw()
 {
-	if (CurrentGameState == GameState::Play)
+	if (CurrentGameState == EGameState::Play)
 	{
 		Math::Vec2i BoardPosition = Math::Vec2i(7, 2);
 		GameBoard->Draw(BoardPosition);
@@ -131,7 +131,7 @@ void Game::InitGameMenu()
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> StartMenu = std::make_unique<Menu>(StartMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ GameState::Start , std::move(StartMenu) });
+	GameMenus.insert({ EGameState::Start , std::move(StartMenu) });
 
 	std::vector<std::string> PausedMenuElement = {
 		"■ 게임 계속 플레이",
@@ -139,14 +139,14 @@ void Game::InitGameMenu()
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> PausedMenu = std::make_unique<Menu>(PausedMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ GameState::Paused, std::move(PausedMenu) });
+	GameMenus.insert({ EGameState::Paused, std::move(PausedMenu) });
 
 	std::vector<std::string> DoneMenuElement = {
 		"■ 게임 재시작",
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> DoneMenu = std::make_unique<Menu>(DoneMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ GameState::Done, std::move(DoneMenu) });
+	GameMenus.insert({ EGameState::Done, std::move(DoneMenu) });
 }
 
 void Game::ProcessGamePlayInput()
@@ -187,7 +187,7 @@ void Game::ProcessGamePlayInput()
 	
 	if (GameInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
-		CurrentGameState = GameState::Paused;
+		CurrentGameState = EGameState::Paused;
 		Console::Clear();
 	}
 
@@ -215,7 +215,7 @@ void Game::ProcessGameMenuInput()
 	{
 		if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 시작"))
 		{
-			CurrentGameState = GameState::Play;
+			CurrentGameState = EGameState::Play;
 			Console::Clear();
 		}
 		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 종료"))
@@ -225,12 +225,12 @@ void Game::ProcessGameMenuInput()
 		}
 		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 계속 플레이"))
 		{
-			CurrentGameState = GameState::Play;
+			CurrentGameState = EGameState::Play;
 			Console::Clear();
 		}
 		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 재시작"))
 		{
-			CurrentGameState = GameState::Play;
+			CurrentGameState = EGameState::Play;
 			Console::Clear();
 
 			ResetGame();
@@ -269,7 +269,7 @@ void Game::UpdateGamePlay()
 
 				if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
 				{
-					CurrentGameState = GameState::Done;
+					CurrentGameState = EGameState::Done;
 					Console::Clear();
 				}
 			}
@@ -296,7 +296,7 @@ void Game::UpdateGamePlay()
 
 			if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
 			{
-				CurrentGameState = GameState::Done;
+				CurrentGameState = EGameState::Done;
 				Console::Clear();
 			}
 		}
