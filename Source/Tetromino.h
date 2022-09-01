@@ -31,12 +31,13 @@ public:
 	 */
 	enum class EMovement : int32_t
 	{
-		Left = 0,
-		Right = 1,
-		Down = 2,
-		Up = 3,
-		CCW = 4,
-		CW = 5
+		None  = 0,
+		Left  = 1,
+		Right = 2,
+		Down  = 3,
+		Up    = 4,
+		CCW   = 5,
+		CW    = 6
 	};
 
 

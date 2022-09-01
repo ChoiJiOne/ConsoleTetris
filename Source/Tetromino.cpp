@@ -91,6 +91,10 @@ Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)
 
 	switch (InMovement)
 	{
+	case EMovement::None:
+		CountMovement = EMovement::None;
+		break;
+
 	case EMovement::CW:
 		CountMovement = EMovement::CCW;
 		break;
@@ -126,6 +130,9 @@ void Tetromino::Move(const EMovement& InMovement)
 {
 	switch (InMovement)
 	{
+	case EMovement::None:
+		break;
+
 	case EMovement::Up:
 		AbsolutePosition.y -= 1;
 		break;
