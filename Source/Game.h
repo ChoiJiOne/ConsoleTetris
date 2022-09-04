@@ -171,6 +171,30 @@ private:
 	void DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
 
 
+	/**
+	 * 테트리스 보드의 테트로미노를 이동시킵니다.
+	 * 
+	 * @param 테트로미노의 이동 방향입니다.
+	 * 
+	 * @return 테트리스 보드의 테트로미노를 이동시켰으면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool MoveTetrominoInBoard(const Tetromino::EMovement& InMovement);
+
+
+	/**
+	 * 현재 테트리스 보드에 배치된 테트로미노를 삭제합니다.
+	 */
+	void EraseCurrentTetromino();
+
+
+	/**
+	 * 현재 테트로미노를 테트리스 보드에 배치합니다.
+	 * 
+	 * @return 테트로미노 배치에 성공하면 true, 그렇지 않으면 false를 반환합니다. 
+	 */
+	bool BatchCurrentTetromino();
+
+
 private:
 	/**
 	 * 게임 종료 여부를 확인합니다.

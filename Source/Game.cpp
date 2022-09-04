@@ -251,23 +251,14 @@ void Game::UpdateGamePlay()
 
 		while (bSuccess)
 		{
-			GameBoard->UnregisterTetromino(*CurrentTetromino->get());
-			CurrentTetromino->get()->Move(Movement);
-
-			if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+			if (!MoveTetrominoInBoard(Movement))
 			{
 				bSuccess = false;
 
-				CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
-				GameBoard->RegisterTetromino(*CurrentTetromino->get());
-
 				CurrentRemoveLine += GameBoard->Update();
+				EraseCurrentTetromino();
 
-				CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
-				std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
-				GameTetrominos.push_back(std::move(NewTetromino));
-
-				if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+				if (!BatchCurrentTetromino())
 				{
 					CurrentGameState = EGameState::Done;
 					Console::Clear();
@@ -278,23 +269,16 @@ void Game::UpdateGamePlay()
 		return;
 	}
 
-	GameBoard->UnregisterTetromino(*CurrentTetromino->get());
-	CurrentTetromino->get()->Move(Movement);
-
-	if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+	if (!MoveTetrominoInBoard(Movement))
 	{
-		CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
-		GameBoard->RegisterTetromino(*CurrentTetromino->get());
-
 		if (Movement == Tetromino::EMovement::Down)
 		{
 			CurrentRemoveLine += GameBoard->Update();
 
 			CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
-			std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
-			GameTetrominos.push_back(std::move(NewTetromino));
+			EraseCurrentTetromino();
 
-			if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+			if (!BatchCurrentTetromino())
 			{
 				CurrentGameState = EGameState::Done;
 				Console::Clear();
@@ -315,7 +299,6 @@ void Game::ResetGame()
 	}
 
 	GameTetrominos.resize(0);
-
 	GameBoard.reset();
 
 	InitGameTetromino();
@@ -347,4 +330,42 @@ void Game::DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor
 		Console::DrawText(Position.x, Position.y, TitleLine, InColor);
 		Position.y += 1;
 	}
+}
+
+bool Game::MoveTetrominoInBoard(const Tetromino::EMovement& InMovement)
+{
+	bool bIsMoveTetromino = true;
+
+	GameBoard->UnregisterTetromino(*CurrentTetromino->get());
+	CurrentTetromino->get()->Move(InMovement);
+
+	if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+	{
+		bIsMoveTetromino = false;
+
+		CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
+		GameBoard->RegisterTetromino(*CurrentTetromino->get());
+	}
+
+	return bIsMoveTetromino;
+}
+
+void Game::EraseCurrentTetromino()
+{
+	CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
+}
+
+bool Game::BatchCurrentTetromino()
+{
+	bool bIsSuccessBatch = true;
+
+	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
+	GameTetrominos.push_back(std::move(NewTetromino));
+
+	if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+	{
+		bIsSuccessBatch = false;
+	}
+
+	return bIsSuccessBatch;
 }
