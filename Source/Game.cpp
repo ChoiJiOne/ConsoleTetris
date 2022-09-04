@@ -41,10 +41,9 @@ void Game::ProcessInput()
 	GameInput.Update();
 	GameTimer.Tick();
 
-	CurrentStepTime += GameTimer.DeltaTime();
-
 	if (CurrentGameState == EGameState::Play)
 	{
+		CurrentStepTime += GameTimer.DeltaTime();
 		ProcessGamePlayInput();
 	}
 	else
