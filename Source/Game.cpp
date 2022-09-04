@@ -22,6 +22,12 @@ void Game::Init()
 	InitGameTetromino();
 	InitGameBoard();
 	InitGameMenu();
+
+	TetrominoMoveMappings.insert( { Input::EKeyType::Up, Tetromino::EMovement::CW } );
+	TetrominoMoveMappings.insert( { Input::EKeyType::Down, Tetromino::EMovement::Down } );
+	TetrominoMoveMappings.insert( { Input::EKeyType::Left, Tetromino::EMovement::Left } );
+	TetrominoMoveMappings.insert( { Input::EKeyType::Right, Tetromino::EMovement::Right } );
+	TetrominoMoveMappings.insert( { Input::EKeyType::Space, Tetromino::EMovement::Down } );
 }
 
 void Game::Run()
@@ -153,37 +159,20 @@ void Game::ProcessGamePlayInput()
 	bCanMove = false;
 	bCanMoveToBottom = false;
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+	for (auto& TetrominoMoveMapping : TetrominoMoveMappings)
 	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::CW;
+		if (GameInput.GetKeyPressState(TetrominoMoveMapping.first) == Input::EPressState::Pressed)
+		{
+			bCanMove = true;
+			Movement = TetrominoMoveMapping.second;
+
+			if (TetrominoMoveMapping.first == Input::EKeyType::Space)
+			{
+				bCanMoveToBottom = true;
+			}
+		}
 	}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Down;
-	}
-
-	if (GameInput.GetKeyPressState(Input::EKeyType::Left) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Left;
-	}
-
-	if (GameInput.GetKeyPressState(Input::EKeyType::Right) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Right;
-	}
-
-	if (GameInput.GetKeyPressState(Input::EKeyType::Space) == Input::EPressState::Pressed)
-	{
-		bCanMove = true;
-		bCanMoveToBottom = true;
-		Movement = Tetromino::EMovement::Down;
-	}
-	
 	if (GameInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
 		CurrentGameState = EGameState::Paused;

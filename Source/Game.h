@@ -284,4 +284,10 @@ private:
 	 * 현재 삭제한 라인 수입니다.
 	 */
 	int32_t CurrentRemoveLine = 0;
+
+
+	/**
+	 * 키 타입에 대응하는 테트로미노의 움직임입니다.
+	 */
+	std::unordered_map<Input::EKeyType, Tetromino::EMovement> TetrominoMoveMappings;
 };
