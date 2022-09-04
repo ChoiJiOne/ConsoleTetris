@@ -78,14 +78,7 @@ void Game::Draw()
 		GameBoard->Draw(BoardPosition);
 
 		Vec2i TetrominoPosition = Vec2i(19, 3);
-		for (auto& TetrominoElement = GameTetrominos.begin(); TetrominoElement != GameTetrominos.end(); ++TetrominoElement)
-		{
-			if (TetrominoElement != CurrentTetromino)
-			{
-				TetrominoElement->get()->Draw(TetrominoPosition);
-				TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
-			}
-		}
+		DrawTetrominos(TetrominoPosition);
 
 		Console::DrawText(2, 2, Text::Format("%d", CurrentRemoveLine), Console::ETextColor::White);
 	}
@@ -319,6 +312,20 @@ void Game::DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextC
 	{
 		Console::DrawText(Position.x, Position.y, TitleLine, InColor);
 		Position.y += 1;
+	}
+}
+
+void Game::DrawTetrominos(const Vec2i& InPosition)
+{
+	Vec2i TetrominoPosition = InPosition;
+
+	for (auto& TetrominoElement = GameTetrominos.begin(); TetrominoElement != GameTetrominos.end(); ++TetrominoElement)
+	{
+		if (TetrominoElement != CurrentTetromino)
+		{
+			TetrominoElement->get()->Draw(TetrominoPosition);
+			TetrominoPosition.y += TetrominoElement->get()->GetAreaSize();
+		}
 	}
 }
 

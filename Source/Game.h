@@ -165,10 +165,18 @@ private:
 	/**
 	 * 테트리스 게임의 타이틀 화면을 그립니다.
 	 * 
-	 * @param InPositions - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
+	 * @param InPosition - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
 	 * @param InColor - 타이틀 화면의 색상입니다.
 	 */
 	void DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
+
+
+	/**
+	 * 게임 내의 테트로미노를 화면에 그립니다.
+	 * 
+	 * @param InPosition - 콘솔 화면 상의 왼쪽 상단 좌표입니다.
+	 */
+	void DrawTetrominos(const Vec2i& InPosition);
 
 
 	/**
