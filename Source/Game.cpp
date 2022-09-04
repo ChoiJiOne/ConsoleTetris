@@ -87,7 +87,7 @@ void Game::Draw()
 	else
 	{
 		Vec2i TitlePosition = Vec2i(0, 0);
-		DrawTitle(TitlePosition, Console::ETextColor::LightAqua);
+		DrawConsoleTetrisTitle(TitlePosition, Console::ETextColor::LightAqua);
 
 		Vec2i MenuPosition = Vec2i(7, 13);
 		GameMenus[CurrentGameState]->Draw(MenuPosition);
@@ -305,9 +305,11 @@ void Game::ResetGame()
 	InitGameBoard();
 
 	CurrentRemoveLine = 0;
+	bCanMove = false;
+	bCanMoveToBottom = false;
 }
 
-void Game::DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor)
+void Game::DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextColor& InColor)
 {
 	static std::string Title[] = {
 		"   _____                      _      ",

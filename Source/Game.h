@@ -168,7 +168,7 @@ private:
 	 * @param InPositions - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
 	 * @param InColor - 타이틀 화면의 색상입니다.
 	 */
-	void DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
+	void DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
 
 
 	/**
