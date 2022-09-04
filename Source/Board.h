@@ -3,6 +3,8 @@
 #include "Tetromino.h"
 #include "Block.h"
 
+#include <vector>
+
 
 /**
  * 테트리스 보드 클래스입니다.
@@ -101,7 +103,7 @@ public:
 	 *
 	 * @throws 콘솔 화면에 그리기를 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Draw(const Math::Vec2i& InPosition);
+	void Draw(const Vec2i& InPosition);
 
 
 private:
@@ -131,7 +133,7 @@ private:
 	 *
 	 * @return (x, y)에 대응하는 2차원 배열의 Offset을 반환합니다.
 	 */
-	static int32_t GetOffset(const Math::Vec2i& InPosition, int32_t InWidth, int32_t InHeight);
+	static int32_t GetOffset(const Vec2i& InPosition, int32_t InWidth, int32_t InHeight);
 
 
 	/**
@@ -164,7 +166,7 @@ private:
 	 *
 	 * @return 좌표 값이 2차원 테트리스 보드 내에 있다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	static bool DoseIncludePosition(const Math::Vec2i& InPosition, int32_t InWidth, int32_t InHeight);
+	static bool DoseIncludePosition(const Vec2i& InPosition, int32_t InWidth, int32_t InHeight);
 
 
 	/**

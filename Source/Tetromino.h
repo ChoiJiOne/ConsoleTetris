@@ -2,6 +2,8 @@
 
 #include "Block.h"
 
+#include <vector>
+
 
 /**
  * 테트리스의 테트로미노 클래스입니다.
@@ -49,7 +51,7 @@ public:
 	 * @param InType - 테트로미노의 타입입니다.
 	 * @param InBlockColor - 테트로미노 블럭의 색깔입니다.
 	 */
-	Tetromino(const Math::Vec2i& InAbsolutionPosition, const EType& InType, const Block::EColor& InBlockColor);
+	Tetromino(const Vec2i& InAbsolutionPosition, const EType& InType, const Block::EColor& InBlockColor);
 
 
 	/**
@@ -95,7 +97,7 @@ public:
 	 *
 	 * @return 렌덤으로 생성된 테트로미노를 반환합니다.
 	 */
-	static Tetromino CreateRandomTetromino(const Math::Vec2i& InAbsolutionPosition);
+	static Tetromino CreateRandomTetromino(const Vec2i& InAbsolutionPosition);
 
 
 	/**
@@ -117,7 +119,7 @@ public:
 	 *
 	 * @return 테트리스 보드 상의 테트로미노 왼쪽 상단 위치를 반환합니다.
 	 */
-	Math::Vec2i GetAbsolutePosition() const { return AbsolutePosition; }
+	Vec2i GetAbsolutePosition() const { return AbsolutePosition; }
 
 
 	/**
@@ -125,7 +127,7 @@ public:
 	 *
 	 * @return 테트로미노 블럭의 상대적인 위치를 반환합니다.
 	 */
-	const std::vector<Math::Vec2i>& GetRelativePositions() const { return RelativePositions; }
+	const std::vector<Vec2i>& GetRelativePositions() const { return RelativePositions; }
 
 
 	/**
@@ -161,7 +163,7 @@ public:
 	 *
 	 * @throws 콘솔 화면에 그리기를 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Draw(const Math::Vec2i& InPosition);
+	void Draw(const Vec2i& InPosition);
 
 
 private:
@@ -173,7 +175,7 @@ private:
 	 * @param OutAreaSize - 테트로미노의 영역 크기입니다.
 	 * @param OutBoundSize - 테트로미노의 크기입니다.
 	 */
-	static void CreateRelativePositions(const EType& InType, std::vector<Math::Vec2i>& OutRelativePositions, int32_t& OutAreaSize, int32_t& OutBoundSize);
+	static void CreateRelativePositions(const EType& InType, std::vector<Vec2i>& OutRelativePositions, int32_t& OutAreaSize, int32_t& OutBoundSize);
 
 
 	/**
@@ -184,7 +186,7 @@ private:
 	 * 
 	 * @return 테트로미노 블럭의 상대 위치를 저장하고 있으면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	static bool HaveRelativePosition(const std::vector<Math::Vec2i>& InRelativePositions, const Math::Vec2i& InTargetPosition);
+	static bool HaveRelativePosition(const std::vector<Vec2i>& InRelativePositions, const Vec2i& InTargetPosition);
 	
 
 private:
@@ -210,11 +212,11 @@ private:
 	/**
 	 * 테트리스 보드 상의 테트로미노 왼쪽 상단 위치입니다.
 	 */
-	Math::Vec2i AbsolutePosition;
+	Vec2i AbsolutePosition;
 
 
 	/**
 	 * 테트로미노 블럭의 상대적인 위치입니다.
 	 */
-	std::vector<Math::Vec2i> RelativePositions;
+	std::vector<Vec2i> RelativePositions;
 };

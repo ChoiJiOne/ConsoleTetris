@@ -69,10 +69,10 @@ void Game::Draw()
 {
 	if (CurrentGameState == EGameState::Play)
 	{
-		Math::Vec2i BoardPosition = Math::Vec2i(7, 2);
+		Vec2i BoardPosition = Vec2i(7, 2);
 		GameBoard->Draw(BoardPosition);
 
-		Math::Vec2i TetrominoPosition = Math::Vec2i(19, 3);
+		Vec2i TetrominoPosition = Vec2i(19, 3);
 		for (auto& TetrominoElement = GameTetrominos.begin(); TetrominoElement != GameTetrominos.end(); ++TetrominoElement)
 		{
 			if (TetrominoElement != CurrentTetromino)
@@ -86,10 +86,10 @@ void Game::Draw()
 	}
 	else
 	{
-		Math::Vec2i TitlePosition = Math::Vec2i(0, 0);
+		Vec2i TitlePosition = Vec2i(0, 0);
 		DrawTitle(TitlePosition, Console::ETextColor::LightAqua);
 
-		Math::Vec2i MenuPosition = Math::Vec2i(7, 13);
+		Vec2i MenuPosition = Vec2i(7, 13);
 		GameMenus[CurrentGameState]->Draw(MenuPosition);
 	}
 }
@@ -103,7 +103,7 @@ void Game::InitGameConsole()
 
 void Game::InitGameTetromino()
 {
-	StartPosition = Math::Vec2i(3, 0);
+	StartPosition = Vec2i(3, 0);
 
 	const int32_t CountOfTetromino = 6;
 	for (int32_t Count = 1; Count <= CountOfTetromino; ++Count)
@@ -324,7 +324,7 @@ void Game::ResetGame()
 	CurrentRemoveLine = 0;
 }
 
-void Game::DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor)
+void Game::DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor)
 {
 	static std::string Title[] = {
 		"   _____                      _      ",
@@ -341,7 +341,7 @@ void Game::DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& I
 		"    |_|  |______|  |_|  |_|  \\_\\_____|_____/ ",
 	};
 
-	Math::Vec2i Position = InPosition;
+	Vec2i Position = InPosition;
 	for (const auto& TitleLine : Title)
 	{
 		Console::DrawText(Position.x, Position.y, TitleLine, InColor);

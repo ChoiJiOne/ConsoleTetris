@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "Tetromino.h"
 #include "Timer.h"
+#include "Vector.h"
 
 #include <stdexcept>
 #include <memory>
@@ -167,7 +168,7 @@ private:
 	 * @param InPositions - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
 	 * @param InColor - 타이틀 화면의 색상입니다.
 	 */
-	void DrawTitle(const Math::Vec2i& InPosition, const Console::ETextColor& InColor);
+	void DrawTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
 
 
 private:
@@ -234,13 +235,13 @@ private:
 	/**
 	 * 테트로미노의 시작점입니다.
 	 */
-	Math::Vec2i StartPosition;
+	Vec2i StartPosition;
 
 
 	/**
 	 * 테트로미노의 움직임 방향입니다.
 	 */
-	Tetromino::EMovement Movement;
+	Tetromino::EMovement Movement = Tetromino::EMovement::None;
 
 
 	/**

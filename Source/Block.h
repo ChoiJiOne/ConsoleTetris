@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Mathematics.h"
+#include "Vector.h"
+
 
 /**
  * 블록 클래스입니다.
@@ -139,7 +140,7 @@ public:
 	 *
 	 * @param InPosition - 블록을 그릴 콘솔 상의 좌표입니다.
 	 */
-	void Draw(const Math::Vec2i& InPosition);
+	void Draw(const Vec2i& InPosition);
 
 
 private:

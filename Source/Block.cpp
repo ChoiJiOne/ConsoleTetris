@@ -2,7 +2,7 @@
 #include "Macro.h"
 #include "Block.h"
 
-void Block::Draw(const Math::Vec2i& InPosition)
+void Block::Draw(const Vec2i& InPosition)
 {
 	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
 

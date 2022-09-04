@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Console.h"
-#include "Mathematics.h"
+#include "Vector.h"
 
 #include <vector>
 #include <string>
@@ -103,7 +103,7 @@ public:
 	 *
 	 * @throws 콘솔 화면에 그리기를 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Draw(const Math::Vec2i& InPosition);
+	void Draw(const Vec2i& InPosition);
 
 
 private:

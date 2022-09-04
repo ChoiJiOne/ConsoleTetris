@@ -57,12 +57,12 @@ bool Board::RegisterTetromino(const Tetromino& InTetromino)
 	}
 
 	const Block TetrominoBlock = InTetromino.GetTetrominoBlock();
-	const Math::Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Math::Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
+	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
-		Math::Vec2i BoardPosition = AbsolutePosition + RelativePosition;
+		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
 		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width, Height);
 		Blocks[Offset] = TetrominoBlock;
 	}
@@ -73,12 +73,12 @@ bool Board::RegisterTetromino(const Tetromino& InTetromino)
 void Board::UnregisterTetromino(const Tetromino& InTetromino)
 {
 	const Block EmptyBlock(Block::EColor::Empty, Block::EState::Empty);
-	const Math::Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Math::Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
+	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
-		Math::Vec2i BoardPosition = AbsolutePosition + RelativePosition;
+		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
 		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width, Height);
 		Blocks[Offset] = EmptyBlock;
 	}
@@ -105,14 +105,14 @@ void Board::Reset()
 	Blocks = NewBlocks;
 }
 
-void Board::Draw(const Math::Vec2i& InPosition)
+void Board::Draw(const Vec2i& InPosition)
 {
 	for (int32_t x = 0; x < Width; ++x)
 	{
 		for (int32_t y = 0; y < Height; ++y)
 		{
 			int32_t Offset = GetOffset(x, y, Width, Height);
-			Math::Vec2i CurrentPosition = InPosition + Math::Vec2i(x, y);
+			Vec2i CurrentPosition = InPosition + Vec2i(x, y);
 			Blocks[Offset].Draw(CurrentPosition);
 		}
 	}
@@ -124,7 +124,7 @@ int32_t Board::GetOffset(int32_t InPositionX, int32_t InPositionY, int32_t InWid
 	return (InWidth * InPositionY + InPositionX);
 }
 
-int32_t Board::GetOffset(const Math::Vec2i& InPosition, int32_t InWidth, int32_t InHeight)
+int32_t Board::GetOffset(const Vec2i& InPosition, int32_t InWidth, int32_t InHeight)
 {
 	return GetOffset(InPosition.x, InPosition.y, InWidth, InHeight);
 }
@@ -154,7 +154,7 @@ void Board::SetupBlocks(std::vector<Block>& InBlocks, int32_t InWidth, int32_t I
 	}
 }
 
-bool Board::DoseIncludePosition(const Math::Vec2i& InPosition, int32_t InWidth, int32_t InHeight)
+bool Board::DoseIncludePosition(const Vec2i& InPosition, int32_t InWidth, int32_t InHeight)
 {
 	return (0 <= InPosition.x && InPosition.x < InWidth) && (0 <= InPosition.y && InPosition.y < InHeight);
 }
@@ -162,12 +162,12 @@ bool Board::DoseIncludePosition(const Math::Vec2i& InPosition, int32_t InWidth, 
 bool Board::CanRegisterTetromino(const Tetromino& InTetromino)
 {
 	const Block TetrominoBlock = InTetromino.GetTetrominoBlock();
-	const Math::Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Math::Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
+	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
-		Math::Vec2i BoardPosition = AbsolutePosition + RelativePosition;
+		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
 		if (!DoseIncludePosition(BoardPosition, Width, Height))
 		{
 			return false;

@@ -79,9 +79,9 @@ void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
 	}
 }
 
-void Menu::Draw(const Math::Vec2i& InPosition)
+void Menu::Draw(const Vec2i& InPosition)
 {
-	Math::Vec2i Position = InPosition;
+	Vec2i Position = InPosition;
 
 	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements.size(); ++ElementIndex)
 	{
