@@ -19,7 +19,7 @@ void Game::Init()
 		"■ 게임 시작",
 		"■ 게임 종료",
 	};
-	std::unique_ptr<Menu> StartMenu = std::make_unique<Menu>(StartMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
+	std::unique_ptr<Menu> StartMenu = std::make_unique<Menu>(StartMenuElement, Console::ETextColor::LightBlue, Console::ETextColor::White);
 	Menus_.insert({ EGameState::Start , std::move(StartMenu) });
 
 	std::vector<std::string> PausedMenuElement = {
@@ -27,14 +27,14 @@ void Game::Init()
 		"■ 게임 재시작",
 		"■ 게임 종료",
 	};
-	std::unique_ptr<Menu> PausedMenu = std::make_unique<Menu>(PausedMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
+	std::unique_ptr<Menu> PausedMenu = std::make_unique<Menu>(PausedMenuElement, Console::ETextColor::LightBlue, Console::ETextColor::White);
 	Menus_.insert({ EGameState::Paused, std::move(PausedMenu) });
 
 	std::vector<std::string> DoneMenuElement = {
 		"■ 게임 재시작",
 		"■ 게임 종료",
 	};
-	std::unique_ptr<Menu> DoneMenu = std::make_unique<Menu>(DoneMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
+	std::unique_ptr<Menu> DoneMenu = std::make_unique<Menu>(DoneMenuElement, Console::ETextColor::LightBlue, Console::ETextColor::White);
 	Menus_.insert({ EGameState::Done, std::move(DoneMenu) });
 
 	Tetris_.Init();
@@ -83,28 +83,39 @@ void Game::Update()
 	{
 		if (Menus_[CurrentGameState_]->IsSwitch())
 		{
-			if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 시작"))
-			{
-				CurrentGameState_ = EGameState::Play;
-				Console::Clear();
-			}
-			else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 종료"))
-			{
-				bIsDone_ = true;
-				Console::Clear();
-			}
-			else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 계속 플레이"))
-			{
-				CurrentGameState_ = EGameState::Play;
-				Tetris_.SetContinue(true);
-				Console::Clear();
-			}
-			else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 재시작"))
-			{
-				CurrentGameState_ = EGameState::Play;
-				Console::Clear();
+			std::string CurrentSelectElement = Menus_[CurrentGameState_]->GetCurrentSelectElement();
+			Console::Clear();
 
-				Tetris_.Reset();
+			static std::pair<std::string, EGameState> MenuElements[] = {
+				{ "■ 게임 시작",       EGameState::Play },
+				{ "■ 게임 종료",       EGameState::Exit},
+				{ "■ 게임 계속 플레이", EGameState::Play},
+				{ "■ 게임 재시작",     EGameState::Play},
+			};
+
+			for (const auto& MenuElement : MenuElements)
+			{
+				if (!CurrentSelectElement.compare(MenuElement.first))
+				{
+					CurrentGameState_ = MenuElement.second;
+
+					if (!CurrentSelectElement.compare("■ 게임 종료"))
+					{
+						bIsDone_ = true;
+					}
+
+					if (!CurrentSelectElement.compare("■ 게임 계속 플레이"))
+					{
+						Tetris_.SetContinue(true);
+					}
+
+					if (!CurrentSelectElement.compare("■ 게임 재시작"))
+					{
+						Tetris_.Reset();
+					}
+
+					break;
+				}
 			}
 		}
 	}
@@ -122,8 +133,11 @@ void Game::Draw()
 		Vec2i TitlePosition = Vec2i(0, 0);
 		DrawConsoleTetrisTitle(TitlePosition, Console::ETextColor::LightAqua);
 
-		Vec2i MenuPosition = Vec2i(7, 13);
-		Menus_[CurrentGameState_]->Draw(MenuPosition);
+		if (CurrentGameState_ != EGameState::Exit)
+		{
+			Vec2i MenuPosition = Vec2i(7, 13);
+			Menus_[CurrentGameState_]->Draw(MenuPosition);
+		}
 	}
 }
 

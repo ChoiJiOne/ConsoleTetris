@@ -25,7 +25,8 @@ public:
 		Start  = 0,
 		Play   = 1,
 		Paused = 2,
-		Done   = 3
+		Done   = 3,
+		Exit   = 4,
 	};
 
 
