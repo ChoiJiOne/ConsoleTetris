@@ -2,14 +2,9 @@
 
 #define _CRTDBG_MAP_ALLOC
 
-#include "Block.h"
-#include "Board.h"
-#include "Input.h"
+#include "Tetris.h"
 #include "Console.h"
 #include "Menu.h"
-#include "Tetromino.h"
-#include "Timer.h"
-#include "Vector.h"
 
 #include <stdexcept>
 #include <memory>
@@ -17,13 +12,13 @@
 
 
 /**
- * 테트리스 게임 클래스입니다.
+ * 게임 클래스입니다.
  */
 class Game
 {
 public:
 	/**
-	 * 테트리스 게임의 상태입니다.
+	 * 게임의 상태입니다.
 	 */
 	enum class EGameState : int32_t
 	{
@@ -36,7 +31,7 @@ public:
 
 public:
 	/**
-	 * 테트리스 게임 클래스의 생성자입니다.
+	 * 게임 클래스의 생성자입니다.
 	 * 이때, 초기화를 수행하기 위해서는 Init 메서드를 호출해야 합니다.
 	 */
 	Game() = default;
@@ -73,17 +68,17 @@ public:
 
 
 	/**
-	 * 테트리스 게임을 초기화합니다.
+	 * 전체 게임을 초기화합니다.
 	 * 
-	 * @throws 테트리스 게임 초기화에 실패하면 C++ 표준 예외를 던집니다.
+	 * @throws 게임 초기화에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	void Init();
 
 
 	/**
-	 * 테트리스 게임을 실행합니다.
+	 * 게임을 실행합니다.
 	 * 
-	 * @throws 테트리스 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
+	 * @throws 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	void Run();
 
@@ -109,98 +104,12 @@ private:
 
 private:
 	/**
-	 * 테트리스 게임의 콘솔을 초기화합니다.
-	 */
-	void InitGameConsole();
-
-
-	/**
-	 * 테트리스 게임의 테트로미노를 초기화합니다.
-	 */
-	void InitGameTetromino();
-
-
-	/**
-	 * 테트리스 게임의 보드를 초기화합니다.
-	 */
-	void InitGameBoard();
-
-
-	/**
-	 * 테트리스 게임의 메뉴를 초기화합니다.
-	 */
-	void InitGameMenu();
-
-
-	/**
-	 * 테트리스 게임 플레이 상태의 입력을 처리합니다.
-	 */
-	void ProcessGamePlayInput();
-
-
- 	/**
-	 * 테트리스 게임 메뉴 상태의 입력을 처리합니다.
-	 */
-	void ProcessGameMenuInput() ;
-
-	 
-	/** 
-	 * 테트리스 게임 플레이 상태를 업데이트합니다.
-	 */
-	void UpdateGamePlay();
-
-
-	 /**
-  	  * 테트리스 게임 메뉴 상태를 업데이트합니다.
-	 */
- 	void UpdateGameMenu() ;
-
-	 
-	/**
-	 * 테트리스 게임을 리셋합니다. 
-	 */
-	void ResetGame();
-
-
-	/**
 	 * 테트리스 게임의 타이틀 화면을 그립니다.
 	 * 
 	 * @param InPosition - 콘솔 화면 상의 타이틀 왼쪽 상단 좌표입니다. 
 	 * @param InColor - 타이틀 화면의 색상입니다.
 	 */
 	void DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextColor& InColor);
-
-
-	/**
-	 * 게임 내의 테트로미노를 화면에 그립니다.
-	 * 
-	 * @param InPosition - 콘솔 화면 상의 왼쪽 상단 좌표입니다.
-	 */
-	void DrawTetrominos(const Vec2i& InPosition);
-
-
-	/**
-	 * 테트리스 보드의 테트로미노를 이동시킵니다.
-	 * 
-	 * @param 테트로미노의 이동 방향입니다.
-	 * 
-	 * @return 테트리스 보드의 테트로미노를 이동시켰으면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool MoveTetrominoInBoard(const Tetromino::EMovement& InMovement);
-
-
-	/**
-	 * 현재 테트리스 보드에 배치된 테트로미노를 삭제합니다.
-	 */
-	void EraseCurrentTetromino();
-
-
-	/**
-	 * 현재 테트로미노를 테트리스 보드에 배치합니다.
-	 * 
-	 * @return 테트로미노 배치에 성공하면 true, 그렇지 않으면 false를 반환합니다. 
-	 */
-	bool BatchCurrentTetromino();
 
 
 private:
@@ -211,91 +120,31 @@ private:
 
 
 	/**
-	 * 테트로미노가 움직일 수 있는지를 확인합니다.
-	 */
-	bool bCanMove_ = false;
-
-
-	/**
-	 * 테트로미노가 가장 아래칸으로 이동할 수 있는지 확인합니다.
-	 */
-	bool bCanMoveToBottom_ = false;
-
-
-	/**
 	 * 현재 게임 상태입니다.
 	 */
 	EGameState CurrentGameState_ = EGameState::Start;
 
 
 	/**
-	 * 테트리스 게임 내에서 입력 처리를 수행합니다.
+	 * 게임 내에서 입력 처리를 수행합니다.
 	 */
 	Input Input_;
 
 
 	/**
-	 * 테트리스 게임 내의 보드입니다.
-	 */
-	std::unique_ptr<Board> Board_ = nullptr;
-
-
-	/**
-	 * 테트리스 게임 내의 대기 중인 테트로미노들입니다.
-	 */
-	std::list<std::unique_ptr<Tetromino>> WaitTetrominos_;
-
-
-	/**
-	 * 현재 테트리스 보드 내에 배치된 테트로미노입니다.
-	 */
-	std::list<std::unique_ptr<Tetromino>>::iterator CurrentTetromino;
-
-
-	/**
-	 * 테트리스 게임의 메뉴입니다.
+	 * 게임의 메뉴입니다.
 	 */
 	std::unordered_map<EGameState, std::unique_ptr<Menu>> Menus_;
 
 
 	/**
-	 * 테트리스 게임의 타이머입니다.
+	 * 게임의 타이머입니다.
 	 */
 	Timer Timer_;
 
 
 	/**
-	 * 테트로미노의 시작점입니다.
+	 * 테트리스 게임입니다.
 	 */
-	Vec2i StartPosition_;
-
-
-	/**
-	 * 테트로미노의 움직임 방향입니다.
-	 */
-	Tetromino::EMovement Movement_ = Tetromino::EMovement::None;
-
-
-	/**
-	 * 테트리스 게임의 최대 스텝 시간입니다.
-	 */
-	float MaxStepTime_ = 1.5f;
-
-
-	/**
-	 * 테트리스 게임의 현재 스텝 시간입니다.
-	 */
-	float CurrentStepTime_ = 0.0f;
-
-
-	/**
-	 * 현재 삭제한 라인 수입니다.
-	 */
-	int32_t CurrentRemoveLine_ = 0;
-
-
-	/**
-	 * 키 타입에 대응하는 테트로미노의 움직임입니다.
-	 */
-	std::unordered_map<Input::EKeyType, Tetromino::EMovement> TetrominoMoveMappings_;
+	Tetris Tetris_;
 };
