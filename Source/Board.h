@@ -225,17 +225,17 @@ private:
 	/**
 	 * 테트리스 보드의 가로 크기입니다.
 	 */
-	int32_t Width;
+	int32_t Width_;
 
 
 	/**
 	 * 테트리스 보드의 세로 크기입니다.
 	 */
-	int32_t Height;
+	int32_t Height_;
 
 
 	/**
 	 * 테트리스 보드의 블럭입니다.
 	 */
-	std::vector<Block> Blocks;
+	std::vector<Block> Blocks_;
 };

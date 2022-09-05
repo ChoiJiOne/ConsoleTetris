@@ -4,27 +4,27 @@
 #include "Tetromino.h"
 
 Tetromino::Tetromino(const Vec2i& InAbsolutionPosition, const EType& InType, const Block::EColor& InBlockColor)
-	: TetrominoBlock(Block(InBlockColor, Block::EState::Fill))
-	, AbsolutePosition(InAbsolutionPosition)
+	: TetrominoBlock_(Block(InBlockColor, Block::EState::Fill))
+	, AbsolutePosition_(InAbsolutionPosition)
 {
-	CreateRelativePositions(InType, RelativePositions, AreaSize, BoundSize);
+	CreateRelativePositions(InType, RelativePositions_, AreaSize_, BoundSize_);
 }
 
 Tetromino::Tetromino(Tetromino&& InInstance) noexcept
-	: TetrominoBlock(InInstance.TetrominoBlock)
-	, BoundSize(InInstance.BoundSize)
-	, AreaSize(InInstance.AreaSize)
-	, AbsolutePosition(InInstance.AbsolutePosition)
-	, RelativePositions(InInstance.RelativePositions)
+	: TetrominoBlock_(InInstance.TetrominoBlock_)
+	, BoundSize_(InInstance.BoundSize_)
+	, AreaSize_(InInstance.AreaSize_)
+	, AbsolutePosition_(InInstance.AbsolutePosition_)
+	, RelativePositions_(InInstance.RelativePositions_)
 {
 }
 
 Tetromino::Tetromino(const Tetromino& InInstance) noexcept
-	: TetrominoBlock(InInstance.TetrominoBlock)
-	, BoundSize(InInstance.BoundSize)
-	, AreaSize(InInstance.AreaSize)
-	, AbsolutePosition(InInstance.AbsolutePosition)
-	, RelativePositions(InInstance.RelativePositions)
+	: TetrominoBlock_(InInstance.TetrominoBlock_)
+	, BoundSize_(InInstance.BoundSize_)
+	, AreaSize_(InInstance.AreaSize_)
+	, AbsolutePosition_(InInstance.AbsolutePosition_)
+	, RelativePositions_(InInstance.RelativePositions_)
 {
 }
 
@@ -32,11 +32,11 @@ Tetromino& Tetromino::operator=(Tetromino&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	TetrominoBlock = InInstance.TetrominoBlock;
-	BoundSize = InInstance.BoundSize;
-	AreaSize = InInstance.AreaSize;
-	AbsolutePosition = InInstance.AbsolutePosition;
-	RelativePositions = InInstance.RelativePositions;
+	TetrominoBlock_ = InInstance.TetrominoBlock_;
+	BoundSize_ = InInstance.BoundSize_;
+	AreaSize_ = InInstance.AreaSize_;
+	AbsolutePosition_ = InInstance.AbsolutePosition_;
+	RelativePositions_ = InInstance.RelativePositions_;
 
 	return *this;
 }
@@ -45,11 +45,11 @@ Tetromino& Tetromino::operator=(const Tetromino& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	TetrominoBlock = InInstance.TetrominoBlock;
-	BoundSize = InInstance.BoundSize;
-	AreaSize = InInstance.AreaSize;
-	AbsolutePosition = InInstance.AbsolutePosition;
-	RelativePositions = InInstance.RelativePositions;
+	TetrominoBlock_ = InInstance.TetrominoBlock_;
+	BoundSize_ = InInstance.BoundSize_;
+	AreaSize_ = InInstance.AreaSize_;
+	AbsolutePosition_ = InInstance.AbsolutePosition_;
+	RelativePositions_ = InInstance.RelativePositions_;
 
 	return *this;
 }
@@ -135,33 +135,33 @@ void Tetromino::Move(const EMovement& InMovement)
 		break;
 
 	case EMovement::Up:
-		AbsolutePosition.y -= 1;
+		AbsolutePosition_.y -= 1;
 		break;
 
 	case EMovement::Down:
-		AbsolutePosition.y += 1;
+		AbsolutePosition_.y += 1;
 		break;
 
 	case EMovement::Left:
-		AbsolutePosition.x -= 1;
+		AbsolutePosition_.x -= 1;
 		break;
 
 	case EMovement::Right:
-		AbsolutePosition.x += 1;
+		AbsolutePosition_.x += 1;
 		break;
 
 	case EMovement::CCW:
-		RelativePositions[0] = Vec2i(RelativePositions[0].y, BoundSize - 1 - RelativePositions[0].x);
-		RelativePositions[1] = Vec2i(RelativePositions[1].y, BoundSize - 1 - RelativePositions[1].x);
-		RelativePositions[2] = Vec2i(RelativePositions[2].y, BoundSize - 1 - RelativePositions[2].x);
-		RelativePositions[3] = Vec2i(RelativePositions[3].y, BoundSize - 1 - RelativePositions[3].x);
+		RelativePositions_[0] = Vec2i(RelativePositions_[0].y, BoundSize_ - 1 - RelativePositions_[0].x);
+		RelativePositions_[1] = Vec2i(RelativePositions_[1].y, BoundSize_ - 1 - RelativePositions_[1].x);
+		RelativePositions_[2] = Vec2i(RelativePositions_[2].y, BoundSize_ - 1 - RelativePositions_[2].x);
+		RelativePositions_[3] = Vec2i(RelativePositions_[3].y, BoundSize_ - 1 - RelativePositions_[3].x);
 		break;
 
 	case EMovement::CW:
-		RelativePositions[0] = Vec2i(BoundSize - 1 - RelativePositions[0].y, RelativePositions[0].x);
-		RelativePositions[1] = Vec2i(BoundSize - 1 - RelativePositions[1].y, RelativePositions[1].x);
-		RelativePositions[2] = Vec2i(BoundSize - 1 - RelativePositions[2].y, RelativePositions[2].x);
-		RelativePositions[3] = Vec2i(BoundSize - 1 - RelativePositions[3].y, RelativePositions[3].x);
+		RelativePositions_[0] = Vec2i(BoundSize_ - 1 - RelativePositions_[0].y, RelativePositions_[0].x);
+		RelativePositions_[1] = Vec2i(BoundSize_ - 1 - RelativePositions_[1].y, RelativePositions_[1].x);
+		RelativePositions_[2] = Vec2i(BoundSize_ - 1 - RelativePositions_[2].y, RelativePositions_[2].x);
+		RelativePositions_[3] = Vec2i(BoundSize_ - 1 - RelativePositions_[3].y, RelativePositions_[3].x);
 		break;
 
 	default:
@@ -171,17 +171,17 @@ void Tetromino::Move(const EMovement& InMovement)
 
 void Tetromino::Draw(const Vec2i& InPosition)
 {
-	for (int32_t x = 0; x < AreaSize; ++x)
+	for (int32_t x = 0; x < AreaSize_; ++x)
 	{
-		for (int32_t y = 0; y < AreaSize; ++y)
+		for (int32_t y = 0; y < AreaSize_; ++y)
 		{
 			Vec2i RelativePosition = Vec2i(x, y);
 			Vec2i CurrentPosition = InPosition + RelativePosition;
-			bool bHaveRelativePosition = HaveRelativePosition(RelativePositions, RelativePosition);
+			bool bHaveRelativePosition = HaveRelativePosition(RelativePositions_, RelativePosition);
 
 			if (bHaveRelativePosition)
 			{
-				TetrominoBlock.Draw(CurrentPosition);
+				TetrominoBlock_.Draw(CurrentPosition);
 			}
 			else
 			{
@@ -191,67 +191,67 @@ void Tetromino::Draw(const Vec2i& InPosition)
 	}
 }
 
-void Tetromino::CreateRelativePositions(const EType& InType, std::vector<Vec2i>& OutRelativePositions, int32_t& OutAreaSize, int32_t& OutBoundSize)
+void Tetromino::CreateRelativePositions(const EType& InType, std::vector<Vec2i>& OutRelativePositions_, int32_t& OutAreaSize_, int32_t& OutBoundSize_)
 {
-	OutRelativePositions.resize(4);
-	OutAreaSize = 4;
+	OutRelativePositions_.resize(4);
+	OutAreaSize_ = 4;
 
 	switch (InType)
 	{
 	case EType::I:
-		OutBoundSize = 4;
-		OutRelativePositions[0] = Vec2i(0, 1);
-		OutRelativePositions[1] = Vec2i(1, 1);
-		OutRelativePositions[2] = Vec2i(2, 1);
-		OutRelativePositions[3] = Vec2i(3, 1);
+		OutBoundSize_ = 4;
+		OutRelativePositions_[0] = Vec2i(0, 1);
+		OutRelativePositions_[1] = Vec2i(1, 1);
+		OutRelativePositions_[2] = Vec2i(2, 1);
+		OutRelativePositions_[3] = Vec2i(3, 1);
 		break;
 
 	case EType::O:
-		OutBoundSize = 4;
-		OutRelativePositions[0] = Vec2i(1, 1);
-		OutRelativePositions[1] = Vec2i(2, 1);
-		OutRelativePositions[2] = Vec2i(1, 2);
-		OutRelativePositions[3] = Vec2i(2, 2);
+		OutBoundSize_ = 4;
+		OutRelativePositions_[0] = Vec2i(1, 1);
+		OutRelativePositions_[1] = Vec2i(2, 1);
+		OutRelativePositions_[2] = Vec2i(1, 2);
+		OutRelativePositions_[3] = Vec2i(2, 2);
 		break;
 
 	case EType::T:
-		OutBoundSize = 3;
-		OutRelativePositions[0] = Vec2i(0, 1);
-		OutRelativePositions[1] = Vec2i(1, 1);
-		OutRelativePositions[2] = Vec2i(2, 1);
-		OutRelativePositions[3] = Vec2i(1, 2);
+		OutBoundSize_ = 3;
+		OutRelativePositions_[0] = Vec2i(0, 1);
+		OutRelativePositions_[1] = Vec2i(1, 1);
+		OutRelativePositions_[2] = Vec2i(2, 1);
+		OutRelativePositions_[3] = Vec2i(1, 2);
 		break;
 
 	case EType::J:
-		OutBoundSize = 3;
-		OutRelativePositions[0] = Vec2i(0, 1);
-		OutRelativePositions[1] = Vec2i(1, 1);
-		OutRelativePositions[2] = Vec2i(2, 1);
-		OutRelativePositions[3] = Vec2i(2, 2);
+		OutBoundSize_ = 3;
+		OutRelativePositions_[0] = Vec2i(0, 1);
+		OutRelativePositions_[1] = Vec2i(1, 1);
+		OutRelativePositions_[2] = Vec2i(2, 1);
+		OutRelativePositions_[3] = Vec2i(2, 2);
 		break;
 
 	case EType::L:
-		OutBoundSize = 3;
-		OutRelativePositions[0] = Vec2i(0, 1);
-		OutRelativePositions[1] = Vec2i(1, 1);
-		OutRelativePositions[2] = Vec2i(2, 1);
-		OutRelativePositions[3] = Vec2i(0, 2);
+		OutBoundSize_ = 3;
+		OutRelativePositions_[0] = Vec2i(0, 1);
+		OutRelativePositions_[1] = Vec2i(1, 1);
+		OutRelativePositions_[2] = Vec2i(2, 1);
+		OutRelativePositions_[3] = Vec2i(0, 2);
 		break;
 
 	case EType::S:
-		OutBoundSize = 3;
-		OutRelativePositions[0] = Vec2i(1, 0);
-		OutRelativePositions[1] = Vec2i(2, 0);
-		OutRelativePositions[2] = Vec2i(0, 1);
-		OutRelativePositions[3] = Vec2i(1, 1);
+		OutBoundSize_ = 3;
+		OutRelativePositions_[0] = Vec2i(1, 0);
+		OutRelativePositions_[1] = Vec2i(2, 0);
+		OutRelativePositions_[2] = Vec2i(0, 1);
+		OutRelativePositions_[3] = Vec2i(1, 1);
 		break;
 
 	case EType::Z:
-		OutBoundSize = 3;
-		OutRelativePositions[0] = Vec2i(0, 0);
-		OutRelativePositions[1] = Vec2i(0, 1);
-		OutRelativePositions[2] = Vec2i(1, 1);
-		OutRelativePositions[3] = Vec2i(2, 1);
+		OutBoundSize_ = 3;
+		OutRelativePositions_[0] = Vec2i(0, 0);
+		OutRelativePositions_[1] = Vec2i(0, 1);
+		OutRelativePositions_[2] = Vec2i(1, 1);
+		OutRelativePositions_[3] = Vec2i(2, 1);
 		break;
 
 	default:
@@ -259,11 +259,11 @@ void Tetromino::CreateRelativePositions(const EType& InType, std::vector<Vec2i>&
 	}
 }
 
-bool Tetromino::HaveRelativePosition(const std::vector<Vec2i>& InRelativePositions, const Vec2i& InTargetPosition)
+bool Tetromino::HaveRelativePosition(const std::vector<Vec2i>& InRelativePositions_, const Vec2i& InTargetPosition)
 {
 	bool bHaveRelativePosition = false;
 
-	for (const auto& RelativePosition : InRelativePositions)
+	for (const auto& RelativePosition : InRelativePositions_)
 	{
 		if (RelativePosition.x == InTargetPosition.x && RelativePosition.y == InTargetPosition.y)
 		{

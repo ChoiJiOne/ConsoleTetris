@@ -70,17 +70,17 @@ private:
 	/**
 	 * 타이머를 초기화 한 시점입니다.
 	 */
-	std::chrono::high_resolution_clock::time_point BaseTime;
+	std::chrono::high_resolution_clock::time_point BaseTime_;
 
 
 	/**
 	 * 타이머를 업데이트 하기 이전의 시점입니다.
 	 */
-	std::chrono::high_resolution_clock::time_point PrevTime;
+	std::chrono::high_resolution_clock::time_point PrevTime_;
 
 
 	/**
 	 * 타이머를 업데이트한 시점입니다.
 	 */
-	std::chrono::high_resolution_clock::time_point CurrTime;
+	std::chrono::high_resolution_clock::time_point CurrTime_;
 };

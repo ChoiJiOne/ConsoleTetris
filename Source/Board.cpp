@@ -2,24 +2,24 @@
 #include "Board.h"
 
 Board::Board(const int32_t& InWidth, const int32_t& InHeight)
-	: Width(InWidth)
-	, Height(InHeight)
+	: Width_(InWidth)
+	, Height_(InHeight)
 {
-	Blocks = CreateBlocks(Width, Height);
-	SetupBlocks(Blocks, Width, Height);
+	Blocks_ = CreateBlocks(Width_, Height_);
+	SetupBlocks(Blocks_, Width_, Height_);
 }
 
 Board::Board(Board&& InInstance) noexcept
-	: Width(InInstance.Width)
-	, Height(InInstance.Height)
-	, Blocks(InInstance.Blocks)
+	: Width_(InInstance.Width_)
+	, Height_(InInstance.Height_)
+	, Blocks_(InInstance.Blocks_)
 {
 }
 
 Board::Board(const Board& InInstance) noexcept
-	: Width(InInstance.Width)
-	, Height(InInstance.Height)
-	, Blocks(InInstance.Blocks)
+	: Width_(InInstance.Width_)
+	, Height_(InInstance.Height_)
+	, Blocks_(InInstance.Blocks_)
 {
 }
 
@@ -31,9 +31,9 @@ Board& Board::operator=(Board&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Width = InInstance.Width;
-	Height = InInstance.Height;
-	Blocks = InInstance.Blocks;
+	Width_ = InInstance.Width_;
+	Height_ = InInstance.Height_;
+	Blocks_ = InInstance.Blocks_;
 
 	return *this;
 }
@@ -42,9 +42,9 @@ Board& Board::operator=(const Board& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Width = InInstance.Width;
-	Height = InInstance.Height;
-	Blocks = InInstance.Blocks;
+	Width_ = InInstance.Width_;
+	Height_ = InInstance.Height_;
+	Blocks_ = InInstance.Blocks_;
 
 	return *this;
 }
@@ -63,8 +63,8 @@ bool Board::RegisterTetromino(const Tetromino& InTetromino)
 	for (const auto& RelativePosition : RelativePositions)
 	{
 		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
-		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width, Height);
-		Blocks[Offset] = TetrominoBlock;
+		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width_, Height_);
+		Blocks_[Offset] = TetrominoBlock;
 	}
 
 	return true;
@@ -72,15 +72,15 @@ bool Board::RegisterTetromino(const Tetromino& InTetromino)
 
 void Board::UnregisterTetromino(const Tetromino& InTetromino)
 {
-	const Block EmptyBlock(Block::EColor::Empty, Block::EState::Empty);
+	const Block EmptyBlock(Block::EColor::None, Block::EState::Empty);
 	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
 	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
 		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
-		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width, Height);
-		Blocks[Offset] = EmptyBlock;
+		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width_, Height_);
+		Blocks_[Offset] = EmptyBlock;
 	}
 }
 
@@ -99,21 +99,21 @@ int32_t Board::Update()
 
 void Board::Reset()
 {
-	std::vector<Block> NewBlocks = CreateBlocks(Width, Height);
-	SetupBlocks(NewBlocks, Width, Height);
+	std::vector<Block> NewBlocks = CreateBlocks(Width_, Height_);
+	SetupBlocks(NewBlocks, Width_, Height_);
 
-	Blocks = NewBlocks;
+	Blocks_ = NewBlocks;
 }
 
 void Board::Draw(const Vec2i& InPosition)
 {
-	for (int32_t x = 0; x < Width; ++x)
+	for (int32_t x = 0; x < Width_; ++x)
 	{
-		for (int32_t y = 0; y < Height; ++y)
+		for (int32_t y = 0; y < Height_; ++y)
 		{
-			int32_t Offset = GetOffset(x, y, Width, Height);
+			int32_t Offset = GetOffset(x, y, Width_, Height_);
 			Vec2i CurrentPosition = InPosition + Vec2i(x, y);
-			Blocks[Offset].Draw(CurrentPosition);
+			Blocks_[Offset].Draw(CurrentPosition);
 		}
 	}
 }
@@ -168,13 +168,13 @@ bool Board::CanRegisterTetromino(const Tetromino& InTetromino)
 	for (const auto& RelativePosition : RelativePositions)
 	{
 		Vec2i BoardPosition = AbsolutePosition + RelativePosition;
-		if (!DoseIncludePosition(BoardPosition, Width, Height))
+		if (!DoseIncludePosition(BoardPosition, Width_, Height_))
 		{
 			return false;
 		}
 
-		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width, Height);
-		if (Blocks[Offset].GetState() != Block::EState::Empty)
+		int32_t Offset = GetOffset(BoardPosition.x, BoardPosition.y, Width_, Height_);
+		if (Blocks_[Offset].GetState() != Block::EState::Empty)
 		{
 			return false;
 		}
@@ -185,10 +185,10 @@ bool Board::CanRegisterTetromino(const Tetromino& InTetromino)
 
 bool Board::IsFullFillLine(int32_t InY)
 {
-	for (int32_t x = 1; x < Width - 1; ++x)
+	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		int32_t Offset = GetOffset(x, InY, Width, Height);
-		if (Blocks[Offset].GetState() == Block::EState::Empty)
+		int32_t Offset = GetOffset(x, InY, Width_, Height_);
+		if (Blocks_[Offset].GetState() == Block::EState::Empty)
 		{
 			return false;
 		}
@@ -199,10 +199,10 @@ bool Board::IsFullFillLine(int32_t InY)
 
 bool Board::IsFullEmptyLine(int32_t InY)
 {
-	for (int32_t x = 1; x < Width - 1; ++x)
+	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		int32_t Offset = GetOffset(x, InY, Width, Height);
-		if (Blocks[Offset].GetState() != Block::EState::Empty)
+		int32_t Offset = GetOffset(x, InY, Width_, Height_);
+		if (Blocks_[Offset].GetState() != Block::EState::Empty)
 		{
 			return false;
 		}
@@ -213,10 +213,10 @@ bool Board::IsFullEmptyLine(int32_t InY)
 
 void Board::RemoveLine(int32_t InY)
 {
-	for (int32_t x = 1; x < Width - 1; ++x)
+	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		int32_t Offset = GetOffset(x, InY, Width, Height);
-		Blocks[Offset] = Block(Block::EColor::Empty, Block::EState::Empty);
+		int32_t Offset = GetOffset(x, InY, Width_, Height_);
+		Blocks_[Offset] = Block(Block::EColor::None, Block::EState::Empty);
 	}
 }
 
@@ -224,7 +224,7 @@ int32_t Board::RemoveFullFillLines()
 {
 	int32_t CountOfRemoveLine = 0;
 
-	for (int32_t y = 0; y < Height - 1; ++y)
+	for (int32_t y = 0; y < Height_ - 1; ++y)
 	{
 		if (IsFullFillLine(y))
 		{
@@ -238,23 +238,23 @@ int32_t Board::RemoveFullFillLines()
 
 void Board::UpdateBoard()
 {
-	std::vector<Block> NewBlocks = CreateBlocks(Width, Height);
-	SetupBlocks(NewBlocks, Width, Height);
+	std::vector<Block> NewBlocks = CreateBlocks(Width_, Height_);
+	SetupBlocks(NewBlocks, Width_, Height_);
 
-	for (int32_t OldY = Height - 2, NewY = Height - 2; OldY >= 0; --OldY)
+	for (int32_t OldY = Height_ - 2, NewY = Height_ - 2; OldY >= 0; --OldY)
 	{
 		if (!IsFullEmptyLine(OldY))
 		{
-			for (int32_t x = 1; x < Width - 1; ++x)
+			for (int32_t x = 1; x < Width_ - 1; ++x)
 			{
-				int32_t OldOffset = GetOffset(x, OldY, Width, Height);
-				int32_t NewOffset = GetOffset(x, NewY, Width, Height);
-				NewBlocks[NewOffset] = Blocks[OldOffset];
+				int32_t OldOffset = GetOffset(x, OldY, Width_, Height_);
+				int32_t NewOffset = GetOffset(x, NewY, Width_, Height_);
+				NewBlocks[NewOffset] = Blocks_[OldOffset];
 			}
 
 			--NewY;
 		}
 	}
 
-	Blocks = NewBlocks;
+	Blocks_ = NewBlocks;
 }

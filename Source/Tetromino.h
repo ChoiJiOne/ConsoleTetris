@@ -111,7 +111,7 @@ public:
 	 *
 	 * @return 테트로미노의 블럭을 반환합니다.
 	 */
-	Block GetTetrominoBlock() const { return TetrominoBlock; }
+	Block GetTetrominoBlock() const { return TetrominoBlock_; }
 
 
 	/**
@@ -119,7 +119,7 @@ public:
 	 *
 	 * @return 테트리스 보드 상의 테트로미노 왼쪽 상단 위치를 반환합니다.
 	 */
-	Vec2i GetAbsolutePosition() const { return AbsolutePosition; }
+	Vec2i GetAbsolutePosition() const { return AbsolutePosition_; }
 
 
 	/**
@@ -127,7 +127,7 @@ public:
 	 *
 	 * @return 테트로미노 블럭의 상대적인 위치를 반환합니다.
 	 */
-	const std::vector<Vec2i>& GetRelativePositions() const { return RelativePositions; }
+	const std::vector<Vec2i>& GetRelativePositions() const { return RelativePositions_; }
 
 
 	/**
@@ -145,7 +145,7 @@ public:
 	 * 
 	 * @return 테트로미노의 영역 크기를 반환합니다.
 	 */
-	int32_t GetAreaSize() const { return AreaSize; }
+	int32_t GetAreaSize() const { return AreaSize_; }
 
 
 	/**
@@ -193,30 +193,30 @@ private:
 	/**
 	 * 테트로미노의 블럭입니다.
 	 */
-	Block TetrominoBlock;
+	Block TetrominoBlock_;
 
-
+	
 	/**
 	 * 테트로미노의 크기입니다.
 	 * 이때, 테트로미노의 영역은 정사각형입니다.
 	 */
-	int32_t BoundSize = 0;
+	int32_t BoundSize_ = 0;
 
 
 	/**
 	 * 테트로미노의 영역 크기입니다.
 	 */
-	int32_t AreaSize = 0;
+	int32_t AreaSize_ = 0;
 
 
 	/**
 	 * 테트리스 보드 상의 테트로미노 왼쪽 상단 위치입니다.
 	 */
-	Vec2i AbsolutePosition;
+	Vec2i AbsolutePosition_;
 
 
 	/**
 	 * 테트로미노 블럭의 상대적인 위치입니다.
 	 */
-	std::vector<Vec2i> RelativePositions;
+	std::vector<Vec2i> RelativePositions_;
 };

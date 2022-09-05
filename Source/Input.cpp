@@ -14,20 +14,20 @@ Input::Input()
 {
 	for (const auto& KeyType : KeyTypes)
 	{
-		PrevKeyState[KeyType] = false;
-		CurrKeyState[KeyType] = false;
+		PrevKeyState_[KeyType] = false;
+		CurrKeyState_[KeyType] = false;
 	}
 }
 
 Input::Input(Input&& InInstance) noexcept
-	: PrevKeyState(InInstance.PrevKeyState)
-	, CurrKeyState(InInstance.CurrKeyState)
+	: PrevKeyState_(InInstance.PrevKeyState_)
+	, CurrKeyState_(InInstance.CurrKeyState_)
 {
 }
 
 Input::Input(const Input& InInstance) noexcept
-	: PrevKeyState(InInstance.PrevKeyState)
-	, CurrKeyState(InInstance.CurrKeyState)
+	: PrevKeyState_(InInstance.PrevKeyState_)
+	, CurrKeyState_(InInstance.CurrKeyState_)
 {
 }
 
@@ -39,8 +39,8 @@ Input& Input::operator=(Input&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	PrevKeyState = InInstance.PrevKeyState;
-	CurrKeyState = InInstance.CurrKeyState;
+	PrevKeyState_ = InInstance.PrevKeyState_;
+	CurrKeyState_ = InInstance.CurrKeyState_;
 
 	return *this;
 }
@@ -49,29 +49,29 @@ Input& Input::operator=(const Input& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	PrevKeyState = InInstance.PrevKeyState;
-	CurrKeyState = InInstance.CurrKeyState;
+	PrevKeyState_ = InInstance.PrevKeyState_;
+	CurrKeyState_ = InInstance.CurrKeyState_;
 
 	return *this;
 }
 
 void Input::Update()
 {
-	PrevKeyState = CurrKeyState;
+	PrevKeyState_ = CurrKeyState_;
 
 	for (const auto& KeyType : KeyTypes)
 	{
-		CurrKeyState[KeyType] = IsPressKey(KeyType);
+		CurrKeyState_[KeyType] = IsPressKey(KeyType);
 	}
 }
 
-Input::EPressState Input::GetKeyPressState(const EKeyType& InKeyType)
+Input::EPressState Input::GetKeyPressState(const EKeyType& InKeyType) const
 {
 	EPressState PressState = EPressState::None;
 
-	if (PrevKeyState[InKeyType])
+	if (PrevKeyState_.at(InKeyType))
 	{
-		if (CurrKeyState[InKeyType])
+		if (CurrKeyState_.at(InKeyType))
 		{
 			PressState = EPressState::Held;
 		}
@@ -82,7 +82,7 @@ Input::EPressState Input::GetKeyPressState(const EKeyType& InKeyType)
 	}
 	else
 	{
-		if (CurrKeyState[InKeyType])
+		if (CurrKeyState_.at(InKeyType))
 		{
 			PressState = EPressState::Pressed;
 		}
@@ -95,7 +95,7 @@ Input::EPressState Input::GetKeyPressState(const EKeyType& InKeyType)
 	return PressState;
 }
 
-bool Input::IsPressKey(const EKeyType& InKeyType)
+bool Input::IsPressKey(const EKeyType& InKeyType) const
 {
 	return (GetAsyncKeyState(static_cast<int32_t>(InKeyType)) & 0x8000);
 }

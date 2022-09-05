@@ -3,17 +3,17 @@
 
 Game::~Game()
 {
-	for (auto& GameMenu : GameMenus)
+	for (auto& GameMenu : Menus_)
 	{
 		GameMenu.second.reset();
 	}
 
-	for (auto& GameTetromino : GameTetrominos)
+	for (auto& GameTetromino : Tetrominos_)
 	{
 		GameTetromino.reset();
 	}
 
-	GameBoard.reset();
+	Board_.reset();
 }
 
 void Game::Init()
@@ -23,18 +23,18 @@ void Game::Init()
 	InitGameBoard();
 	InitGameMenu();
 
-	TetrominoMoveMappings.insert( { Input::EKeyType::Up, Tetromino::EMovement::CW } );
-	TetrominoMoveMappings.insert( { Input::EKeyType::Down, Tetromino::EMovement::Down } );
-	TetrominoMoveMappings.insert( { Input::EKeyType::Left, Tetromino::EMovement::Left } );
-	TetrominoMoveMappings.insert( { Input::EKeyType::Right, Tetromino::EMovement::Right } );
-	TetrominoMoveMappings.insert( { Input::EKeyType::Space, Tetromino::EMovement::Down } );
+	TetrominoMoveMappings_.insert( { Input::EKeyType::Up, Tetromino::EMovement::CW } );
+	TetrominoMoveMappings_.insert( { Input::EKeyType::Down, Tetromino::EMovement::Down } );
+	TetrominoMoveMappings_.insert( { Input::EKeyType::Left, Tetromino::EMovement::Left } );
+	TetrominoMoveMappings_.insert( { Input::EKeyType::Right, Tetromino::EMovement::Right } );
+	TetrominoMoveMappings_.insert( { Input::EKeyType::Space, Tetromino::EMovement::Down } );
 }
 
 void Game::Run()
 {
-	GameTimer.Reset();
+	Timer_.Reset();
 
-	while (!bIsDone)
+	while (!bIsDone_)
 	{
 		ProcessInput();
 		Update();
@@ -44,12 +44,12 @@ void Game::Run()
 
 void Game::ProcessInput()
 {
-	GameInput.Update();
-	GameTimer.Tick();
+	Input_.Update();
+	Timer_.Tick();
 
-	if (CurrentGameState == EGameState::Play)
+	if (CurrentGameState_ == EGameState::Play)
 	{
-		CurrentStepTime += GameTimer.DeltaTime();
+		CurrentStepTime_ += Timer_.DeltaTime();
 		ProcessGamePlayInput();
 	}
 	else
@@ -60,7 +60,7 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-	if (CurrentGameState == EGameState::Play)
+	if (CurrentGameState_ == EGameState::Play)
 	{
 		UpdateGamePlay();
 	}
@@ -72,15 +72,15 @@ void Game::Update()
 
 void Game::Draw()
 {
-	if (CurrentGameState == EGameState::Play)
+	if (CurrentGameState_ == EGameState::Play)
 	{
 		Vec2i BoardPosition = Vec2i(7, 2);
-		GameBoard->Draw(BoardPosition);
+		Board_->Draw(BoardPosition);
 
 		Vec2i TetrominoPosition = Vec2i(19, 3);
 		DrawTetrominos(TetrominoPosition);
 
-		Console::DrawText(2, 2, Text::Format("%d", CurrentRemoveLine), Console::ETextColor::White);
+		Console::DrawText(2, 2, Text::Format("%d", CurrentRemoveLine_), Console::ETextColor::White);
 	}
 	else
 	{
@@ -88,7 +88,7 @@ void Game::Draw()
 		DrawConsoleTetrisTitle(TitlePosition, Console::ETextColor::LightAqua);
 
 		Vec2i MenuPosition = Vec2i(7, 13);
-		GameMenus[CurrentGameState]->Draw(MenuPosition);
+		Menus_[CurrentGameState_]->Draw(MenuPosition);
 	}
 }
 
@@ -101,16 +101,16 @@ void Game::InitGameConsole()
 
 void Game::InitGameTetromino()
 {
-	StartPosition = Vec2i(3, 0);
+	StartPosition_ = Vec2i(3, 0);
 
 	const int32_t CountOfTetromino = 6;
 	for (int32_t Count = 1; Count <= CountOfTetromino; ++Count)
 	{
-		std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
-		GameTetrominos.push_back(std::move(NewTetromino));
+		std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
+		Tetrominos_.push_back(std::move(NewTetromino));
 	}
 
-	CurrentTetromino = GameTetrominos.begin();
+	CurrentTetromino = Tetrominos_.begin();
 }
 
 void Game::InitGameBoard()
@@ -118,8 +118,8 @@ void Game::InitGameBoard()
 	int32_t BoardWidth = 10;
 	int32_t BoardHeight = 20;
 
-	GameBoard = std::make_unique<Board>(BoardWidth, BoardHeight);
-	GameBoard->RegisterTetromino(*CurrentTetromino->get());
+	Board_ = std::make_unique<Board>(BoardWidth, BoardHeight);
+	Board_->RegisterTetromino(*CurrentTetromino->get());
 }
 
 void Game::InitGameMenu()
@@ -129,7 +129,7 @@ void Game::InitGameMenu()
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> StartMenu = std::make_unique<Menu>(StartMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ EGameState::Start , std::move(StartMenu) });
+	Menus_.insert({ EGameState::Start , std::move(StartMenu) });
 
 	std::vector<std::string> PausedMenuElement = {
 		"■ 게임 계속 플레이",
@@ -137,81 +137,81 @@ void Game::InitGameMenu()
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> PausedMenu = std::make_unique<Menu>(PausedMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ EGameState::Paused, std::move(PausedMenu) });
+	Menus_.insert({ EGameState::Paused, std::move(PausedMenu) });
 
 	std::vector<std::string> DoneMenuElement = {
 		"■ 게임 재시작",
 		"■ 게임 종료",
 	};
 	std::unique_ptr<Menu> DoneMenu = std::make_unique<Menu>(DoneMenuElement, Console::ETextColor::Blue, Console::ETextColor::White);
-	GameMenus.insert({ EGameState::Done, std::move(DoneMenu) });
+	Menus_.insert({ EGameState::Done, std::move(DoneMenu) });
 }
 
 void Game::ProcessGamePlayInput()
 {
-	bCanMove = false;
-	bCanMoveToBottom = false;
+	bCanMove_ = false;
+	bCanMoveToBottom_ = false;
 
-	for (auto& TetrominoMoveMapping : TetrominoMoveMappings)
+	for (auto& TetrominoMoveMapping : TetrominoMoveMappings_)
 	{
-		if (GameInput.GetKeyPressState(TetrominoMoveMapping.first) == Input::EPressState::Pressed)
+		if (Input_.GetKeyPressState(TetrominoMoveMapping.first) == Input::EPressState::Pressed)
 		{
-			bCanMove = true;
-			Movement = TetrominoMoveMapping.second;
+			bCanMove_ = true;
+			Movement_ = TetrominoMoveMapping.second;
 
 			if (TetrominoMoveMapping.first == Input::EKeyType::Space)
 			{
-				bCanMoveToBottom = true;
+				bCanMoveToBottom_ = true;
 			}
 		}
 	}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
+	if (Input_.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
-		CurrentGameState = EGameState::Paused;
+		CurrentGameState_ = EGameState::Paused;
 		Console::Clear();
 	}
 
-	if (CurrentStepTime >= MaxStepTime)
+	if (CurrentStepTime_ >= MaxStepTime_)
 	{
-		CurrentStepTime = 0.0f;
-		bCanMove = true;
-		Movement = Tetromino::EMovement::Down;
+		CurrentStepTime_ = 0.0f;
+		bCanMove_ = true;
+		Movement_ = Tetromino::EMovement::Down;
 	}
 }
 
 void Game::ProcessGameMenuInput()
 {
-	if (GameInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+	if (Input_.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
 	{
-		GameMenus[CurrentGameState]->MoveSelect(Menu::ESelectDirection::Up);
+		Menus_[CurrentGameState_]->MoveSelect(Menu::ESelectDirection::Up);
 	}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
+	if (Input_.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
 	{
-		GameMenus[CurrentGameState]->MoveSelect(Menu::ESelectDirection::Down);
+		Menus_[CurrentGameState_]->MoveSelect(Menu::ESelectDirection::Down);
 	}
 
-	if (GameInput.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
+	if (Input_.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
 	{
-		if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 시작"))
+		if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 시작"))
 		{
-			CurrentGameState = EGameState::Play;
+			CurrentGameState_ = EGameState::Play;
 			Console::Clear();
 		}
-		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 종료"))
+		else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 종료"))
 		{
-			bIsDone = true;
+			bIsDone_ = true;
 			Console::Clear();
 		}
-		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 계속 플레이"))
+		else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 계속 플레이"))
 		{
-			CurrentGameState = EGameState::Play;
+			CurrentGameState_ = EGameState::Play;
 			Console::Clear();
 		}
-		else if (!GameMenus[CurrentGameState]->GetCurrentSelectElement().compare("■ 게임 재시작"))
+		else if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 재시작"))
 		{
-			CurrentGameState = EGameState::Play;
+			CurrentGameState_ = EGameState::Play;
 			Console::Clear();
 
 			ResetGame();
@@ -221,27 +221,27 @@ void Game::ProcessGameMenuInput()
 
 void Game::UpdateGamePlay()
 {
-	if (!bCanMove)
+	if (!bCanMove_)
 	{
 		return;
 	}
 
-	if (bCanMoveToBottom)
+	if (bCanMoveToBottom_)
 	{
 		bool bSuccess = true;
 
 		while (bSuccess)
 		{
-			if (!MoveTetrominoInBoard(Movement))
+			if (!MoveTetrominoInBoard(Movement_))
 			{
 				bSuccess = false;
 
-				CurrentRemoveLine += GameBoard->Update();
+				CurrentRemoveLine_ += Board_->Update();
 				EraseCurrentTetromino();
 
 				if (!BatchCurrentTetromino())
 				{
-					CurrentGameState = EGameState::Done;
+					CurrentGameState_ = EGameState::Done;
 					Console::Clear();
 				}
 			}
@@ -250,18 +250,18 @@ void Game::UpdateGamePlay()
 		return;
 	}
 
-	if (!MoveTetrominoInBoard(Movement))
+	if (!MoveTetrominoInBoard(Movement_))
 	{
-		if (Movement == Tetromino::EMovement::Down)
+		if (Movement_ == Tetromino::EMovement::Down)
 		{
-			CurrentRemoveLine += GameBoard->Update();
+			CurrentRemoveLine_ += Board_->Update();
 
-			CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
+			CurrentTetromino = Tetrominos_.erase(CurrentTetromino);
 			EraseCurrentTetromino();
 
 			if (!BatchCurrentTetromino())
 			{
-				CurrentGameState = EGameState::Done;
+				CurrentGameState_ = EGameState::Done;
 				Console::Clear();
 			}
 		}
@@ -274,20 +274,20 @@ void Game::UpdateGameMenu()
 
 void Game::ResetGame()
 {
-	for (auto& GameTetromino : GameTetrominos)
+	for (auto& GameTetromino : Tetrominos_)
 	{
 		GameTetromino.reset();
 	}
 
-	GameTetrominos.resize(0);
-	GameBoard.reset();
+	Tetrominos_.resize(0);
+	Board_.reset();
 
 	InitGameTetromino();
 	InitGameBoard();
 
-	CurrentRemoveLine = 0;
-	bCanMove = false;
-	bCanMoveToBottom = false;
+	CurrentRemoveLine_ = 0;
+	bCanMove_ = false;
+	bCanMoveToBottom_ = false;
 }
 
 void Game::DrawConsoleTetrisTitle(const Vec2i& InPosition, const Console::ETextColor& InColor)
@@ -319,7 +319,7 @@ void Game::DrawTetrominos(const Vec2i& InPosition)
 {
 	Vec2i TetrominoPosition = InPosition;
 
-	for (auto& TetrominoElement = GameTetrominos.begin(); TetrominoElement != GameTetrominos.end(); ++TetrominoElement)
+	for (auto& TetrominoElement = Tetrominos_.begin(); TetrominoElement != Tetrominos_.end(); ++TetrominoElement)
 	{
 		if (TetrominoElement != CurrentTetromino)
 		{
@@ -329,19 +329,19 @@ void Game::DrawTetrominos(const Vec2i& InPosition)
 	}
 }
 
-bool Game::MoveTetrominoInBoard(const Tetromino::EMovement& InMovement)
+bool Game::MoveTetrominoInBoard(const Tetromino::EMovement& InMovement_)
 {
 	bool bIsMoveTetromino = true;
 
-	GameBoard->UnregisterTetromino(*CurrentTetromino->get());
-	CurrentTetromino->get()->Move(InMovement);
+	Board_->UnregisterTetromino(*CurrentTetromino->get());
+	CurrentTetromino->get()->Move(InMovement_);
 
-	if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+	if (!Board_->RegisterTetromino(*CurrentTetromino->get()))
 	{
 		bIsMoveTetromino = false;
 
-		CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement));
-		GameBoard->RegisterTetromino(*CurrentTetromino->get());
+		CurrentTetromino->get()->Move(Tetromino::GetCountMovement(Movement_));
+		Board_->RegisterTetromino(*CurrentTetromino->get());
 	}
 
 	return bIsMoveTetromino;
@@ -349,17 +349,17 @@ bool Game::MoveTetrominoInBoard(const Tetromino::EMovement& InMovement)
 
 void Game::EraseCurrentTetromino()
 {
-	CurrentTetromino = GameTetrominos.erase(CurrentTetromino);
+	CurrentTetromino = Tetrominos_.erase(CurrentTetromino);
 }
 
 bool Game::BatchCurrentTetromino()
 {
 	bool bIsSuccessBatch = true;
 
-	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition));
-	GameTetrominos.push_back(std::move(NewTetromino));
+	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
+	Tetrominos_.push_back(std::move(NewTetromino));
 
-	if (!GameBoard->RegisterTetromino(*CurrentTetromino->get()))
+	if (!Board_->RegisterTetromino(*CurrentTetromino->get()))
 	{
 		bIsSuccessBatch = false;
 	}

@@ -1,16 +1,16 @@
 #include "Timer.h"
 
 Timer::Timer(Timer&& InInstance) noexcept
-	: BaseTime(InInstance.BaseTime)
-	, PrevTime(InInstance.PrevTime)
-	, CurrTime(InInstance.CurrTime)
+	: BaseTime_(InInstance.BaseTime_)
+	, PrevTime_(InInstance.PrevTime_)
+	, CurrTime_(InInstance.CurrTime_)
 {
 }
 
 Timer::Timer(const Timer& InInstance) noexcept
-	: BaseTime(InInstance.BaseTime)
-	, PrevTime(InInstance.PrevTime)
-	, CurrTime(InInstance.CurrTime)
+	: BaseTime_(InInstance.BaseTime_)
+	, PrevTime_(InInstance.PrevTime_)
+	, CurrTime_(InInstance.CurrTime_)
 {
 }
 
@@ -20,27 +20,27 @@ Timer::~Timer()
 
 float Timer::DeltaTime()
 {
-	std::chrono::duration<float> delta = std::chrono::duration_cast<std::chrono::duration<float>>(CurrTime - PrevTime);
+	std::chrono::duration<float> delta = std::chrono::duration_cast<std::chrono::duration<float>>(CurrTime_ - PrevTime_);
 	return delta.count();
 }
 
 float Timer::TotalTime()
 {
-	std::chrono::duration<float> total = std::chrono::duration_cast<std::chrono::duration<float>>(CurrTime - BaseTime);
+	std::chrono::duration<float> total = std::chrono::duration_cast<std::chrono::duration<float>>(CurrTime_ - BaseTime_);
 	return total.count();
 }
 
 void Timer::Tick()
 {
-	PrevTime = CurrTime;
-	CurrTime = std::chrono::high_resolution_clock::now();
+	PrevTime_ = CurrTime_;
+	CurrTime_ = std::chrono::high_resolution_clock::now();
 }
 
 void Timer::Reset()
 {
 	std::chrono::high_resolution_clock::time_point CurrentTime = std::chrono::high_resolution_clock::now();
 
-	BaseTime = CurrentTime;
-	PrevTime = CurrentTime;
-	CurrTime = CurrentTime;
+	BaseTime_ = CurrentTime;
+	PrevTime_ = CurrentTime;
+	CurrTime_ = CurrentTime;
 }

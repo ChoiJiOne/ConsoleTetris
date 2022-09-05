@@ -14,7 +14,7 @@ public:
 	 */
 	enum class EColor : int32_t
 	{
-		Empty  = 0,
+		None  = 0,
 		Blue   = 1,
 		Green  = 2,
 		Aqua   = 3,
@@ -42,8 +42,8 @@ public:
 	 * 블록 클래스의 생성자입니다.
 	 */
 	Block() noexcept
-		: Color(EColor::Empty)
-		, State(EState::Empty) {}
+		: Color_(EColor::None)
+		, State_(EState::Empty) {}
 
 
 	/**
@@ -53,8 +53,8 @@ public:
 	 * @param InState - 블록의 상태입니다.
 	 */
 	Block(const EColor& InColor, const EState& InState) noexcept
-		: Color(InColor)
-		, State(InState) {}
+		: Color_(InColor)
+		, State_(InState) {}
 
 
 	/**
@@ -63,8 +63,8 @@ public:
 	 * @param InInstance - 복사를 수행할 Block 객체입니다.
 	 */
 	Block(Block&& InInstance) noexcept
-		: Color(InInstance.Color)
-		, State(InInstance.State) {}
+		: Color_(InInstance.Color_)
+		, State_(InInstance.State_) {}
 
 
 	/**
@@ -73,8 +73,8 @@ public:
 	 * @param InInstance - 복사를 수행할 Block 객체입니다.
 	 */
 	Block(const Block& InInstance) noexcept
-		: Color(InInstance.Color)
-		, State(InInstance.State) {}
+		: Color_(InInstance.Color_)
+		, State_(InInstance.State_) {}
 
 
 	/**
@@ -88,8 +88,8 @@ public:
 	{
 		if (this == &InInstance) return *this;
 
-		Color = InInstance.Color;
-		State = InInstance.State;
+		Color_ = InInstance.Color_;
+		State_ = InInstance.State_;
 
 		return *this;
 	}
@@ -106,8 +106,8 @@ public:
 	{
 		if (this == &InInstance) return *this;
 
-		Color = InInstance.Color;
-		State = InInstance.State;
+		Color_ = InInstance.Color_;
+		State_ = InInstance.State_;
 
 		return *this;
 	}
@@ -124,7 +124,7 @@ public:
 	 *
 	 * @return 블록의 색상을 반환합니다.
 	 */
-	EColor GetColor() const { return Color; }
+	EColor GetColor() const { return Color_; }
 
 
 	/**
@@ -132,7 +132,7 @@ public:
 	 *
 	 * @return 블록의 상태를 얻습니다.
 	 */
-	EState GetState() const { return State; }
+	EState GetState() const { return State_; }
 
 
 	/**
@@ -147,11 +147,11 @@ private:
 	/**
 	 * 블록의 색상입니다.
 	 */
-	EColor Color;
+	EColor Color_;
 
 
 	/**
 	 * 블록의 상태입니다.
 	 */
-	EState State;
+	EState State_;
 };

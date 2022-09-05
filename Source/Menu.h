@@ -84,6 +84,8 @@ public:
 
 	/**
 	 * 현재 선택된 요소를 얻습니다.
+	 * 
+	 * @return 현재 선택된 요소의 문자열을 반환합니다.
 	 */
 	const std::string& GetCurrentSelectElement() const;
 
@@ -110,23 +112,23 @@ private:
 	/**
 	 * 메뉴 내의 요소들입니다.
 	 */
-	std::vector<std::string> Elements;
+	std::vector<std::string> Elements_;
 
 
 	/**
 	 * 현재 선택 중인 메뉴 요소입니다.
 	 */
-	int32_t CurrentSelectElement;
+	int32_t CurrentSelectElement_;
 
 
 	/**
 	 * 메뉴 중 한 요소를 선택했을 때의 색상입니다.
 	 */
-	Console::ETextColor SelectColor;
+	Console::ETextColor SelectColor_;
 
 
 	/**
 	 * 메뉴 중 한 요소를 선택하지 않았을 때의 색상입니다.
 	 */
-	Console::ETextColor NormalColor;
+	Console::ETextColor NormalColor_;
 };

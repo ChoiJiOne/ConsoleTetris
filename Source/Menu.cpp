@@ -5,27 +5,27 @@ Menu::Menu(
 	const std::vector<std::string>& InElements, 
 	const Console::ETextColor& InSelectColor, 
 	const Console::ETextColor& InNormalColor
-): Elements(InElements),
-   SelectColor(InSelectColor), 
-   NormalColor(InNormalColor), 
-   CurrentSelectElement(0)
+): Elements_(InElements),
+   SelectColor_(InSelectColor), 
+   NormalColor_(InNormalColor), 
+   CurrentSelectElement_(0)
 {
-	CHECK((Elements.size() > 0), "number of menu is 0");
+	CHECK((Elements_.size() > 0), "number of menu is 0");
 }
 
 Menu::Menu(Menu&& InInstance) noexcept
-	: Elements(InInstance.Elements)
-	, CurrentSelectElement(InInstance.CurrentSelectElement)
-	, SelectColor(InInstance.SelectColor)
-	, NormalColor(InInstance.NormalColor)
+	: Elements_(InInstance.Elements_)
+	, CurrentSelectElement_(InInstance.CurrentSelectElement_)
+	, SelectColor_(InInstance.SelectColor_)
+	, NormalColor_(InInstance.NormalColor_)
 {
 }
 
 Menu::Menu(const Menu& InInstance) noexcept
-	: Elements(InInstance.Elements)
-	, CurrentSelectElement(InInstance.CurrentSelectElement)
-	, SelectColor(InInstance.SelectColor)
-	, NormalColor(InInstance.NormalColor)
+	: Elements_(InInstance.Elements_)
+	, CurrentSelectElement_(InInstance.CurrentSelectElement_)
+	, SelectColor_(InInstance.SelectColor_)
+	, NormalColor_(InInstance.NormalColor_)
 {
 }
 
@@ -37,10 +37,10 @@ Menu& Menu::operator=(Menu&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Elements = InInstance.Elements;
-	CurrentSelectElement = InInstance.CurrentSelectElement;
-	SelectColor = InInstance.SelectColor;
-	NormalColor = InInstance.NormalColor;
+	Elements_ = InInstance.Elements_;
+	CurrentSelectElement_ = InInstance.CurrentSelectElement_;
+	SelectColor_ = InInstance.SelectColor_;
+	NormalColor_ = InInstance.NormalColor_;
 
 	return *this;
 }
@@ -49,17 +49,17 @@ Menu& Menu::operator=(const Menu& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Elements = InInstance.Elements;
-	CurrentSelectElement = InInstance.CurrentSelectElement;
-	SelectColor = InInstance.SelectColor;
-	NormalColor = InInstance.NormalColor;
+	Elements_ = InInstance.Elements_;
+	CurrentSelectElement_ = InInstance.CurrentSelectElement_;
+	SelectColor_ = InInstance.SelectColor_;
+	NormalColor_ = InInstance.NormalColor_;
 
 	return *this;
 }
 
 const std::string& Menu::GetCurrentSelectElement() const
 {
-	return Elements[CurrentSelectElement];
+	return Elements_.at(CurrentSelectElement_);
 }
 
 void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
@@ -67,11 +67,11 @@ void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
 	switch (InSelectDirection)
 	{
 	case ESelectDirection::Up:
-		CurrentSelectElement = (CurrentSelectElement - 1) % (Elements.size());
+		CurrentSelectElement_ = (CurrentSelectElement_ - 1) % (Elements_.size());
 		break;
 
 	case ESelectDirection::Down:
-		CurrentSelectElement = (CurrentSelectElement + 1) % (Elements.size());
+		CurrentSelectElement_ = (CurrentSelectElement_ + 1) % (Elements_.size());
 		break;
 
 	default:
@@ -83,15 +83,15 @@ void Menu::Draw(const Vec2i& InPosition)
 {
 	Vec2i Position = InPosition;
 
-	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements.size(); ++ElementIndex)
+	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements_.size(); ++ElementIndex)
 	{
-		if (ElementIndex == CurrentSelectElement)
+		if (ElementIndex == CurrentSelectElement_)
 		{
-			Console::DrawText(Position.x, Position.y, Elements[ElementIndex], SelectColor);
+			Console::DrawText(Position.x, Position.y, Elements_[ElementIndex], SelectColor_);
 		}
 		else
 		{
-			Console::DrawText(Position.x, Position.y, Elements[ElementIndex], NormalColor);
+			Console::DrawText(Position.x, Position.y, Elements_[ElementIndex], NormalColor_);
 		}
 
 		Position.y += 1;

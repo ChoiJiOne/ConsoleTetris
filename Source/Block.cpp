@@ -6,13 +6,13 @@ void Block::Draw(const Vec2i& InPosition)
 {
 	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
 
-	if (Color == EColor::Empty)
+	if (Color_ == EColor::None)
 	{
 		Console::DrawText(InPosition.x, InPosition.y, "  ", ConsoleColor);
 		return;
 	}
 
-	switch (Color)
+	switch (Color_)
 	{
 	case EColor::Blue:
 		ConsoleColor = Console::ETextColor::Blue;

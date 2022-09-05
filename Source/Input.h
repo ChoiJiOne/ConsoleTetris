@@ -108,7 +108,7 @@ public:
 	 * 
 	 * @return 키의 입력 상태를 반환합니다.
 	 */
-	EPressState GetKeyPressState(const EKeyType& InKeyType);
+	EPressState GetKeyPressState(const EKeyType& InKeyType) const;
 
 
 private:
@@ -119,18 +119,18 @@ private:
 	 * 
 	 * @return 키가 눌렸다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	bool IsPressKey(const EKeyType& InKeyType);
+	bool IsPressKey(const EKeyType& InKeyType) const;
 
 
 private:
 	/**
 	 * 업데이트 이전의 키 상태입니다.
 	 */
-	std::unordered_map<EKeyType, bool> PrevKeyState;
+	std::unordered_map<EKeyType, bool> PrevKeyState_;
 
 
 	/**
 	 * 업데이트 이후의 키 상태입니다.
 	 */
-	std::unordered_map<EKeyType, bool> CurrKeyState;
+	std::unordered_map<EKeyType, bool> CurrKeyState_;
 };

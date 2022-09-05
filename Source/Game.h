@@ -207,43 +207,43 @@ private:
 	/**
 	 * 게임 종료 여부를 확인합니다.
 	 */
-	bool bIsDone = false;
+	bool bIsDone_ = false;
 
 
 	/**
 	 * 테트로미노가 움직일 수 있는지를 확인합니다.
 	 */
-	bool bCanMove = false;
+	bool bCanMove_ = false;
 
 
 	/**
 	 * 테트로미노가 가장 아래칸으로 이동할 수 있는지 확인합니다.
 	 */
-	bool bCanMoveToBottom = false;
+	bool bCanMoveToBottom_ = false;
 
 
 	/**
 	 * 현재 게임 상태입니다.
 	 */
-	EGameState CurrentGameState = EGameState::Start;
+	EGameState CurrentGameState_ = EGameState::Start;
 
 
 	/**
 	 * 테트리스 게임 내에서 입력 처리를 수행합니다.
 	 */
-	Input GameInput;
+	Input Input_;
 
 
 	/**
 	 * 테트리스 게임 내의 보드입니다.
 	 */
-	std::unique_ptr<Board> GameBoard = nullptr;
+	std::unique_ptr<Board> Board_ = nullptr;
 
 
 	/**
 	 * 테트리스 게임 내의 테트로미노들입니다.
 	 */
-	std::list<std::unique_ptr<Tetromino>> GameTetrominos;
+	std::list<std::unique_ptr<Tetromino>> Tetrominos_;
 
 
 	/**
@@ -255,47 +255,47 @@ private:
 	/**
 	 * 테트리스 게임의 메뉴입니다.
 	 */
-	std::unordered_map<EGameState, std::unique_ptr<Menu>> GameMenus;
+	std::unordered_map<EGameState, std::unique_ptr<Menu>> Menus_;
 
 
 	/**
 	 * 테트리스 게임의 타이머입니다.
 	 */
-	Timer GameTimer;
+	Timer Timer_;
 
 
 	/**
 	 * 테트로미노의 시작점입니다.
 	 */
-	Vec2i StartPosition;
+	Vec2i StartPosition_;
 
 
 	/**
 	 * 테트로미노의 움직임 방향입니다.
 	 */
-	Tetromino::EMovement Movement = Tetromino::EMovement::None;
+	Tetromino::EMovement Movement_ = Tetromino::EMovement::None;
 
 
 	/**
 	 * 테트리스 게임의 최대 스텝 시간입니다.
 	 */
-	float MaxStepTime = 1.5f;
+	float MaxStepTime_ = 1.5f;
 
 
 	/**
 	 * 테트리스 게임의 현재 스텝 시간입니다.
 	 */
-	float CurrentStepTime = 0.0f;
+	float CurrentStepTime_ = 0.0f;
 
 
 	/**
 	 * 현재 삭제한 라인 수입니다.
 	 */
-	int32_t CurrentRemoveLine = 0;
+	int32_t CurrentRemoveLine_ = 0;
 
 
 	/**
 	 * 키 타입에 대응하는 테트로미노의 움직임입니다.
 	 */
-	std::unordered_map<Input::EKeyType, Tetromino::EMovement> TetrominoMoveMappings;
+	std::unordered_map<Input::EKeyType, Tetromino::EMovement> TetrominoMoveMappings_;
 };
