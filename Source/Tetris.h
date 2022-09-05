@@ -106,6 +106,14 @@ public:
 
 
 	/**
+	 * 테트리스 게임 플레이의 여부 값을 변경합니다.
+	 * 
+	 * @param bIsContinue - 테트리스 게임 플레이의 여부 값입니다.
+	 */
+	void SetContinue(float bIsContinue) { bIsContinue_ = bIsContinue; }
+
+
+	/**
 	 * 플레이어가 삭제한 줄의 수를 얻습니다.
 	 * 
 	 * @return 플레이어가 삭제한 줄의 수를 반환합니다.

@@ -126,7 +126,6 @@ void Tetris::Draw(const Vec2i& InPosition)
 
 	Vec2i WaitTetrominoPosition = InPosition;
 	WaitTetrominoPosition.x += 12;
-	WaitTetrominoPosition.y += 1;
 
 	DrawWaitTetrominos(WaitTetrominoPosition);
 }
@@ -198,7 +197,7 @@ bool Tetris::BatchCurrentTetromino()
 {
 	bool bIsSuccessBatch = true;
 
-	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
+	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPositionFromBoard_));
 	WaitTetrominos_.push_back(std::move(NewTetromino));
 
 	if (!Board_->RegisterTetromino(*CurrentTetromino_->get()))
