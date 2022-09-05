@@ -75,8 +75,6 @@ public:
 	 * 테트리스 게임의 입력을 처리합니다.
 	 * 
 	 * @param InInput - 키 상태를 관리하는 입력 시스템입니다.
-	 * 
-	 * @return 게임을 중지하면 true, 그렇지 않으면 false를 반환합니다.
 	 */
 	void ProcessInput(const Input& InInput);
 
