@@ -103,8 +103,8 @@ void Game::InitGameTetromino()
 {
 	StartPosition_ = Vec2i(3, 0);
 
-	const int32_t CountOfTetromino = 6;
-	for (int32_t Count = 1; Count <= CountOfTetromino; ++Count)
+	const int32_t MaxWaitTetromino = 6;
+	for (int32_t Count = 1; Count <= MaxWaitTetromino; ++Count)
 	{
 		std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
 		WaitTetrominos_.push_back(std::move(NewTetromino));
