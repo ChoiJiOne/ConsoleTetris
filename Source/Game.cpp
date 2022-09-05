@@ -8,9 +8,9 @@ Game::~Game()
 		GameMenu.second.reset();
 	}
 
-	for (auto& GameTetromino : Tetrominos_)
+	for (auto& WaitTetromino : WaitTetrominos_)
 	{
-		GameTetromino.reset();
+		WaitTetromino.reset();
 	}
 
 	Board_.reset();
@@ -107,10 +107,10 @@ void Game::InitGameTetromino()
 	for (int32_t Count = 1; Count <= CountOfTetromino; ++Count)
 	{
 		std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
-		Tetrominos_.push_back(std::move(NewTetromino));
+		WaitTetrominos_.push_back(std::move(NewTetromino));
 	}
 
-	CurrentTetromino = Tetrominos_.begin();
+	CurrentTetromino = WaitTetrominos_.begin();
 }
 
 void Game::InitGameBoard()
@@ -256,7 +256,7 @@ void Game::UpdateGamePlay()
 		{
 			CurrentRemoveLine_ += Board_->Update();
 
-			CurrentTetromino = Tetrominos_.erase(CurrentTetromino);
+			CurrentTetromino = WaitTetrominos_.erase(CurrentTetromino);
 			EraseCurrentTetromino();
 
 			if (!BatchCurrentTetromino())
@@ -274,12 +274,12 @@ void Game::UpdateGameMenu()
 
 void Game::ResetGame()
 {
-	for (auto& GameTetromino : Tetrominos_)
+	for (auto& WaitTetromino : WaitTetrominos_)
 	{
-		GameTetromino.reset();
+		WaitTetromino.reset();
 	}
 
-	Tetrominos_.resize(0);
+	WaitTetrominos_.resize(0);
 	Board_.reset();
 
 	InitGameTetromino();
@@ -319,7 +319,7 @@ void Game::DrawTetrominos(const Vec2i& InPosition)
 {
 	Vec2i TetrominoPosition = InPosition;
 
-	for (auto& TetrominoElement = Tetrominos_.begin(); TetrominoElement != Tetrominos_.end(); ++TetrominoElement)
+	for (auto& TetrominoElement = WaitTetrominos_.begin(); TetrominoElement != WaitTetrominos_.end(); ++TetrominoElement)
 	{
 		if (TetrominoElement != CurrentTetromino)
 		{
@@ -349,7 +349,7 @@ bool Game::MoveTetrominoInBoard(const Tetromino::EMovement& InMovement_)
 
 void Game::EraseCurrentTetromino()
 {
-	CurrentTetromino = Tetrominos_.erase(CurrentTetromino);
+	CurrentTetromino = WaitTetrominos_.erase(CurrentTetromino);
 }
 
 bool Game::BatchCurrentTetromino()
@@ -357,7 +357,7 @@ bool Game::BatchCurrentTetromino()
 	bool bIsSuccessBatch = true;
 
 	std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Tetromino::CreateRandomTetromino(StartPosition_));
-	Tetrominos_.push_back(std::move(NewTetromino));
+	WaitTetrominos_.push_back(std::move(NewTetromino));
 
 	if (!Board_->RegisterTetromino(*CurrentTetromino->get()))
 	{

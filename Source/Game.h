@@ -241,9 +241,9 @@ private:
 
 
 	/**
-	 * 테트리스 게임 내의 테트로미노들입니다.
+	 * 테트리스 게임 내의 대기 중인 테트로미노들입니다.
 	 */
-	std::list<std::unique_ptr<Tetromino>> Tetrominos_;
+	std::list<std::unique_ptr<Tetromino>> WaitTetrominos_;
 
 
 	/**
