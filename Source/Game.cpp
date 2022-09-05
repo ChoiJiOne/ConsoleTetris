@@ -63,17 +63,25 @@ void Game::ProcessInput()
 	}
 	else
 	{
-		if (Input_.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
-		{
-			Menus_[CurrentGameState_]->MoveSelect(Menu::ESelectDirection::Up);
-		}
+		Menus_[CurrentGameState_]->PrecessInput(Input_);
+	}
+}
 
-		if (Input_.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
-		{
-			Menus_[CurrentGameState_]->MoveSelect(Menu::ESelectDirection::Down);
-		}
+void Game::Update()
+{
+	if (CurrentGameState_ == EGameState::Play)
+	{
+		Tetris_.Update(Timer_.DeltaTime());
 
-		if (Input_.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
+		if (!Tetris_.IsContinue())
+		{
+			CurrentGameState_ = EGameState::Paused;
+			Console::Clear();
+		}
+	}
+	else
+	{
+		if (Menus_[CurrentGameState_]->IsSwitch())
 		{
 			if (!Menus_[CurrentGameState_]->GetCurrentSelectElement().compare("■ 게임 시작"))
 			{
@@ -99,25 +107,6 @@ void Game::ProcessInput()
 				Tetris_.Reset();
 			}
 		}
-	}
-}
-
-void Game::Update()
-{
-	if (CurrentGameState_ == EGameState::Play)
-	{
-		Tetris_.Update(Timer_.DeltaTime());
-
-		if (!Tetris_.IsContinue())
-		{
-			CurrentGameState_ = EGameState::Paused;
-			Console::Clear();
-		}
-	}
-	else
-	{
-
-
 	}
 }
 
