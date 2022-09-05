@@ -112,6 +112,7 @@ void Game::Update()
 					if (!CurrentSelectElement.compare("■ 게임 재시작"))
 					{
 						Tetris_.Reset();
+						Timer_.Reset();
 					}
 
 					break;
@@ -125,8 +126,18 @@ void Game::Draw()
 {
 	if (CurrentGameState_ == EGameState::Play)
 	{
-		Vec2i BoardPosition = Vec2i(7, 2);
+		Vec2i BoardPosition = Vec2i(9, 2);
 		Tetris_.Draw(BoardPosition);
+
+		Vec2i PlayTimePosition = Vec2i(0, 5);
+		int32_t PlayTime = static_cast<int32_t>(Timer_.TotalTime());
+		Console::DrawText(PlayTimePosition.x, PlayTimePosition.y, Text::Format(" 플레이 시간:%ds", PlayTime), Console::ETextColor::LightGreen);
+
+		Vec2i UserLevelPosition = Vec2i(0, 10);
+		Console::DrawText(UserLevelPosition.x, UserLevelPosition.y, Text::Format(" 레벨:%d", 1), Console::ETextColor::LightGreen);
+
+		Vec2i RemoveLinePosition = Vec2i(0, 15);
+		Console::DrawText(RemoveLinePosition.x, RemoveLinePosition.y, Text::Format(" 삭제한 라인:%d", Tetris_.GetRemoveLine()), Console::ETextColor::LightGreen);
 	}
 	else
 	{
