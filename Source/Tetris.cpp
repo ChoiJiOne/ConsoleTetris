@@ -104,17 +104,14 @@ void Tetris::Update(float InDeltaTime)
 		return;
 	}
 
-	if (!MoveTetrominoInBoard(Movement_))
+	if (!MoveTetrominoInBoard(Movement_) && Movement_ == Tetromino::EMovement::Down)
 	{
-		if (Movement_ == Tetromino::EMovement::Down)
-		{
-			CurrentRemoveLine_ += Board_->Update();
-			EraseCurrentTetromino();
+		CurrentRemoveLine_ += Board_->Update();
+		EraseCurrentTetromino();
 
-			if (!BatchCurrentTetromino())
-			{
-				bIsContinue_ = false;
-			}
+		if (!BatchCurrentTetromino())
+		{
+			bIsContinue_ = false;
 		}
 	}
 }
