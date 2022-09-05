@@ -1,5 +1,7 @@
 #pragma once
 
+class Input;
+
 #include "Console.h"
 #include "Vector.h"
 
@@ -91,11 +93,19 @@ public:
 
 
 	/**
-	 * 현재 선택된 요소를 이동합니다.
+	 * 다른 메뉴로 변경해야 하는지 확인합니다.
 	 * 
-	 * @param InSelectDirection 선택 이동 방향입니다.
+	 * @return 다른 메뉴로 변경해야 한다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	void MoveSelect(const ESelectDirection& InSelectDirection);
+	bool IsSwitch() const { return bIsSwitch; }
+
+
+	/**
+	 * 메뉴의 입력 처리를 수행합니다.
+	 *
+	 * @param InInput - 키 상태를 관리하는 입력 시스템입니다.
+	 */
+	void PrecessInput(const Input& InInput);
 
 
 	/**
@@ -110,6 +120,15 @@ public:
 
 private:
 	/**
+	 * 현재 선택된 요소를 이동합니다.
+	 *
+	 * @param InSelectDirection 선택 이동 방향입니다.
+	 */
+	void MoveSelect(const ESelectDirection& InSelectDirection);
+
+
+private:
+	/**
 	 * 메뉴 내의 요소들입니다.
 	 */
 	std::vector<std::string> Elements_;
@@ -118,7 +137,7 @@ private:
 	/**
 	 * 현재 선택 중인 메뉴 요소입니다.
 	 */
-	int32_t CurrentSelectElement_;
+	int32_t CurrentSelectElement_ = 0;
 
 
 	/**
@@ -131,4 +150,10 @@ private:
 	 * 메뉴 중 한 요소를 선택하지 않았을 때의 색상입니다.
 	 */
 	Console::ETextColor NormalColor_;
+
+
+	/**
+	 * 다른 메뉴로 변경해야 하는지 확인합니다.
+	 */
+	bool bIsSwitch = false;
 };

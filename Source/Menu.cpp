@@ -1,4 +1,5 @@
 #include "Macro.h"
+#include "Input.h"
 #include "Menu.h"
 
 Menu::Menu(
@@ -62,16 +63,40 @@ const std::string& Menu::GetCurrentSelectElement() const
 	return Elements_.at(CurrentSelectElement_);
 }
 
+void Menu::PrecessInput(const Input& InInput)
+{
+	bIsSwitch = false;
+
+	if (InInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
+	{
+		MoveSelect(Menu::ESelectDirection::Up);
+	}
+
+	if (InInput.GetKeyPressState(Input::EKeyType::Down) == Input::EPressState::Pressed)
+	{
+		MoveSelect(Menu::ESelectDirection::Down);
+	}
+
+	if (InInput.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
+	{
+		bIsSwitch = true;
+	}
+}
+
 void Menu::MoveSelect(const ESelectDirection& InSelectDirection)
 {
+	int32_t CurrentElementSize = static_cast<int32_t>(Elements_.size());
+
 	switch (InSelectDirection)
 	{
 	case ESelectDirection::Up:
-		CurrentSelectElement_ = (CurrentSelectElement_ - 1) % (Elements_.size());
+		CurrentSelectElement_--;
+		CurrentSelectElement_ = CurrentSelectElement_ < 0 ? (CurrentElementSize - 1) : (CurrentSelectElement_);
 		break;
 
 	case ESelectDirection::Down:
-		CurrentSelectElement_ = (CurrentSelectElement_ + 1) % (Elements_.size());
+		CurrentSelectElement_++;
+		CurrentSelectElement_ = CurrentSelectElement_ > (CurrentElementSize - 1) ? 0 : (CurrentSelectElement_);
 		break;
 
 	default:
