@@ -3,10 +3,6 @@
 #include <stdexcept>
 #include <crtdbg.h>
 
-#include "Board.h"
-#include "Tetromino.h"
-#include "Block.h"
-#include "Input.h"
 #include "Game.h"
 
 int main(void)
