@@ -2,6 +2,18 @@
 #include "Macro.h"
 #include "Block.h"
 
+std::unordered_map<Block::EColor, Console::ETextColor> Block::BlockColorMappings = {
+	{EColor::Blue,   Console::ETextColor::Blue   },
+	{EColor::Green,  Console::ETextColor::Green  },
+	{EColor::Aqua,   Console::ETextColor::Aqua   },
+	{EColor::Red,    Console::ETextColor::Red    },
+	{EColor::Purple, Console::ETextColor::Purple },
+	{EColor::Yellow, Console::ETextColor::Yellow },
+	{EColor::White,  Console::ETextColor::White  },
+	{EColor::Gray,   Console::ETextColor::Gray   } 
+	
+};
+
 void Block::Draw(const Vec2i& InPosition)
 {
 	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
@@ -12,44 +24,6 @@ void Block::Draw(const Vec2i& InPosition)
 		return;
 	}
 
-	switch (Color_)
-	{
-	case EColor::Blue:
-		ConsoleColor = Console::ETextColor::Blue;
-		break;
-
-	case EColor::Green:
-		ConsoleColor = Console::ETextColor::Green;
-		break;
-
-	case EColor::Aqua:
-		ConsoleColor = Console::ETextColor::Aqua;
-		break;
-
-	case EColor::Red:
-		ConsoleColor = Console::ETextColor::Red;
-		break;
-
-	case EColor::Purple:
-		ConsoleColor = Console::ETextColor::Purple;
-		break;
-
-	case EColor::Yellow:
-		ConsoleColor = Console::ETextColor::Yellow;
-		break;
-
-	case EColor::White:
-		ConsoleColor = Console::ETextColor::White;
-		break;
-
-	case EColor::Gray:
-		ConsoleColor = Console::ETextColor::Gray;
-		break;
-
-	default:
-		ENFORCE_THROW_EXCEPTION("undefined color type");
-		break;
-	}
-
+	ConsoleColor = BlockColorMappings.at(Color_);
 	Console::DrawText(InPosition.x, InPosition.y, "бс", ConsoleColor);
 }
