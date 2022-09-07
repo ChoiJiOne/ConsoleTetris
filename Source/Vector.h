@@ -26,7 +26,7 @@ struct Vec2i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 */
 	Vec2i(const Vec2i& InV) noexcept : x(InV.x), y(InV.y) {}
 
@@ -34,7 +34,7 @@ struct Vec2i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 */
 	Vec2i(Vec2i&& InV) noexcept : x(InV.x), y(InV.y) {}
 
@@ -42,9 +42,9 @@ struct Vec2i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec2i& operator=(const Vec2i& InV) noexcept
 	{
@@ -60,9 +60,9 @@ struct Vec2i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec2i& operator=(Vec2i&& InV) noexcept
 	{
@@ -111,7 +111,7 @@ struct Vec2f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 */
 	Vec2f(const Vec2f& InV) noexcept : x(InV.x), y(InV.y) {}
 
@@ -119,7 +119,7 @@ struct Vec2f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 */
 	Vec2f(Vec2f&& InV) noexcept : x(InV.x), y(InV.y) {}
 
@@ -127,9 +127,9 @@ struct Vec2f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec2f& operator=(const Vec2f& InV) noexcept
 	{
@@ -145,9 +145,9 @@ struct Vec2f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 2차원 벡터입니다.
+	 * @param InV - 복사할 2차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec2f& operator=(Vec2f&& InV) noexcept
 	{
@@ -197,7 +197,7 @@ struct Vec3i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 */
 	Vec3i(const Vec3i& InV) noexcept : x(InV.x), y(InV.y), z(InV.z) {}
 
@@ -205,7 +205,7 @@ struct Vec3i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 */
 	Vec3i(Vec3i&& InV) noexcept : x(InV.x), y(InV.y), z(InV.z) {}
 
@@ -213,9 +213,9 @@ struct Vec3i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec3i& operator=(const Vec3i& InV) noexcept
 	{
@@ -232,9 +232,9 @@ struct Vec3i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec3i& operator=(Vec3i&& InV) noexcept
 	{
@@ -291,7 +291,7 @@ struct Vec3f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 */
 	Vec3f(const Vec3f& InV) noexcept : x(InV.x), y(InV.y), z(InV.z) {}
 
@@ -299,7 +299,7 @@ struct Vec3f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 */
 	Vec3f(Vec3f&& InV) noexcept : x(InV.x), y(InV.y), z(InV.z) {}
 
@@ -307,9 +307,9 @@ struct Vec3f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec3f& operator=(const Vec3f& InV) noexcept
 	{
@@ -326,9 +326,9 @@ struct Vec3f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 3차원 벡터입니다.
+	 * @param InV - 복사할 3차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec3f& operator=(Vec3f&& InV) noexcept
 	{
@@ -386,7 +386,7 @@ struct Vec4i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 */
 	Vec4i(const Vec4i& InV) noexcept : x(InV.x), y(InV.y), z(InV.z), w(InV.w) {}
 
@@ -394,7 +394,7 @@ struct Vec4i
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 */
 	Vec4i(Vec4i&& InV) noexcept : x(InV.x), y(InV.y), z(InV.z), w(InV.w) {}
 
@@ -402,9 +402,9 @@ struct Vec4i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec4i& operator=(const Vec4i& InV) noexcept
 	{
@@ -422,9 +422,9 @@ struct Vec4i
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec4i& operator=(Vec4i&& InV) noexcept
 	{
@@ -489,7 +489,7 @@ struct Vec4f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 */
 	Vec4f(const Vec4f& InV) noexcept : x(InV.x), y(InV.y), z(InV.z), w(InV.w) {}
 
@@ -497,7 +497,7 @@ struct Vec4f
 	/**
 	 * 복사 생성자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 */
 	Vec4f(Vec4f&& InV) noexcept : x(InV.x), y(InV.y), z(InV.z), w(InV.w) {}
 
@@ -505,9 +505,9 @@ struct Vec4f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec4f& operator=(const Vec4f& InV) noexcept
 	{
@@ -525,9 +525,9 @@ struct Vec4f
 	/**
 	 * 대입 연산자입니다.
 	 *
-	 * @param InV - 복사를 수행할 4차원 벡터입니다.
+	 * @param InV - 복사할 4차원 벡터입니다.
 	 *
-	 * @return 대입을 수행한 벡터의 참조자를 반환합니다.
+	 * @return 대입한 벡터의 참조자를 반환합니다.
 	 */
 	Vec4f& operator=(Vec4f&& InV) noexcept
 	{
