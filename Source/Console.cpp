@@ -37,11 +37,21 @@ void Console::SetWindow(const int32_t& InPositionX, const int32_t& InPositionY, 
 	CHECK(MoveWindow(ConsoleWindowHandle, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, TRUE), "failed to move console window");
 }
 
+void Console::SetWindow(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight)
+{
+	SetWindow(InPosition.x, InPosition.y, InWidth, InHeight);
+}
+
 void Console::MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY)
 {
 	COORD ConsolePosition = { static_cast<SHORT>(2 * InPositionX), static_cast<SHORT>(InPositionY) };
 
 	CHECK(SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), ConsolePosition), "failed to move cursor");
+}
+
+void Console::MoveCursor(const Vec2i& InPosition)
+{
+	MoveCursor(InPosition.x, InPosition.y);
 }
 
 void Console::Clear()
@@ -55,4 +65,9 @@ void Console::DrawText(const int32_t& InPositionX, const int32_t& InPositionY, c
 	SetTextColor(InColor);
 
 	std::cout << InText;
+}
+
+void Console::DrawText(const Vec2i& InPosition, const std::string& InText, const ETextColor& InColor)
+{
+	DrawText(InPosition.x, InPosition.y, InText, InColor);
 }
