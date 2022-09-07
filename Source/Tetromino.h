@@ -57,7 +57,7 @@ public:
 	/**
 	 * 테트로미노 클래스의 복사 생성자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 테트로미노 객체입니다.
 	 */
 	Tetromino(Tetromino&& InInstance) noexcept;
 
@@ -65,7 +65,7 @@ public:
 	/**
 	 * 테트로미노 클래스의 복사 생성자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 테트로미노 객체입니다.
 	 */
 	Tetromino(const Tetromino& InInstance) noexcept;
 
@@ -73,9 +73,9 @@ public:
 	/**
 	 * 테트로미노 클래스의 대입 연산자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 테트로미노 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Tetromino& operator=(Tetromino&& InInstance) noexcept;
 
@@ -83,9 +83,9 @@ public:
 	/**
 	 * 테트로미노 클래스의 대입 연산자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 테트로미노 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Tetromino& operator=(const Tetromino& InInstance) noexcept;
 
