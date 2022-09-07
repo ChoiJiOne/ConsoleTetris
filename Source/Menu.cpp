@@ -112,17 +112,9 @@ void Menu::Draw(const Vec2i& InPosition)
 {
 	Vec2i Position = InPosition;
 
-	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements_.size(); ++ElementIndex)
+	for (std::vector<std::string>::size_type ElementIndex = 0; ElementIndex < Elements_.size(); ++ElementIndex, ++Position.y)
 	{
-		if (ElementIndex == CurrentSelectElement_)
-		{
-			Console::DrawText(Position.x, Position.y, Elements_[ElementIndex], SelectColor_);
-		}
-		else
-		{
-			Console::DrawText(Position.x, Position.y, Elements_[ElementIndex], NormalColor_);
-		}
-
-		Position.y += 1;
+		Console::ETextColor CurrentElementColor = (ElementIndex == CurrentSelectElement_) ? SelectColor_ : NormalColor_;
+		Console::DrawText(Position, Elements_[ElementIndex], CurrentElementColor);
 	}
 }
