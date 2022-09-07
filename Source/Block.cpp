@@ -25,5 +25,5 @@ void Block::Draw(const Vec2i& InPosition)
 	}
 
 	ConsoleColor = BlockColorMappings.at(Color_);
-	Console::DrawText(InPosition.x, InPosition.y, "бс", ConsoleColor);
+	Console::DrawText(InPosition, "бс", ConsoleColor);
 }
