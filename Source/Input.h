@@ -56,7 +56,7 @@ public:
 	/**
 	 * 입력 처리 클래스의 복사 생성자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 */
 	Input(Input&& InInstance) noexcept;
 	
@@ -64,7 +64,7 @@ public:
 	/**
 	 * 입력 처리 클래스의 복사 생성자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 */
 	Input(const Input& InInstance) noexcept;
 
@@ -78,9 +78,9 @@ public:
 	/**
 	 * 입력 처리 클래스의 대입 연산자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 * 
-	 * @return 복사를 수행한 객체의 참조자를 반환합니다.
+	 * @return 복사한 객체의 참조자를 반환합니다.
 	 */
 	Input& operator=(Input&& InInstance) noexcept;
 	
@@ -88,9 +88,9 @@ public:
 	/**
 	 * 입력 처리 클래스의 대입 연산자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 *
-	 * @return 복사를 수행한 객체의 참조자를 반환합니다.
+	 * @return 복사한 객체의 참조자를 반환합니다.
 	 */
 	Input& operator=(const Input& InInstance) noexcept;
 
@@ -133,4 +133,10 @@ private:
 	 * 업데이트 이후의 키 상태입니다.
 	 */
 	std::unordered_map<EKeyType, bool> CurrKeyState_;
+
+	
+	/**
+	 * 키 타입의 배열입니다.
+	 */
+	static std::vector<EKeyType> KeyTypes;
 };

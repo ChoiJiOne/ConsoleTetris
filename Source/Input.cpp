@@ -1,6 +1,6 @@
 #include "Input.h"
 
-static Input::EKeyType KeyTypes[] = {
+std::vector<Input::EKeyType> Input::KeyTypes = {
 	Input::EKeyType::Up,
 	Input::EKeyType::Down,
 	Input::EKeyType::Left,
