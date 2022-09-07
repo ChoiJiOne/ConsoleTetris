@@ -96,31 +96,19 @@ public:
 
 
 	/**
-	 * 테트리스 게임을 중단합니다.
-	 */
-	void Paused();
-
-
-	/**
-	 * 중단된 테트리스 게임을 이어서 시작합니다.
-	 */
-	void Continue();
-
-
-	/**
-	 * 테트리스 게임을 중단했는지 확인합니다.
-	 * 
-	 * @return 테트리스 게임이 중단 되었다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool IsPaused() const { return bIsPaused_; }
-
-	
-	/**
 	 * 테트리스 게임을 계속 할 수 있는지 확인합니다.
-	 * 
+	 *
 	 * @return 테트리스 게임을 계속 할 수 있다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	bool IsProcess() const { return bIsProcess_; }
+	bool IsContinue() const { return bIsContinue_; }
+
+
+	/**
+	 * 테트리스 게임 플레이의 여부 값을 변경합니다.
+	 *
+	 * @param bIsContinue - 테트리스 게임 플레이의 여부 값입니다.
+	 */
+	void SetContinue(float bIsContinue) { bIsContinue_ = bIsContinue; }
 
 
 	/**
@@ -209,15 +197,9 @@ private:
 
 
 	/**
-	 * 테트리스 게임의 중단 여부를 확인합니다.
-	 */
-	bool bIsPaused_ = false;
-
-
-	/**
 	 * 플레이어가 테트리스 게임을 계속 할 수 있는지 확인합니다.
 	 */
-	bool bIsProcess_ = true;
+	bool bIsContinue_ = true;
 
 
 	/**

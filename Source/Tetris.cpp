@@ -27,8 +27,7 @@ void Tetris::Reset()
 {
 	bCanMove_ = false;
 	bCanMoveToBottom_ = false;
-	bIsPaused_ = false;
-	bIsProcess_ = true;
+	bIsContinue_ = true;
 	CurrentStepTime_ = 0.0f;
 	MaxStepTime_ = 1.5f;
 	CurrentRemoveLine_ = 0;
@@ -45,7 +44,7 @@ void Tetris::ProcessInput(const Input& InInput)
 {
 	bCanMove_ = false;
 	bCanMoveToBottom_ = false;
-	bIsProcess_ = true;
+	bIsContinue_ = true;
 
 	for (const auto& TetrominoMoveMapping : TetrominoMoveMappings_)
 	{
@@ -63,7 +62,7 @@ void Tetris::ProcessInput(const Input& InInput)
 
 	if (InInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
-		Paused();
+		bIsContinue_ = false;
 	}
 }
 
@@ -98,7 +97,7 @@ void Tetris::Update(float InDeltaTime)
 
 				if (!BatchCurrentTetromino())
 				{
-					bIsProcess_ = false;
+					bIsContinue_ = false;
 				}
 			}
 		}
@@ -113,7 +112,7 @@ void Tetris::Update(float InDeltaTime)
 
 		if (!BatchCurrentTetromino())
 		{
-			bIsProcess_ = false;
+			bIsContinue_ = false;
 		}
 	}
 }
@@ -127,16 +126,6 @@ void Tetris::Draw(const Vec2i& InPosition)
 	WaitTetrominoPosition.x += 12;
 
 	DrawWaitTetrominos(WaitTetrominoPosition);
-}
-
-void Tetris::Paused()
-{
-	bIsPaused_ = true;
-}
-
-void Tetris::Continue()
-{
-	bIsPaused_ = false;
 }
 
 void Tetris::SetStepTime(float InStepTime)
