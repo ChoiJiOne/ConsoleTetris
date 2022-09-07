@@ -87,7 +87,7 @@ public:
 	 *
 	 * @param InInstance - 복사할 Block 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Block& operator=(Block&& InInstance) noexcept
 	{
@@ -106,7 +106,7 @@ public:
 	 *
 	 * @param InInstance - 복사할 Block 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Block& operator=(const Block& InInstance) noexcept
 	{
