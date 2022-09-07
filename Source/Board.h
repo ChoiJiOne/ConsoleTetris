@@ -24,7 +24,7 @@ public:
 	/**
 	 * 테트리스 보드 클래스의 복사 생성자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 보드 객체입니다.
 	 */
 	Board(Board&& InInstance) noexcept;
 
@@ -32,7 +32,7 @@ public:
 	/**
 	 * 테트리스 보드 클래스의 복사 생성자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 보드 객체입니다.
 	 */
 	Board(const Board& InInstance) noexcept;
 
@@ -46,9 +46,9 @@ public:
 	/**
 	 * 테트리스 보드 클래스의 대입 연산자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 보드 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Board& operator=(Board&& InInstance) noexcept;
 
@@ -56,9 +56,9 @@ public:
 	/**
 	 * 테트리스 보드 클래스의 대입 연산자입니다.
 	 *
-	 * @param InInstance - 복사를 수행할 보드 객체입니다.
+	 * @param InInstance - 복사할 보드 객체입니다.
 	 *
-	 * @return 대입을 수행한 객체의 참조자를 반환합니다.
+	 * @return 대입한 객체의 참조자를 반환합니다.
 	 */
 	Board& operator=(const Board& InInstance) noexcept;
 
