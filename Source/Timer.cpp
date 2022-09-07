@@ -18,6 +18,28 @@ Timer::~Timer()
 {
 }
 
+Timer& Timer::operator=(Timer&& InInstance) noexcept
+{
+	if (this == &InInstance) return *this;
+
+	BaseTime_ = InInstance.BaseTime_;
+	PrevTime_ = InInstance.PrevTime_;
+	CurrTime_ = InInstance.CurrTime_;
+
+	return *this;
+}
+
+Timer& Timer::operator=(const Timer& InInstance) noexcept
+{
+	if (this == &InInstance) return *this;
+
+	BaseTime_ = InInstance.BaseTime_;
+	PrevTime_ = InInstance.PrevTime_;
+	CurrTime_ = InInstance.CurrTime_;
+
+	return *this;
+}
+
 float Timer::DeltaTime()
 {
 	std::chrono::duration<float> delta = std::chrono::duration_cast<std::chrono::duration<float>>(CurrTime_ - PrevTime_);

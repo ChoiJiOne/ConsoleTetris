@@ -19,7 +19,7 @@ public:
 	/**
 	 * 게임 타이머 클래스의 복사 생성자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 */
 	Timer(Timer&& InInstance) noexcept;
 
@@ -27,7 +27,7 @@ public:
 	/**
 	 * 게임 타이머 클래스의 복사 생성자입니다.
 	 * 
-	 * @param InInstance - 복사를 수행할 객체입니다.
+	 * @param InInstance - 복사할 객체입니다.
 	 */
 	Timer(const Timer& InInstance) noexcept;
 
@@ -36,6 +36,26 @@ public:
 	 * 게임 타이머 클래스의 가상 소멸자입니다.
 	 */
 	virtual ~Timer();
+
+
+	/**
+	 * 게임 타이머 클래스의 대입 연산자입니다.
+	 * 
+	 * @param InInstance - 복사할 객체입니다.
+	 *
+	 * @return 복사한 객체의 참조자를 반환합니다.
+	 */
+	Timer& operator=(Timer&& InInstance) noexcept;
+
+
+	/**
+	 * 게임 타이머 클래스의 대입 연산자입니다.
+	 *
+	 * @param InInstance - 복사할 객체입니다.
+	 *
+	 * @return 복사한 객체의 참조자를 반환합니다.
+	 */
+	Timer& operator=(const Timer& InInstance) noexcept;
 
 
 	/**
