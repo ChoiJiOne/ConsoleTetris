@@ -19,6 +19,7 @@ Menu::Menu(Menu&& InInstance) noexcept
 	, CurrentSelectElement_(InInstance.CurrentSelectElement_)
 	, SelectColor_(InInstance.SelectColor_)
 	, NormalColor_(InInstance.NormalColor_)
+	, bIsSwitch_(InInstance.bIsSwitch_)
 {
 }
 
@@ -27,6 +28,7 @@ Menu::Menu(const Menu& InInstance) noexcept
 	, CurrentSelectElement_(InInstance.CurrentSelectElement_)
 	, SelectColor_(InInstance.SelectColor_)
 	, NormalColor_(InInstance.NormalColor_)
+	, bIsSwitch_(InInstance.bIsSwitch_)
 {
 }
 
@@ -42,6 +44,7 @@ Menu& Menu::operator=(Menu&& InInstance) noexcept
 	CurrentSelectElement_ = InInstance.CurrentSelectElement_;
 	SelectColor_ = InInstance.SelectColor_;
 	NormalColor_ = InInstance.NormalColor_;
+	bIsSwitch_ = InInstance.bIsSwitch_;
 
 	return *this;
 }
@@ -54,6 +57,7 @@ Menu& Menu::operator=(const Menu& InInstance) noexcept
 	CurrentSelectElement_ = InInstance.CurrentSelectElement_;
 	SelectColor_ = InInstance.SelectColor_;
 	NormalColor_ = InInstance.NormalColor_;
+	bIsSwitch_ = InInstance.bIsSwitch_;
 
 	return *this;
 }
@@ -63,9 +67,9 @@ const std::string& Menu::GetCurrentSelectElement() const
 	return Elements_.at(CurrentSelectElement_);
 }
 
-void Menu::PrecessInput(const Input& InInput)
+void Menu::ProcessInput(const Input& InInput)
 {
-	bIsSwitch = false;
+	bIsSwitch_ = false;
 
 	if (InInput.GetKeyPressState(Input::EKeyType::Up) == Input::EPressState::Pressed)
 	{
@@ -79,7 +83,7 @@ void Menu::PrecessInput(const Input& InInput)
 
 	if (InInput.GetKeyPressState(Input::EKeyType::Enter) == Input::EPressState::Pressed)
 	{
-		bIsSwitch = true;
+		bIsSwitch_ = true;
 	}
 }
 

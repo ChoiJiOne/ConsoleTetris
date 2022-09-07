@@ -97,7 +97,7 @@ public:
 	 * 
 	 * @return 다른 메뉴로 변경해야 한다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	bool IsSwitch() const { return bIsSwitch; }
+	bool IsSwitch() const { return bIsSwitch_; }
 
 
 	/**
@@ -105,7 +105,7 @@ public:
 	 *
 	 * @param InInput - 키 상태를 관리하는 입력 시스템입니다.
 	 */
-	void PrecessInput(const Input& InInput);
+	void ProcessInput(const Input& InInput);
 
 
 	/**
@@ -155,5 +155,5 @@ private:
 	/**
 	 * 다른 메뉴로 변경해야 하는지 확인합니다.
 	 */
-	bool bIsSwitch = false;
+	bool bIsSwitch_ = false;
 };
