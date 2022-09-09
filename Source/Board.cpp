@@ -58,7 +58,7 @@ bool Board::RegisterTetromino(const Tetromino& InTetromino)
 
 	const Block TetrominoBlock = InTetromino.GetTetrominoBlock();
 	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const std::vector<Vec2i>& RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
@@ -74,7 +74,7 @@ void Board::UnregisterTetromino(const Tetromino& InTetromino)
 {
 	const Block EmptyBlock(Block::EColor::None, Block::EState::Empty);
 	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const std::vector<Vec2i>& RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
