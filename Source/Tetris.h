@@ -96,11 +96,31 @@ public:
 
 
 	/**
-	 * 테트리스 게임을 계속 할 수 있는지 확인합니다.
-	 *
-	 * @return 테트리스 게임을 계속 할 수 있다면 true, 그렇지 않다면 false를 반환합니다.
+	 * 테트리스 게임을 중지합니다.
 	 */
-	bool IsContinue() const { return bIsContinue_; }
+	void Pause() { bIsPaused_ = true; }
+
+
+	/**
+	 * 테트리스 게임을 재개합니다.
+	 */
+	void Resume() { bIsPaused_ = false; }
+
+
+	/**
+	 * 테트리스 게임이 중지 되었는지 확인합니다.
+	 *
+	 * @return 테트리스 게임이 중지 되었다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsPaused() const { return bIsPaused_; }
+
+
+	/**
+	 * 테트리스 게임이 종료 되었는지 확인합니다.
+	 * 
+	 * @return 테트리스 게임이 종료 되었다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsDone() const { return bIsDone_; }
 
 
 	/**
@@ -189,9 +209,15 @@ private:
 
 
 	/**
-	 * 플레이어가 테트리스 게임을 계속 할 수 있는지 확인합니다.
+	 * 테트리스 게임이 종료 되었는지 확인합니다.
 	 */
-	bool bIsContinue_ = true;
+	bool bIsDone_ = false;
+
+
+	/**
+	 * 테트리스 게임이 중지 되었는지 확인합니다.
+	 */
+	bool bIsPaused_ = false;
 
 
 	/**
