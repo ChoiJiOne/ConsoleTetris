@@ -163,7 +163,7 @@ bool Board::CanRegisterTetromino(const Tetromino& InTetromino)
 {
 	const Block TetrominoBlock = InTetromino.GetTetrominoBlock();
 	const Vec2i AbsolutePosition = InTetromino.GetAbsolutePosition();
-	const std::vector<Vec2i> RelativePositions = InTetromino.GetRelativePositions();
+	const std::vector<Vec2i>& RelativePositions = InTetromino.GetRelativePositions();
 
 	for (const auto& RelativePosition : RelativePositions)
 	{
