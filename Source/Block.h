@@ -165,6 +165,6 @@ private:
 	/**
 	 * 블럭 색상에 대응하는 콘솔 색상입니다.
 	 */
-	static std::unordered_map<EColor, Console::ETextColor> BlockColorMappings;
+	static std::unordered_map<EColor, Console::ETextColor> BlockColorMappings_;
 
 };

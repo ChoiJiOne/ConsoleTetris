@@ -2,7 +2,7 @@
 #include "Macro.h"
 #include "Block.h"
 
-std::unordered_map<Block::EColor, Console::ETextColor> Block::BlockColorMappings = {
+std::unordered_map<Block::EColor, Console::ETextColor> Block::BlockColorMappings_ = {
 	{EColor::Blue,   Console::ETextColor::Blue   },
 	{EColor::Green,  Console::ETextColor::Green  },
 	{EColor::Aqua,   Console::ETextColor::Aqua   },
@@ -24,6 +24,6 @@ void Block::Draw(const Vec2i& InPosition)
 		return;
 	}
 
-	ConsoleColor = BlockColorMappings.at(Color_);
+	ConsoleColor = BlockColorMappings_.at(Color_);
 	Console::DrawText(InPosition, "бс", ConsoleColor);
 }
