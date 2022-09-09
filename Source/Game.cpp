@@ -62,7 +62,7 @@ void Game::Run()
 {
 	Timer_.Reset();
 
-	while (!bIsDone_)
+	while (!bIsQuit_)
 	{
 		ProcessInput();
 		Update();
@@ -91,10 +91,16 @@ void Game::Update()
 	{
 		Tetris_.Update(Timer_.DeltaTime());
 
-		if (!Tetris_.IsContinue())
+		if (Tetris_.IsPaused())
 		{
-			CurrentGameState_ = EGameState::Done;
 			Console::Clear();
+			CurrentGameState_ = EGameState::Paused;
+		}
+
+		if (Tetris_.IsDone())
+		{
+			Console::Clear();
+			CurrentGameState_ = EGameState::Done;
 		}
 	}
 	else
@@ -132,21 +138,23 @@ void Game::Draw()
 {
 	if (CurrentGameState_ == EGameState::Play)
 	{
-		Vec2i BoardPosition = Vec2i(9, 2);
+ 		Vec2i BoardPosition = Vec2i(8, 2);
 		Tetris_.Draw(BoardPosition);
 
-		Vec2i PlayTimePosition = Vec2i(0, 5);
+		Vec2i PlayTimePosition = Vec2i(1, 5);
 		int32_t PlayTime = static_cast<int32_t>(Timer_.TotalTime());
-		Console::DrawText(PlayTimePosition.x, PlayTimePosition.y, "플레이 시간", Console::ETextColor::LightGreen);
-		Console::DrawText(PlayTimePosition.x, PlayTimePosition.y + 1, Text::Format("%ds", PlayTime), Console::ETextColor::LightGreen);
+		Console::DrawText(PlayTimePosition.x, PlayTimePosition.y, Text::Format("%-5s:%ds", "Time", PlayTime), Console::ETextColor::LightGreen);
 
-		Vec2i UserLevelPosition = Vec2i(0, 10);
-		Console::DrawText(UserLevelPosition.x, UserLevelPosition.y, "레벨", Console::ETextColor::LightGreen);
-		Console::DrawText(UserLevelPosition.x, UserLevelPosition.y + 1, Text::Format("%d", 1), Console::ETextColor::LightGreen);
+		Vec2i UserLevelPosition = Vec2i(1, 6);
+		Console::DrawText(UserLevelPosition.x, UserLevelPosition.y, Text::Format("%-5s:%d", "Level", Level_), Console::ETextColor::LightGreen);
 
-		Vec2i RemoveLinePosition = Vec2i(0, 15);
-		Console::DrawText(RemoveLinePosition.x, RemoveLinePosition.y, Text::Format(" 삭제한 라인", Tetris_.GetRemoveLine()), Console::ETextColor::LightGreen);
-		Console::DrawText(RemoveLinePosition.x, RemoveLinePosition.y + 1, Text::Format("%d", Tetris_.GetRemoveLine()), Console::ETextColor::LightGreen);
+		Vec2i RemoveLinePosition = Vec2i(1, 7);
+		Console::DrawText(RemoveLinePosition.x, RemoveLinePosition.y, Text::Format("%-5s:%d", "Line", Tetris_.GetRemoveLine()), Console::ETextColor::LightGreen);
+
+		Vec2i FPSPosition = Vec2i(1, 8);
+		int32_t FPS = static_cast<int32_t>(1.0f / Timer_.DeltaTime());
+		FPS = std::clamp(FPS, 0, 60);
+		Console::DrawText(FPSPosition.x, FPSPosition.y, Text::Format("%-5s:%d", "FPS", FPS), Console::ETextColor::LightGreen);
 	}
 	else
 	{
@@ -204,7 +212,7 @@ void Game::UpdateStartMenu()
 	}
 	else if (!CurrentSelectMenuElement.compare("■ 게임 종료"))
 	{
-		bIsDone_ = true;
+		bIsQuit_ = true;
 	}
 }
 
@@ -241,7 +249,7 @@ void Game::UpdatePausedMenu()
 	if (!CurrentSelectMenuElement.compare("■ 게임 계속 플레이"))
 	{
 		CurrentGameState_ = EGameState::Play;
-		Tetris_.SetContinue(true);
+		Tetris_.Resume();
 	}
 	else if (!CurrentSelectMenuElement.compare("■ 게임 재시작"))
 	{
@@ -249,7 +257,7 @@ void Game::UpdatePausedMenu()
 	}
 	else if (!CurrentSelectMenuElement.compare("■ 게임 종료"))
 	{
-		bIsDone_ = true;
+		bIsQuit_ = true;
 	}
 }
 
@@ -263,6 +271,6 @@ void Game::UpdateDoneMenu()
 	}
 	else if (!CurrentSelectMenuElement.compare("■ 게임 종료"))
 	{
-		bIsDone_ = true;
+		bIsQuit_ = true;
 	}
 }

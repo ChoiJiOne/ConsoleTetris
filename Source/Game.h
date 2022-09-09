@@ -22,11 +22,11 @@ public:
 	 */
 	enum class EGameState
 	{
-		Start = 0,
+		Start  = 0,
 		Select = 1,
-		Play = 2,
+		Play   = 2,
 		Paused = 3,
-		Done = 4,
+		Done   = 4,
 	};
 
 public:
@@ -148,7 +148,7 @@ private:
 	/**
 	 * 게임 종료 여부를 확인합니다.
 	 */
-	bool bIsDone_ = false;
+	bool bIsQuit_ = false;
 
 
 	/**
