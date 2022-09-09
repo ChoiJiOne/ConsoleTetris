@@ -53,14 +53,8 @@ void Tetris::ProcessInput(const Input& InInput)
 		if (InInput.GetKeyPressState(TetrominoMoveMapping.first) == Input::EPressState::Pressed)
 		{
 			bCanMove_ = true;
+			bCanMoveToBottom_ = (TetrominoMoveMapping.first == Input::EKeyType::Space);
 			Movement_ = TetrominoMoveMapping.second;
-
-			if (TetrominoMoveMapping.first == Input::EKeyType::Space)
-			{
-				bCanMoveToBottom_ = true;
-			}
-
-			break;
 		}
 	}
 
@@ -89,37 +83,23 @@ void Tetris::Update(float InDeltaTime)
 
 	if (bCanMoveToBottom_)
 	{
-		bool bSuccess = true;
-
-		while (bSuccess)
+		while (true)
 		{
 			if (!MoveTetrominoInBoard(Movement_))
 			{
-				bSuccess = false;
-
 				CurrentRemoveLine_ += Board_->Update();
 				EraseCurrentTetromino();
-
-				if (!BatchCurrentTetromino())
-				{
-					bIsDone_ = true;
-				}
+				bIsDone_ = (!BatchCurrentTetromino());
+				return;
 			}
-
 		}
-
-		return;
 	}
 
 	if (!MoveTetrominoInBoard(Movement_) && Movement_ == Tetromino::EMovement::Down)
 	{
 		CurrentRemoveLine_ += Board_->Update();
 		EraseCurrentTetromino();
-
-		if (!BatchCurrentTetromino())
-		{
-			bIsDone_ = true;
-		}
+		bIsDone_ = (!BatchCurrentTetromino());
 	}
 }
 
