@@ -55,10 +55,12 @@ void Tetris::ProcessInput(const Input& InInput)
 			bCanMove_ = true;
 			bCanMoveToBottom_ = (TetrominoMoveMapping.first == Input::EKeyType::Space);
 			Movement_ = TetrominoMoveMapping.second;
+
+			break;
 		}
 	}
 
-	if (InInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed) 
+	if (InInput.GetKeyPressState(Input::EKeyType::Escape) == Input::EPressState::Pressed)
 	{
 		bIsPaused_ = true;
 	}
