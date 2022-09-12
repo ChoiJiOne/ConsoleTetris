@@ -153,7 +153,6 @@ void Game::Draw()
 
 		Vec2i FPSPosition = Vec2i(1, 8);
 		int32_t FPS = static_cast<int32_t>(1.0f / Timer_.DeltaTime());
-		FPS = std::clamp(FPS, 0, 60);
 		Console::DrawText(FPSPosition.x, FPSPosition.y, Text::Format("%-5s:%d", "FPS", FPS), Console::ETextColor::LightGreen);
 	}
 	else
