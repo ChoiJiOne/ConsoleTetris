@@ -185,7 +185,7 @@ void Tetromino::Draw(const Vec2i& InPosition)
 			}
 			else
 			{
-				Console::DrawText(CurrentPosition.x, CurrentPosition.y, "  ", Console::ETextColor::Black);
+				Console::DrawText(CurrentPosition.x, CurrentPosition.y, ". ", Console::ETextColor::White);
 			}
 		}
 	}
