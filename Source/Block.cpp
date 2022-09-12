@@ -16,11 +16,11 @@ std::unordered_map<Block::EColor, Console::ETextColor> Block::BlockColorMappings
 
 void Block::Draw(const Vec2i& InPosition)
 {
-	Console::ETextColor ConsoleColor = Console::ETextColor::Black;
+	Console::ETextColor ConsoleColor = Console::ETextColor::White;
 
-	if (Color_ == EColor::None)
+	if (State_ == EState::Empty)
 	{
-		Console::DrawText(InPosition.x, InPosition.y, "  ", ConsoleColor);
+		Console::DrawText(InPosition.x, InPosition.y, ". ", ConsoleColor);
 		return;
 	}
 
