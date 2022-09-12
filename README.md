@@ -41,11 +41,6 @@
 <br><br>
 
 
-## play
-<img src="play.gif" width="480" height="270">
-<br><br>
-
-
 ## Next
 - 2D Graphics 기반의 테트리스 게임 구현
 - 게임 내의 이펙트 효과 추가
