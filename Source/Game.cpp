@@ -214,6 +214,10 @@ void Game::UpdateStartMenu()
 	{
 		bIsQuit_ = true;
 	}
+	else
+	{
+		ENFORCE_THROW_EXCEPTION("undefined select menu element");
+	}
 }
 
 void Game::UpdateSelectMenu()
@@ -259,6 +263,10 @@ void Game::UpdatePausedMenu()
 	{
 		bIsQuit_ = true;
 	}
+	else
+	{
+		ENFORCE_THROW_EXCEPTION("undefined select menu element");
+	}
 }
 
 void Game::UpdateDoneMenu()
@@ -272,5 +280,9 @@ void Game::UpdateDoneMenu()
 	else if (!CurrentSelectMenuElement.compare("■ 게임 종료"))
 	{
 		bIsQuit_ = true;
+	}
+	else
+	{
+		ENFORCE_THROW_EXCEPTION("undefined select menu element");
 	}
 }
