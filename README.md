@@ -7,5 +7,5 @@
 - 다음 명령어를 수행하시면 소스 코드를 얻을 수 있습니다.
 
 ```
-> git clone https://github.com/ChoiJiOne/ConsoleTetris -b 0.0 --single-branch
+> git clone https://github.com/ChoiJiOne/ConsoleTetris --single-branch -b 0.0
 ```
