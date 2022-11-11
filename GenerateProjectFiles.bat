@@ -9,4 +9,5 @@ if exist ConsoleTetris (
 
 mkdir ConsoleTetris
 Bin\\premake5.exe vs2019
+start ConsoleTetris\\ConsoleTetris.sln
 PAUSE
