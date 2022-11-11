@@ -5,7 +5,6 @@ workspace "ConsoleTetris"
    configurations { 
       "Debug",
       "Release",
-      "Development",
       "Shipping",
    }
 
@@ -52,12 +51,6 @@ workspace "ConsoleTetris"
          runtime "Release"
          optimize "On"
          symbols "On"
-
-      filter "configurations:Development"
-            defines { "NDEBUG" }
-            runtime "Release"
-            optimize "On"
-            symbols "On"
 
       filter "configurations:Shipping"
             defines { "NDEBUG" }
