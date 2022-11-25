@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <unordered_map>
+
 
 /**
  * 입력 상태를 나타냅니다.
@@ -23,6 +25,21 @@ enum class EPressState : int32_t
 
 
 /**
+ * 키 코드값입니다.
+ */
+enum class EKeyCode : int32_t
+{
+    ENTER = 10,
+    ESC   = 27,
+    SPACE = 32,
+    DOWN  = 258,
+    UP    = 259,
+    LEFT  = 260,
+    RIGHT = 261
+};
+
+
+/**
  * 입력 처리를 수행하는 클래스입니다.
  * 이때, 이 입력 처리 클래스는 싱글턴입니다.
  */
@@ -36,7 +53,13 @@ public:
      */
     static InputManager& Get() { return InputManager_; }
 
-    
+
+    /**
+     * 입력 처리 상태를 업데이트합니다. 
+     */
+    void Tick();
+
+
     /**
      * 키보드 감지를 확인합니다.
      * 
@@ -64,4 +87,16 @@ private:
      * 이 인스턴스는 하나만 존재합니다.
      */
     static InputManager InputManager_;
+
+
+    /**
+     * Tick 호출 이전의 키 상태입니다.
+     */
+    std::unordered_map<EKeyCode, bool> PrevKeyState_;
+
+
+    /**
+     * Tick 호출 이후의 키 상태입니다.
+     */
+    std::unordered_map<EKeyCode, bool> CurrKeyState_;
 };

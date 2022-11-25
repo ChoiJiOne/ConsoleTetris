@@ -1,18 +1,57 @@
 #include "InputManager.h"
 
+#include <array>
 #include <ncurses.h>
 
 InputManager InputManager::InputManager_;
+
+static std::array<EKeyCode, 7> KeyCodes = {
+    EKeyCode::ENTER,
+    EKeyCode::ESC,
+    EKeyCode::SPACE,
+    EKeyCode::DOWN,
+    EKeyCode::UP,
+    EKeyCode::LEFT,
+    EKeyCode::RIGHT
+};
 
 InputManager::InputManager()
 {
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
+
+    PrevKeyState_.insert({EKeyCode::ENTER, false});
+    PrevKeyState_.insert({EKeyCode::ESC,   false});
+    PrevKeyState_.insert({EKeyCode::SPACE, false});
+    PrevKeyState_.insert({EKeyCode::UP,    false});
+    PrevKeyState_.insert({EKeyCode::LEFT,  false});
+    PrevKeyState_.insert({EKeyCode::RIGHT, false});
+    
+    CurrKeyState_.insert({EKeyCode::ENTER, false});
+    CurrKeyState_.insert({EKeyCode::ESC,   false});
+    CurrKeyState_.insert({EKeyCode::SPACE, false});
+    CurrKeyState_.insert({EKeyCode::UP,    false});
+    CurrKeyState_.insert({EKeyCode::LEFT,  false});
+    CurrKeyState_.insert({EKeyCode::RIGHT, false});
 }
 
 InputManager::~InputManager()
 {
+}
+
+void InputManager::Tick()
+{
+    for(const auto& KeyCode : KeyCodes)
+    {
+        PrevKeyState_[KeyCode] = CurrKeyState_[KeyCode];
+    }
+
+    if(IsDetectPressKeyboard())
+    {
+        EKeyCode KeyCode = static_cast<EKeyCode>(getch());
+        CurrKeyState_[KeyCode] = true;
+    }
 }
 
 bool InputManager::IsDetectPressKeyboard()
@@ -21,8 +60,15 @@ bool InputManager::IsDetectPressKeyboard()
     int32_t CurrentKey = getch();
 
     if (CurrentKey != ERR) 
-    {
-        bIsDetect = true;
+    {   
+        for(const auto& KeyCode : KeyCodes)
+        {
+            if(static_cast<int32_t>(KeyCode) == CurrentKey)
+            {
+                bIsDetect = true;
+            }
+        }
+
         ungetch(CurrentKey);
     }
 
