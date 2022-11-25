@@ -4,8 +4,23 @@
 
 #include "ConsoleManager.h"
 
+int kbhit(void)
+{
+    int ch = getch();
+
+    if (ch != ERR) {
+        ungetch(ch);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 int main(int argc, char* argv[]) 
 {
+    nodelay(stdscr, TRUE);
+    scrollok(stdscr, TRUE);
+
     ConsoleManager::Get().SetCursorVisible(true);
 
     ConsoleManager::Get().MoveCursor(3, 3);
@@ -14,8 +29,13 @@ int main(int argc, char* argv[])
     ConsoleManager::Get().MoveCursor(4, 3);
     printw("■■■■■■■■■■");
 
-	refresh();
-	getch();
+    while (1) {
+        if (kbhit()) {
+            printw("Key pressed! It was: %d\n", getch());
+        }
+        
+        refresh();
+    }
 
     return 0;
 }
