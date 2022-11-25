@@ -14,3 +14,17 @@ InputManager::InputManager()
 InputManager::~InputManager()
 {
 }
+
+bool InputManager::IsDetectPressKeyboard()
+{
+    bool bIsDetect = false;
+    int32_t CurrentKey = getch();
+
+    if (CurrentKey != ERR) 
+    {
+        bIsDetect = true;
+        ungetch(CurrentKey);
+    }
+
+    return bIsDetect;
+}
