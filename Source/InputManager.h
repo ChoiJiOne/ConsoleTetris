@@ -61,11 +61,13 @@ public:
 
 
     /**
-     * 키보드 감지를 확인합니다.
+     * 키의 입력 상태를 얻습니다.
      * 
-     * @return 키보드 입력이 감지되면 true, 그렇지 않으면 false를 반환합니다.
+     * @param InKeyCode - 검사할 키 코드값입니다.
+     * 
+     * @return 키 코드에 대응하는 키의 상태를 얻습니다.
      */
-    bool IsDetectPressKeyboard();
+    EPressState GetKeyPressState(const EKeyCode& InKeyCode) const;
 
 
 private:
@@ -79,6 +81,14 @@ private:
      * InputManager의 가상 소멸자입니다.
      */
     virtual ~InputManager();
+
+
+    /**
+     * 키보드 감지를 확인합니다.
+     * 
+     * @return 키보드 입력이 감지되면 true, 그렇지 않으면 false를 반환합니다.
+     */
+    bool IsDetectPressKeyboard();
 
 
 private:

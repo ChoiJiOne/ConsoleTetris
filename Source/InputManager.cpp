@@ -47,11 +47,46 @@ void InputManager::Tick()
         PrevKeyState_[KeyCode] = CurrKeyState_[KeyCode];
     }
 
+    for(const auto& KeyCode : KeyCodes)
+    {
+        CurrKeyState_[KeyCode] = false;
+    }
+
     if(IsDetectPressKeyboard())
     {
         EKeyCode KeyCode = static_cast<EKeyCode>(getch());
         CurrKeyState_[KeyCode] = true;
     }
+}
+
+EPressState InputManager::GetKeyPressState(const EKeyCode& InKeyCode) const
+{
+    EPressState PressState = EPressState::NONE;
+
+    if (PrevKeyState_.at(InKeyCode))
+	{
+		if (CurrKeyState_.at(InKeyCode))
+		{
+			PressState = EPressState::HELD;
+		}
+		else
+		{
+			PressState = EPressState::RELEASED;
+		}
+	}
+	else
+	{
+		if (CurrKeyState_.at(InKeyCode))
+		{
+			PressState = EPressState::PRESSED;
+		}
+		else
+		{
+			PressState = EPressState::NONE;
+		}
+	}
+
+	return PressState;
 }
 
 bool InputManager::IsDetectPressKeyboard()
@@ -66,10 +101,9 @@ bool InputManager::IsDetectPressKeyboard()
             if(static_cast<int32_t>(KeyCode) == CurrentKey)
             {
                 bIsDetect = true;
+                ungetch(CurrentKey);
             }
         }
-
-        ungetch(CurrentKey);
     }
 
     return bIsDetect;
