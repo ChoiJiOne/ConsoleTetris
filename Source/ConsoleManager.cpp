@@ -18,12 +18,11 @@ ConsoleManager::~ConsoleManager()
 
 void ConsoleManager::SetCursorVisible(bool bIsVisible)
 {
-    if(bIsVisible)
-    {
-        curs_set(1);
-    }
-    else 
-    {
-        curs_set(0);
-    }
+    int Mode = bIsVisible ? TRUE : FALSE;
+    curs_set(Mode);
+}
+
+void ConsoleManager::MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY)
+{
+    move(InPositionX, InPositionY);
 }

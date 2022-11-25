@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdint>
+
+
 /**
  * 콘솔 관련 처리를 수행하는 클래스입니다.
  * 이때, 이 콘솔 메니저 클래스는 싱글턴이고 
@@ -22,6 +25,15 @@ public:
      * @param bIsVisible true면 콘솔 창의 커서사 시야에 보이고, 그렇지 않으면 보이지 않습니다.
      */
     void SetCursorVisible(bool bIsVisible);
+
+
+    /**
+     * 콘솔 창의 커서를 이동시킵니다.
+     * 
+     * @param InPositionX - 커서가 이동할 x좌표입니다.
+     * @param InPositionY - 커서가 이동할 y좌표입니다.
+     */
+    void MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
 
 
 private:
