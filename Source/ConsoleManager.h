@@ -36,6 +36,12 @@ public:
     void MoveCursor(const int32_t& InPositionX, const int32_t& InPositionY);
 
 
+    /**
+     * 콘솔 창을 업데이트합니다.
+     */
+    void Refresh();
+
+    
 private:
     /**
      * ConsoleManager의 생성자입니다.

@@ -26,3 +26,8 @@ void ConsoleManager::MoveCursor(const int32_t& InPositionX, const int32_t& InPos
 {
     move(InPositionX, InPositionY);
 }
+
+void ConsoleManager::Refresh()
+{
+    refresh();
+}
