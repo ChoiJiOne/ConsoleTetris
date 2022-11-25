@@ -1,6 +1,4 @@
-#include <locale.h>
 #include <curses.h>
-#include <iostream>
 
 #include "ConsoleManager.h"
 #include "InputManager.h"
@@ -9,17 +7,26 @@ int main(int argc, char* argv[])
 {
     ConsoleManager::Get().SetCursorVisible(false);
 
-    ConsoleManager::Get().MoveCursor(3, 3);
-	printw("Hello World!!");
+    bool bIsDone = false;
+    while (!bIsDone) {
+        InputManager::Get().Tick();
 
-    ConsoleManager::Get().MoveCursor(4, 3);
-    printw("■■■■■■■■■■");
-
-    while (1) {
-        if (InputManager::Get().IsDetectPressKeyboard()) {
-            printw("Key pressed! It was: %d\n", getch());
+        if(InputManager::Get().GetKeyPressState(EKeyCode::ESC) == EPressState::PRESSED)
+        {
+            bIsDone = true;
         }
 
+        if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED) 
+        {
+            ConsoleManager::Get().MoveCursor(1, 5);
+            printw("[LEFT] : PRESSED");
+        }
+        else 
+        {
+            ConsoleManager::Get().MoveCursor(1, 5);
+            printw("                ");
+        }
+        
         ConsoleManager::Get().Refresh();
     }
 
