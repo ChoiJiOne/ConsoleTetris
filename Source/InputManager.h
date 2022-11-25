@@ -36,7 +36,7 @@ public:
      */
     static InputManager& Get() { return InputManager_; }
 
-
+    
 private:
     /**
      * InputManager의 생성자입니다.
