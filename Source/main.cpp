@@ -3,24 +3,10 @@
 #include <iostream>
 
 #include "ConsoleManager.h"
-
-int kbhit(void)
-{
-    int ch = getch();
-
-    if (ch != ERR) {
-        ungetch(ch);
-        return 1;
-    } else {
-        return 0;
-    }
-}
+#include "InputManager.h"
 
 int main(int argc, char* argv[]) 
 {
-    nodelay(stdscr, TRUE);
-    scrollok(stdscr, TRUE);
-
     ConsoleManager::Get().SetCursorVisible(false);
 
     ConsoleManager::Get().MoveCursor(3, 3);
@@ -30,7 +16,7 @@ int main(int argc, char* argv[])
     printw("■■■■■■■■■■");
 
     while (1) {
-        if (kbhit()) {
+        if (InputManager::Get().IsDetectPressKeyboard()) {
             printw("Key pressed! It was: %d\n", getch());
         }
 
