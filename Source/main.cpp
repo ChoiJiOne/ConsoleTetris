@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 
-    ConsoleManager::Get().SetCursorVisible(true);
+    ConsoleManager::Get().SetCursorVisible(false);
 
     ConsoleManager::Get().MoveCursor(3, 3);
 	printw("Hello World!!");
@@ -33,8 +33,8 @@ int main(int argc, char* argv[])
         if (kbhit()) {
             printw("Key pressed! It was: %d\n", getch());
         }
-        
-        refresh();
+
+        ConsoleManager::Get().Refresh();
     }
 
     return 0;
