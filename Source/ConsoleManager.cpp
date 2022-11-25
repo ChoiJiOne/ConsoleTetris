@@ -9,6 +9,7 @@ ConsoleManager::ConsoleManager()
 {
     setlocale(LC_ALL, "");
     initscr();
+    noecho();
 }
 
 ConsoleManager::~ConsoleManager()
@@ -30,4 +31,9 @@ void ConsoleManager::MoveCursor(const int32_t& InPositionX, const int32_t& InPos
 void ConsoleManager::Refresh()
 {
     refresh();
+}
+
+void ConsoleManager::Clear()
+{
+    clear();
 }

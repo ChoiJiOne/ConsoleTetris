@@ -41,6 +41,12 @@ public:
      */
     void Refresh();
 
+
+    /**
+     * 콘솔 창을 초기화합니다.
+     */
+    void Clear();
+
     
 private:
     /**
