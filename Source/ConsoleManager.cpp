@@ -15,3 +15,15 @@ ConsoleManager::~ConsoleManager()
 {
     endwin();
 }
+
+void ConsoleManager::SetCursorVisible(bool bIsVisible)
+{
+    if(bIsVisible)
+    {
+        curs_set(1);
+    }
+    else 
+    {
+        curs_set(0);
+    }
+}

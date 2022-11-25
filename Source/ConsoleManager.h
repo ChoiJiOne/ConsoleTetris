@@ -15,7 +15,15 @@ public:
      */
     static ConsoleManager& Get() { return ConsoleManager_; }
 
-    
+
+    /**
+     * 콘솔 창의 커서가 시야에 보일지 설정합니다.
+     * 
+     * @param bIsVisible true면 콘솔 창의 커서사 시야에 보이고, 그렇지 않으면 보이지 않습니다.
+     */
+    void SetCursorVisible(bool bIsVisible);
+
+
 private:
     /**
      * ConsoleManager의 생성자입니다.
