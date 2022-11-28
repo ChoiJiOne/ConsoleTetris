@@ -83,14 +83,6 @@ private:
     virtual ~InputManager();
 
 
-    /**
-     * 키보드 감지를 확인합니다.
-     * 
-     * @return 키보드 입력이 감지되면 true, 그렇지 않으면 false를 반환합니다.
-     */
-    bool IsDetectPressKeyboard();
-
-
 private:
     /**
      * InputManager의 인스턴스입니다.

@@ -9,6 +9,8 @@ ConsoleManager::ConsoleManager()
 {
     setlocale(LC_ALL, "");
     initscr();
+    keypad(stdscr, TRUE);
+    cbreak();
     noecho();
 }
 

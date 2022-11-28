@@ -66,5 +66,5 @@ private:
      * ConsoleManager의 인스턴스입니다.
      * 이 인스턴스는 하나만 존재합니다.
      */
-    static ConsoleManager ConsoleManager_;
+    static ConsoleManager ConsoleManager_;         
 };
