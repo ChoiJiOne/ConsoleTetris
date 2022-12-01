@@ -19,6 +19,10 @@ int main(int argc, char* argv[])
         case KEY_LEFT:
             bIsDone = true;
             break;
+
+        case KEY_RIGHT:
+            bIsDone = true;
+            break;
         }
     }
 
