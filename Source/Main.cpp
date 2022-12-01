@@ -1,7 +1,27 @@
-#include <iostream>
+#include <ncurses.h>
+#include <stdbool.h>
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Hello, World" << std::endl;
-	return 0;
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    timeout(0);
+    curs_set(0);
+
+    bool bIsDone = false;
+    
+    while(!bIsDone)
+    {
+        switch(getch())
+        {
+        case KEY_LEFT:
+            bIsDone = true;
+            break;
+        }
+    }
+
+    endwin();
+    return 0;
 }
