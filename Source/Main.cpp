@@ -11,7 +11,6 @@ int main(int argc, char* argv[])
     curs_set(0);
 
     bool bIsDone = false;
-    
     while(!bIsDone)
     {
         switch(getch())
@@ -23,6 +22,7 @@ int main(int argc, char* argv[])
         case KEY_RIGHT:
             bIsDone = true;
             break;
+        
         }
     }
 
