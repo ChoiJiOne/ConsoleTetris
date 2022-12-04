@@ -24,6 +24,9 @@ int main(int argc, char* argv[])
         }
     }
 
+    curs_set(1);
+    nocbreak();
     endwin();
+
     return 0;
 }
