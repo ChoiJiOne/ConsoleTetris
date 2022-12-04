@@ -15,4 +15,4 @@ release:
 	$(CC) $(STD) $(OPTIMIZE) $(VIEW) $(SOURCE) -o $(OUTPUT) $(LIB)
 
 clean:
-	rm -f ConsoleTetris.out
+	rm -f $(OUTPUT)
