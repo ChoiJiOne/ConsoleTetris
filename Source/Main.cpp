@@ -7,22 +7,18 @@ int main(int argc, char* argv[])
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
-    timeout(0);
     curs_set(0);
+    timeout(0);
 
     bool bIsDone = false;
     while(!bIsDone)
     {
         switch(getch())
         {
-        case KEY_LEFT:
+        case 'Q':
+        case 'q':
             bIsDone = true;
             break;
-
-        case KEY_RIGHT:
-            bIsDone = true;
-            break;
-        
         }
     }
 
