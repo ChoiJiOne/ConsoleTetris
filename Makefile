@@ -12,7 +12,7 @@ debug:
 	$(CC) $(STD) $(DEBUG) $(WARN) $(VIEW) $(SOURCE) -o $(OUTPUT) $(LIB)
 
 release:
-	$(CC) $(STD) $(OPTIMIZE) $(SOURCE) -o $(OUTPUT) $(LIB)
+	$(CC) $(STD) $(OPTIMIZE) $(VIEW) $(SOURCE) -o $(OUTPUT) $(LIB)
 
 clean:
 	rm -f ConsoleTetris.out
