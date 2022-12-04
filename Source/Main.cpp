@@ -26,51 +26,26 @@ int main(int argc, char* argv[])
 
         int32_t Command = getch();
 
+        float delta = timer.GetDeltaSeconds();
+
         move(0, 0);
-        printw("(%d, %d) TOTAL : %3d", x, y, static_cast<int32_t>(timer.GetTotalSeconds()));
+        printw("(%d, %d) TOTAL : %3d, DELTA : %10f", 
+        x, y, static_cast<int32_t>(timer.GetTotalSeconds()), delta);
+
+        move(y, x);
+        printw("  ");
+
+        x += static_cast<int32_t>(timer.GetDeltaMilliseconds() / 800.0f);
+
+        move(y, x);
+        printw("■");
+
 
         switch(Command)
         {
         case 'Q':
         case 'q':
             bIsDone = true;
-            break;
-
-        case KEY_LEFT:
-            move(y, x);
-            printw("  ");
-
-            --x;
-            move(y, x);
-            printw("■");
-            break;
-
-        case KEY_RIGHT:
-            move(y, x);
-            printw("  ");
-
-            ++x;
-            move(y, x);
-            printw("■");
-            break;
-
-        case KEY_UP:
-            move(y, x);
-            printw("  ");
-
-            --y;
-            move(y, x);
-            printw("■");
-            break;
-
-
-        case KEY_DOWN:
-            move(y, x);
-            printw("  ");
-
-            ++y;
-            move(y, x);
-            printw("■");
             break;
         }
 
