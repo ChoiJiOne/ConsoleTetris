@@ -13,7 +13,9 @@ int main(int argc, char* argv[])
     bool bIsDone = false;
     while(!bIsDone)
     {
-        switch(getch())
+        int32_t Command = getch();
+
+        switch(Command)
         {
         case 'Q':
         case 'q':
