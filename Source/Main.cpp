@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <locale.h>
 
+#include "Timer.h"
+
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "");
@@ -15,12 +17,17 @@ int main(int argc, char* argv[])
     bool bIsDone = false;
     int32_t x = 10, y = 10;
 
+    Timer timer;
+    timer.Reset();
+
     while(!bIsDone)
     {
+        timer.Tick();
+
         int32_t Command = getch();
 
         move(0, 0);
-        printw("(%d, %d)", x, y);
+        printw("(%d, %d) TOTAL : %3d", x, y, static_cast<int32_t>(timer.GetTotalSeconds()));
 
         switch(Command)
         {
