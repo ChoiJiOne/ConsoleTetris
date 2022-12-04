@@ -1,8 +1,10 @@
 #include <ncurses.h>
 #include <stdbool.h>
+#include <locale.h>
 
 int main(int argc, char* argv[])
 {
+    setlocale(LC_ALL, "");
     initscr();
     cbreak();
     noecho();
@@ -11,10 +13,14 @@ int main(int argc, char* argv[])
     timeout(0);
 
     bool bIsDone = false;
+    int32_t x = 10, y = 10;
 
     while(!bIsDone)
     {
         int32_t Command = getch();
+
+        move(0, 0);
+        printw("(%d, %d)", x, y);
 
         switch(Command)
         {
@@ -24,23 +30,40 @@ int main(int argc, char* argv[])
             break;
 
         case KEY_LEFT:
-            move(0, 0);
-            printw("PRESS LEFT");
+            move(y, x);
+            printw("  ");
+
+            --x;
+            move(y, x);
+            printw("■");
             break;
 
         case KEY_RIGHT:
-            move(1, 0);
-            printw("PRESS RIGHT");
+            move(y, x);
+            printw("  ");
+
+            ++x;
+            move(y, x);
+            printw("■");
             break;
 
         case KEY_UP:
-            move(2, 0);
-            printw("PRESS UP");
+            move(y, x);
+            printw("  ");
+
+            --y;
+            move(y, x);
+            printw("■");
             break;
 
+
         case KEY_DOWN:
-            move(3, 0);
-            printw("PRESS DOWN");
+            move(y, x);
+            printw("  ");
+
+            ++y;
+            move(y, x);
+            printw("■");
             break;
         }
 
