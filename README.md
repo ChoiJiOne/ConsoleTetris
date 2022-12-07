@@ -41,6 +41,28 @@
 <br><br>
 
 
+## 빌드
+
+이 프로젝트는 `Visual Studio` 에서의 빌드 이외의 빌드 기능을 제공합니다.  
+`CMD` 에서 다음과 같이 수행하시면 프로젝트를 빌드할 수 있습니다.  
+
+### `Debug` 빌드
+```
+> Build.bat Debug
+```
+
+### `Release` 빌드
+```
+> Build.bat Release
+```
+
+### `Shipping` 빌드
+```
+> Build.bat Shipping
+```
+<br><br>
+
+
 ## 플레이
 
 `ConsoleTetris.exe` 를 클릭해서 게임을 실행하면, 시작 화면에서 메뉴를 선택할 수 있습니다.  
