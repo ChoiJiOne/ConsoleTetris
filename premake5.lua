@@ -63,7 +63,7 @@ workspace "ConsoleTetris"
          symbols "On"
 
       filter "configurations:Shipping"
-            defines { "NDEBUG" }
-            runtime "Release"
-            optimize "Full"
-            symbols "Off"
+         defines { "NDEBUG" }
+         runtime "Release"
+         optimize "Full"
+         symbols "Off"
