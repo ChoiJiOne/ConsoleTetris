@@ -15,7 +15,7 @@ workspace "ConsoleTetris"
    location "%{wks.name}"
 
    -- 소스 코드 경로를 설정합니다.
-   sourcePath="%{wks.location}/../Source"
+   source="%{wks.location}/../Source"
 
    -- ConsoleTetris 프로젝트입니다.
    project "ConsoleTetris"
@@ -31,12 +31,12 @@ workspace "ConsoleTetris"
 
       -- 소스 코드의 include 경로를 추가합니다.
       includedirs {
-         "%{sourcePath}"
+         "%{source}"
       }
 
       -- 소스 코드의 file을 추가합니다.
       files { 
-         "%{sourcePath}/*",
+         "%{source}/*",
       }
 
       -- 빌드의 구성 요소별 설정을 수행합니다.
