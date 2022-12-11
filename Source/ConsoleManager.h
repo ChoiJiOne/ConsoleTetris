@@ -115,6 +115,30 @@ public:
 	void Clear();
 
 
+	/**
+	 * 콘솔 창에 텍스트를 그립니다.
+	 * 
+	 * @param InPosition - 콘솔 상의 좌표입니다.
+	 * @param InText - 콘솔 창에 그릴 텍스트입니다.
+	 * @param InColor - 텍스트의 색상입니다.
+	 * 
+	 * @throws 콘솔 창에 텍스트 그리기를 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void RenderText(const Vec2i& InPosition, const std::string& InText, const EColor& InColor);
+
+
+	/**
+	 * 콘솔 창에 텍스트를 그립니다.
+	 *
+	 * @param InPosition - 콘솔 상의 좌표입니다.
+	 * @param InText - 콘솔 창에 그릴 텍스트입니다.
+	 * @param InColor - 텍스트의 색상입니다.
+	 *
+	 * @throws 콘솔 창에 텍스트 그리기를 실패하면 C++ 표준 예외를 던집니다.
+     */
+	void RenderText(const Vec2i& InPosition, const std::wstring& InText, const EColor& InColor);
+	
+
 private:
 	/**
 	 * ConsoleManager의 생성자입니다.

@@ -1,5 +1,6 @@
 #include "ConsoleManager.h"
 
+#include <iostream>
 #include <windows.h>
 
 void ConsoleManager::SetTitle(const std::string& InTitle)
@@ -45,6 +46,22 @@ void ConsoleManager::MoveCursor(const Vec2i& InPosition)
 void ConsoleManager::Clear()
 {
 	CHECK((system("cls") == 0), "failed to clear console");
+}
+
+void ConsoleManager::RenderText(const Vec2i& InPosition, const std::string& InText, const EColor& InColor)
+{
+	MoveCursor(InPosition);
+	SetTextColor(InColor);
+
+	std::cout << InText;
+}
+
+void ConsoleManager::RenderText(const Vec2i& InPosition, const std::wstring& InText, const EColor& InColor)
+{
+	MoveCursor(InPosition);
+	SetTextColor(InColor);
+
+	std::wcout << InText;
 }
 
 ConsoleManager::~ConsoleManager()
