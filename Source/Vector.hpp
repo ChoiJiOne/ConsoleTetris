@@ -8,7 +8,7 @@
 /**
  * 수학에서 정의하는 벡터입니다.
  */
-template <typename Type, int32_t D>
+template <typename Type, int32_t Dimension>
 struct Vector
 {
 	/**
@@ -26,7 +26,7 @@ struct Vector
 	 */
 	Vector(const Type& InElement) noexcept
 	{
-		std::fill(Element_, Element_ + D, InElement);
+		std::fill(Element_, Element_ + Dimension, InElement);
 	}
 
 
@@ -37,7 +37,7 @@ struct Vector
 	 */
 	Vector(Type&& InElement) noexcept
 	{
-		std::fill(Element_, Element_ + D, InElement);
+		std::fill(Element_, Element_ + Dimension, InElement);
 	}
 
 
@@ -48,7 +48,7 @@ struct Vector
 	 */
 	Vector(const Vector& InInstance) noexcept
 	{
-		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + Dimension, Element_);
 	}
 
 
@@ -59,7 +59,7 @@ struct Vector
 	 */
 	Vector(Vector&& InInstance) noexcept
 	{
-		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + Dimension, Element_);
 	}
 
 
@@ -74,7 +74,7 @@ struct Vector
 	{
 		if (this == &InInstance) return *this;
 
-		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + Dimension, Element_);
 
 		return *this;
 	}
@@ -91,7 +91,7 @@ struct Vector
 	{
 		if (this == &InInstance) return *this;
 
-		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + Dimension, Element_);
 
 		return *this;
 	}
@@ -106,7 +106,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = -Element_[Index];
 		}
@@ -126,7 +126,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] + InInstance.Element_[Index];
 		}
@@ -146,7 +146,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] + InInstance.Element_[Index];
 		}
@@ -166,7 +166,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] - InInstance.Element_[Index];
 		}
@@ -186,7 +186,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] - InInstance.Element_[Index];
 		}
@@ -206,7 +206,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] * InInstance.Element_[Index];
 		}
@@ -226,7 +226,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Result[Index] = Element_[Index] * InInstance.Element_[Index];
 		}
@@ -244,7 +244,7 @@ struct Vector
 	 */
 	Vector& operator+=(const Vector& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Element_[Index] += InInstance.Element_[Index];
 		}
@@ -262,7 +262,7 @@ struct Vector
 	 */
 	Vector& operator+=(Vector&& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Element_[Index] += InInstance.Element_[Index];
 		}
@@ -280,7 +280,7 @@ struct Vector
 	 */
 	Vector& operator-=(const Vector& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Element_[Index] -= InInstance.Element_[Index];
 		}
@@ -298,7 +298,7 @@ struct Vector
 	 */
 	Vector& operator-=(Vector&& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < D; ++Index)
+		for (int32_t Index = 0; Index < Dimension; ++Index)
 		{
 			Element_[Index] -= InInstance.Element_[Index];
 		}
@@ -374,7 +374,7 @@ struct Vector
 	/**
 	 * 벡터의 원소입니다.
 	 */
-	Type Element_[D];
+	Type Element_[Dimension];
 };
 
 
