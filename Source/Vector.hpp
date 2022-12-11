@@ -8,7 +8,7 @@
 /**
  * 수학에서 정의하는 벡터입니다.
  */
-template <typename Type, int32_t Size>
+template <typename Type, int32_t D>
 struct Vector
 {
 	/**
@@ -26,7 +26,7 @@ struct Vector
 	 */
 	Vector(const Type& InElement) noexcept
 	{
-		std::fill(Element_, Element_ + Size, InElement);
+		std::fill(Element_, Element_ + D, InElement);
 	}
 
 
@@ -37,7 +37,7 @@ struct Vector
 	 */
 	Vector(Type&& InElement) noexcept
 	{
-		std::fill(Element_, Element_ + Size, InElement);
+		std::fill(Element_, Element_ + D, InElement);
 	}
 
 
@@ -48,7 +48,7 @@ struct Vector
 	 */
 	Vector(const Vector& InInstance) noexcept
 	{
-		std::copy(InInstance.Element_, InInstance.Element_ + Size, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
 	}
 
 
@@ -59,7 +59,7 @@ struct Vector
 	 */
 	Vector(Vector&& InInstance) noexcept
 	{
-		std::copy(InInstance.Element_, InInstance.Element_ + Size, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
 	}
 
 
@@ -74,7 +74,7 @@ struct Vector
 	{
 		if (this == &InInstance) return *this;
 
-		std::copy(InInstance.Element_, InInstance.Element_ + Size, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
 
 		return *this;
 	}
@@ -91,7 +91,7 @@ struct Vector
 	{
 		if (this == &InInstance) return *this;
 
-		std::copy(InInstance.Element_, InInstance.Element_ + Size, Element_);
+		std::copy(InInstance.Element_, InInstance.Element_ + D, Element_);
 
 		return *this;
 	}
@@ -106,7 +106,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = -Element_[Index];
 		}
@@ -126,7 +126,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] + InInstance.Element_[Index];
 		}
@@ -146,7 +146,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] + InInstance.Element_[Index];
 		}
@@ -166,7 +166,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] - InInstance.Element_[Index];
 		}
@@ -186,7 +186,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] - InInstance.Element_[Index];
 		}
@@ -206,7 +206,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] * InInstance.Element_[Index];
 		}
@@ -226,7 +226,7 @@ struct Vector
 	{
 		Vector Result;
 
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Result[Index] = Element_[Index] * InInstance.Element_[Index];
 		}
@@ -244,7 +244,7 @@ struct Vector
 	 */
 	Vector& operator+=(const Vector& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Element_[Index] += InInstance.Element_[Index];
 		}
@@ -262,7 +262,7 @@ struct Vector
 	 */
 	Vector& operator+=(Vector&& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Element_[Index] += InInstance.Element_[Index];
 		}
@@ -280,7 +280,7 @@ struct Vector
 	 */
 	Vector& operator-=(const Vector& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Element_[Index] -= InInstance.Element_[Index];
 		}
@@ -298,7 +298,7 @@ struct Vector
 	 */
 	Vector& operator-=(Vector&& InInstance) noexcept
 	{
-		for (int32_t Index = 0; Index < Size; ++Index)
+		for (int32_t Index = 0; Index < D; ++Index)
 		{
 			Element_[Index] -= InInstance.Element_[Index];
 		}
@@ -371,5 +371,182 @@ struct Vector
 	}
 
 
-	Type Element_[Size];
+	/**
+	 * 벡터의 원소입니다.
+	 */
+	Type Element_[D];
 };
+
+
+/**
+ * 수학에서 정의하는 2차원 벡터입니다.
+ */
+template <typename Type>
+struct Vector2 : public Vector<Type, 2>
+{
+	/**
+	 * 기본 생성자입니다.
+	 */
+	Vector2() : Vector<Type, 2>() {}
+
+
+	/**
+	 * 생성자입니다.
+	 *
+	 * @param InX - 벡터의 첫 번째 성분입니다.
+	 * @param InY - 벡터의 두 번째 성분입니다.
+	 */
+	Vector2(Type InX, Type InY) noexcept
+	{
+		x = InX;
+		y = InY;
+	}
+
+
+	/**
+	 * 벡터의 첫 번째 원소입니다.
+	 */
+	Type& x = Element_[0];
+
+
+	/**
+	 * 벡터의 두 번째 원소입니다.
+	 */
+	Type& y = Element_[1];
+};
+
+
+/**
+ * 수학에서 정의하는 3차원 벡터입니다.
+ */
+template <typename Type>
+struct Vector3 : public Vector<Type, 3>
+{
+	/**
+	 * 기본 생성자입니다.
+	 */
+	Vector3() : Vector<Type, 3>() {}
+
+
+	/**
+	 * 생성자입니다.
+	 *
+	 * @param InX - 벡터의 첫 번째 성분입니다.
+	 * @param InY - 벡터의 두 번째 성분입니다.
+	 * @param InZ - 벡터의 세 번째 성분입니다.
+	 */
+	Vector3(Type InX, Type InY, Type InZ) noexcept
+	{
+		x = InX;
+		y = InY;
+		z = InZ;
+	}
+
+
+	/**
+	 * 벡터의 첫 번째 원소입니다.
+	 */
+	Type& x = Element_[0];
+
+
+	/**
+	 * 벡터의 두 번째 원소입니다.
+	 */
+	Type& y = Element_[1];
+
+
+	/**
+	 * 벡터의 세 번째 원소입니다.
+	 */
+	Type& z = Element_[2];
+};
+
+
+/**
+ * 수학에서 정의하는 4차원 벡터입니다.
+ */
+template <typename Type>
+struct Vector4 : public Vector<Type, 4>
+{
+	/**
+	 * 기본 생성자입니다.
+	 */
+	Vector4() : Vector<Type, 4>() {}
+
+
+	/**
+	 * 생성자입니다.
+	 *
+	 * @param InX - 벡터의 첫 번째 성분입니다.
+	 * @param InY - 벡터의 두 번째 성분입니다.
+	 * @param InZ - 벡터의 세 번째 성분입니다.
+	 * @param InW - 벡터의 네 번째 성분입니다.
+	 */
+	Vector4(Type InX, Type InY, Type InZ, Type InW) noexcept
+	{
+		x = InX;
+		y = InY;
+		z = InZ;
+		w = InW;
+	}
+
+
+	/**
+	 * 벡터의 첫 번째 원소입니다.
+	 */
+	Type& x = Element_[0];
+
+
+	/**
+	 * 벡터의 두 번째 원소입니다.
+	 */
+	Type& y = Element_[1];
+
+
+	/**
+	 * 벡터의 세 번째 원소입니다.
+	 */
+	Type& z = Element_[2];
+
+
+	/**
+	 * 벡터의 네 번째 원소입니다.
+	 */
+	Type& w = Element_[3];
+};
+
+
+/**
+ * int 타입의 2차원 벡터입니다.
+ */
+using Vec2i = Vector2<int32_t>;
+
+
+/**
+ * float 타입의 2차원 벡터입니다.
+ */
+using Vec2f = Vector2<float>;
+
+
+/**
+ * int 타입의 3차원 벡터입니다.
+ */
+using Vec3i = Vector3<int32_t>;
+
+
+/**
+ * float 타입의 3차원 벡터입니다.
+ */
+using Vec3f = Vector3<float>;
+
+
+/**
+ * int 타입의 4차원 벡터입니다.
+ */
+using Vec4i = Vector4<int32_t>;
+
+
+/**
+ * float 타입의 4차원 벡터입니다.
+ */
+using Vec4f = Vector4<float>;
