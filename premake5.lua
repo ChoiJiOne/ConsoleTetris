@@ -56,14 +56,26 @@ workspace "ConsoleTetris"
          optimize "Off"
          symbols "On"
 
+         links {
+            "Dbghelp.lib",
+         }
+
       filter "configurations:Release"
          defines { "NDEBUG" }
          runtime "Release"
          optimize "On"
          symbols "On"
 
+         links {
+            "Dbghelp.lib",
+         }
+
       filter "configurations:Shipping"
          defines { "NDEBUG" }
          runtime "Release"
          optimize "Full"
          symbols "Off"
+
+         links {
+            "Dbghelp.lib",
+         }
