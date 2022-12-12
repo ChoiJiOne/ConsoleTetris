@@ -1,8 +1,8 @@
-#include <iostream>
-
+#include <Block.h>
 #include <Debug.h>
 #include <InputManager.h>
 #include <ConsoleManager.h>
+#include <Timer.h>
 #include <Vector.hpp>
 
 
@@ -48,14 +48,20 @@ public:
 	 */
 	void Run()
 	{
+		Timer GameTimer;
+		GameTimer.Reset();
+
 		while (!bIsDone_)
 		{
+			GameTimer.Tick();
 			InputManager::Get().Tick();
 
 			if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
 			{
 				bIsDone_ = true;
 			}
+
+			ConsoleManager::Get().RenderText(Vec2i(0, 10), Text::Format("TOTAL : %d", static_cast<int32_t>(GameTimer.GetTotalTime())), EColor::AQUA);
 		}
 	}
 
