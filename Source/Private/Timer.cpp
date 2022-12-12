@@ -15,36 +15,54 @@ Timer::~Timer()
 {
 }
 
-float Timer::GetDeltaTime(const EUnit& InUnit) const
+float Timer::GetDeltaTime() const
 {
-	return 0.0f;
+	float DeltaTime = 0.0f;
+
+	if (!bIsStop_)
+	{
+		DeltaTime = static_cast<float>(CurrTime_ - PrevTime_) * static_cast<float>(SecondsPerCounter_);
+	}
+
+	return DeltaTime;
 }
 
-float Timer::GetTotalTime(const EUnit& InUnit) const
+float Timer::GetTotalTime() const
 {
-	return 0.0f;
+	float TotalTime = static_cast<float>(SecondsPerCounter_);
+
+	if (bIsStop_)
+	{
+		TotalTime *= static_cast<float>(StopTime_ - PausedTime_ - BaseTime_);
+	}
+	else
+	{
+		TotalTime *= static_cast<float>(CurrTime_ - PausedTime_ - BaseTime_);
+	}
+
+	return TotalTime;
 }
 
 void Timer::Reset()
 {
-	int64_t TickTime = GetTickTime();
+	int64_t Counter = GetTickCounter();
 
 	bIsStop_ = false;
-	BaseTime_ = TickTime;
+	BaseTime_ = Counter;
 	PausedTime_ = 0LL;
 	StopTime_ = 0LL;
-	PrevTime_ = TickTime;
-	CurrTime_ = TickTime;
+	PrevTime_ = Counter;
+	CurrTime_ = Counter;
 }
 
 void Timer::Start()
 {
 	if (bIsStop_)
 	{
-		int64_t TickTime = GetTickTime();
+		int64_t Counter = GetTickCounter();
 
-		PausedTime_ += (TickTime - StopTime_);
-		PrevTime_ = TickTime;
+		PausedTime_ += (Counter - StopTime_);
+		PrevTime_ = Counter;
 		StopTime_ = 0LL;
 		bIsStop_ = false;
 	}
@@ -54,7 +72,7 @@ void Timer::Stop()
 {
 	if (!bIsStop_)
 	{
-		StopTime_ = GetTickTime();
+		StopTime_ = GetTickCounter();
 		bIsStop_ = true;
 	}
 }
@@ -62,13 +80,13 @@ void Timer::Stop()
 void Timer::Tick()
 {
 	PrevTime_ = CurrTime_;
-	CurrTime_ = GetTickTime();
+	CurrTime_ = GetTickCounter();
 }
 
-int64_t Timer::GetTickTime()
+int64_t Timer::GetTickCounter()
 {
-	int64_t TickTime = 0LL;
-	CHECK((QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&TickTime))), "failed to query performance counter");
+	int64_t Counter = 0LL;
+	CHECK((QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&Counter))), "failed to query performance counter");
 
-	return TickTime;
+	return Counter;
 }

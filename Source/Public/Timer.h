@@ -12,17 +12,6 @@ class Timer
 {
 public:
 	/**
-	 * 시간 단위 타입입니다.
-	 */
-	enum class EUnit
-	{
-		SECONDS = 0,
-		MILLISECONDS = 1
-	};
-
-
-public:
-	/**
 	 * 타이머 클래스의 생성자입니다.
 	 */
 	Timer();
@@ -108,22 +97,20 @@ public:
 
 	/**
 	 * 타이머의 초 단위 델타 시간값을 얻습니다.
+	 * 이때, 시간 단위는 초단위입니다.
 	 * 
-	 * @param InUnit - 델타 시값값의 단위입니다.
-	 *
 	 * @return 초 단위의 델타 시간값을 반환합니다.
 	 */
-	float GetDeltaTime(const EUnit& InUnit = EUnit::SECONDS) const;
+	float GetDeltaTime() const;
 
 
 	/**
 	 * 타이머가 중지된 시간을 제외한 전체 시간값을 반환합니다.
+	 * 이때, 시간 단위는 초단위입니다.
 	 * 
-	 * @param InUnit - 델타 시값값의 단위입니다.
-	 *
 	 * @return 타이머가 시작된 이후의 중지된 시간을 제외한 전체 시간값을 반환합니다.
 	 */
-	float GetTotalTime(const EUnit& InUnit = EUnit::SECONDS) const;
+	float GetTotalTime() const;
 
 
 	/**
@@ -153,11 +140,11 @@ public:
 
 private:
 	/**
-	 * 현재의 Tick 시간값을 얻습니다.
+	 * 현재의 Tick 카운터 값을 얻습니다.
 	 * 
-	 * @return 현재의 Tick 시간값을 얻습니다.
+	 * @return 현재의 Tick 카운터 값을 얻습니다.
 	 */
-	int64_t GetTickTime();
+	int64_t GetTickCounter();
 
 
 private:
