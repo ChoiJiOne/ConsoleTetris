@@ -1,5 +1,5 @@
-#include "Timer.h"
-#include "Macro.h"
+#include <Timer.h>
+#include <Macro.h>
 
 #include <Windows.h>
 

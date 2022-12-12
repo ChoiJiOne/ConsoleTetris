@@ -1,6 +1,6 @@
-#include "CommandLineManager.h"
-#include "Text.hpp"
-#include "Macro.h"
+#include <CommandLineManager.h>
+#include <Text.hpp>
+#include <Macro.h>
 
 #include <Windows.h>
 

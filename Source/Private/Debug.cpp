@@ -1,6 +1,6 @@
-#include "Debug.h"
-#include "Text.hpp"
-#include "CommandLineManager.h"
+#include <Debug.h>
+#include <Text.hpp>
+#include <CommandLineManager.h>
 
 #include <chrono>
 #include <ctime>
