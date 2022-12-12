@@ -66,21 +66,6 @@ public:
 
 
 	/**
-	 * 블럭의 생성자입니다.
-	 * 
-	 * @param InType - 블럭의 타입입니다.
-	 * @param InState - 블럭의 상태입니다.
-	 * @param InPosition - 블럭의 보드상 위치입니다.
-	 */
-	Block(const EType& InType, const EState& InState, const Vec2i& InPosition)
-	{
-		Type_ = InType;
-		State_ = InState;
-		Position_ = InPosition;
-	}
-
-
-	/**
 	 * 블록의 복사 생성자입니다.
 	 *
 	 * @param InInstance - 복사할 객체입니다.
@@ -89,7 +74,6 @@ public:
 	{
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
-		Position_ = InInstance.Position_;
 	}
 
 
@@ -102,7 +86,6 @@ public:
 	{
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
-		Position_ = InInstance.Position_;
 	}
 
 
@@ -126,7 +109,6 @@ public:
 
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
-		Position_ = InInstance.Position_;
 
 		return *this;
 	}
@@ -146,10 +128,25 @@ public:
 
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
-		Position_ = InInstance.Position_;
 
 		return *this;
 	}
+
+
+	/**
+	 * 블록의 타입을 얻습니다.
+	 * 
+	 * @return 블록의 타입을 반환합니다.
+	 */
+	EType GetType() const { return Type_; }
+
+
+	/**
+	 * 블록의 상태를 얻습니다.
+	 * 
+	 * @return 블록의 상태를 반환합니다.
+	 */
+	EState GetState() const { return State_; }
 
 
 private:
@@ -163,10 +160,4 @@ private:
 	 * 블럭의 상태입니다.
 	 */
 	EState State_;
-
-
-	/**
-	 * 보드 상 블럭의 현재 위치입니다.
-	 */
-	Vec2i Position_;
 };
