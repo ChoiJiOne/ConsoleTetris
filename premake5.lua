@@ -17,9 +17,6 @@ workspace "ConsoleTetris"
    -- 소스 코드 경로를 설정합니다.
    source="%{wks.location}/../Source"
 
-   -- 서드 파티 라이브러리 경로를 설정합니다.
-   thirdparty="%{wks.location}/../ThirdParty"
-
    -- ConsoleTetris 프로젝트입니다.
    project "ConsoleTetris"
 
@@ -40,13 +37,15 @@ workspace "ConsoleTetris"
       -- 소스 코드의 include 경로를 추가합니다.
       includedirs {
          "%{source}",
-         "%{thirdparty}",
+         "%{source}/Public",
+         "%{source}/Private",
       }
 
       -- 소스 코드의 file을 추가합니다.
-      files { 
+      files {
          "%{source}/*",
-         "%{thirdparty}/*",
+         "%{source}/Public/*",
+         "%{source}/Private/*",
       }
 
       -- 빌드의 구성 요소별 설정을 수행합니다.
