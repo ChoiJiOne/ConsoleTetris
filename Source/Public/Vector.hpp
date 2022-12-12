@@ -404,6 +404,40 @@ struct Vector2 : public Vector<Type, 2>
 
 
 	/**
+	 * 2차원 벡터의 대입 연산자 입니다.
+	 *
+	 * @param InInstance - 원소를 복사할 2차원 벡터의 인스턴스입니다.
+	 *
+	 * @return 대입한 2차원 벡터의 참조자를 반환합니다.
+	 */
+	Vector2& operator=(const Vector2& InInstance) noexcept
+	{
+		if (this == &InInstance) return *this;
+
+		Vector<Type, 2>::operator=(InInstance);
+
+		return *this;
+	}
+
+
+	/**
+	 * 2차원 벡터의 대입 연산자 입니다.
+	 *
+	 * @param InInstance - 원소를 복사할 2차원 벡터의 인스턴스입니다.
+	 *
+	 * @return 대입한 2차원 벡터의 참조자를 반환합니다.
+	 */
+	Vector2& operator=(Vector2&& InInstance) noexcept
+	{
+		if (this == &InInstance) return *this;
+
+		Vector<Type, 2>::operator=(InInstance);
+
+		return *this;
+	}
+
+
+	/**
 	 * 벡터의 첫 번째 원소입니다.
 	 */
 	Type& x = Element_[0];
