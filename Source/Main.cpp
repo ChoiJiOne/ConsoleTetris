@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "Debug.h"
-#include "InputManager.h"
-#include "ConsoleManager.h"
-#include "Vector.hpp"
+#include <Debug.h>
+#include <InputManager.h>
+#include <ConsoleManager.h>
+#include <Vector.hpp>
 
 
 /**
