@@ -24,6 +24,7 @@ public:
 	 */
 	virtual ~Tetris()
 	{
+		ConsoleManager::Get().SetCursorVisible(true);
 	}
 
 
@@ -35,6 +36,8 @@ public:
 	void Init()
 	{
 		SetUnhandledExceptionFilter(UnhandledExceptionHandler);
+
+		ConsoleManager::Get().SetCursorVisible(false);
 	}
 
 
