@@ -183,6 +183,14 @@ public:
 	void SetPosition(const Vec2i& InPosition) { Position_ = InPosition; }
 
 
+	/**
+	 * 블럭을 콘솔 화면에 그립니다.
+	 * 
+	 * @param InPosition - 블럭의 상대 좌표 기준점입니다.
+	 */
+	void Render(const Vec2i& InPosition);
+
+
 private:
 	/**
 	 * 블럭의 타입입니다.
