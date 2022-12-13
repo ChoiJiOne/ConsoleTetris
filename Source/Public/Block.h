@@ -188,7 +188,7 @@ public:
 	 * 
 	 * @param InPosition - 블럭의 상대 좌표 기준점입니다.
 	 */
-	void Render(const Vec2i& InPosition);
+	void Render(const Vec2i& InPosition) const;
 
 
 private:
