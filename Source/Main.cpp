@@ -48,20 +48,17 @@ public:
 	 */
 	void Run()
 	{
-		Timer GameTimer;
-		GameTimer.Reset();
+		Timer_.Reset();
 
 		while (!bIsDone_)
 		{
-			GameTimer.Tick();
+			Timer_.Tick();
 			InputManager::Get().Tick();
 
 			if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
 			{
 				bIsDone_ = true;
 			}
-
-			ConsoleManager::Get().RenderText(Vec2i(0, 10), Text::Format("TOTAL : %d", static_cast<int32_t>(GameTimer.GetTotalTime())), EColor::AQUA);
 		}
 	}
 
@@ -71,6 +68,12 @@ private:
 	 * 게임 종료 여부를 확인합니다.
 	 */
 	bool bIsDone_ = false;
+
+
+	/**
+	 * 게임 타이머입니다.
+	 */
+	Timer Timer_;
 };
 
 
