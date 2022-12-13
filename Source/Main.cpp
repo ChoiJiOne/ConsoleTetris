@@ -41,21 +41,24 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		Board_ = std::vector<Block>(Width_ * Height_, Block());
+		Board_ = std::vector<Block>(Width_ * Height_);
 		for (int32_t y = 0; y < Height_; ++y)
 		{
-			if (y == Height_ - 1)
+			for (int32_t x = 0; x < Width_; ++x)
 			{
-				for (int32_t x = 0; x < Width_; ++x)
+				int32_t Offset = y * Width_ + x;
+				Block CurrentBlock;
+
+				if (x == 0 || x == Width_ - 1 || y == Height_ - 1)
 				{
-					int32_t Offset = y * Width_ + x;
-					Board_[Offset] = Block(Block::EType::GRAY, Block::EState::WALL);
+					CurrentBlock = Block(Block::EType::GRAY, Block::EState::WALL, Vec2i(x, y));
 				}
-			}
-			else
-			{
-				Board_[y * Width_ + 0] = Block(Block::EType::GRAY, Block::EState::WALL);
-				Board_[y * Width_ + Width_ - 1] = Block(Block::EType::GRAY, Block::EState::WALL);
+				else
+				{
+					CurrentBlock = Block(Block::EType::GRAY, Block::EState::EMPTY, Vec2i(x, y));
+				}
+
+				Board_[Offset] = CurrentBlock;
 			}
 		}
 	}
@@ -84,13 +87,15 @@ public:
 			{
 				for (int32_t x = 0; x < Width_; ++x)
 				{
-					if (Board_[y * Width_ + x].GetState() == Block::EState::WALL)
+					Block CurrentBlock = Board_[y * Width_ + x];
+
+					if (CurrentBlock.GetState() == Block::EState::WALL)
 					{
-						ConsoleManager::Get().RenderText(Vec2i(x, y), "¡á", EColor::GRAY);
+						ConsoleManager::Get().RenderText(CurrentBlock.GetPosition(), "¡á", EColor::GRAY);
 					}
 					else
 					{
-						ConsoleManager::Get().RenderText(Vec2i(x, y), "¡¤", EColor::WHITE);
+						ConsoleManager::Get().RenderText(CurrentBlock.GetPosition(), "¡¤", EColor::WHITE);
 					}
 				}
 			}
