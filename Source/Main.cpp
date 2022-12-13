@@ -37,6 +37,8 @@ public:
 	{
 		SetUnhandledExceptionFilter(UnhandledExceptionHandler);
 
+		ConsoleManager::Get().Clear();
+		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 	}
 
