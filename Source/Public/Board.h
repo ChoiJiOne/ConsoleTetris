@@ -70,8 +70,10 @@ public:
 
 	/**
 	 * 보드를 콘솔 화면에 그립니다.
+	 * 
+	 * @param InPosition - 보드의 상대 좌표 기준점입니다.
 	 */
-	void Render();
+	void Render(const Vec2i& InPosition);
 
 
 private:
