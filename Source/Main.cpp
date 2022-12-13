@@ -1,4 +1,5 @@
 #include <Block.h>
+#include <Board.h>
 #include <Debug.h>
 #include <InputManager.h>
 #include <ConsoleManager.h>
@@ -24,6 +25,8 @@ public:
 	 */
 	virtual ~Tetris()
 	{
+		Board_.reset();
+
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
 
@@ -41,26 +44,7 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		Board_ = std::vector<Block>(Width_ * Height_);
-		for (int32_t y = 0; y < Height_; ++y)
-		{
-			for (int32_t x = 0; x < Width_; ++x)
-			{
-				int32_t Offset = y * Width_ + x;
-				Block CurrentBlock;
-
-				if (x == 0 || x == Width_ - 1 || y == Height_ - 1)
-				{
-					CurrentBlock = Block(Block::EType::GRAY, Block::EState::WALL, Vec2i(x, y));
-				}
-				else
-				{
-					CurrentBlock = Block(Block::EType::GRAY, Block::EState::EMPTY, Vec2i(x, y));
-				}
-
-				Board_[Offset] = CurrentBlock;
-			}
-		}
+		Board_ = std::make_unique<Board>(10, 20);
 	}
 
 
@@ -83,22 +67,7 @@ public:
 				bIsDone_ = true;
 			}
 
-			for (int32_t y = 0; y < Height_; ++y)
-			{
-				for (int32_t x = 0; x < Width_; ++x)
-				{
-					Block CurrentBlock = Board_[y * Width_ + x];
-
-					if (CurrentBlock.GetState() == Block::EState::WALL)
-					{
-						ConsoleManager::Get().RenderText(CurrentBlock.GetPosition(), "■", EColor::GRAY);
-					}
-					else
-					{
-						ConsoleManager::Get().RenderText(CurrentBlock.GetPosition(), "·", EColor::WHITE);
-					}
-				}
-			}
+			Board_->Render();
 		}
 	}
 
@@ -117,21 +86,9 @@ private:
 
 
 	/**
-	 * 테트리스 보드의 가로 크기입니다.
-	 */
-	int32_t Width_ = 10;
-
-
-	/**
-	 * 테트리스 보드의 세로 크기입니다.
-	 */
-	int32_t Height_ = 20;
-
-
-	/**
 	 * 테트리스 보드입니다.
 	 */
-	std::vector<Block> Board_;
+	std::unique_ptr<Board> Board_ = nullptr;
 };
 
 
