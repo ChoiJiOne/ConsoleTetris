@@ -65,6 +65,21 @@ public:
 
 
 	/**
+	 * 블럭의 생성자입니다.
+	 *
+	 * @param InType - 블럭의 타입입니다.
+	 * @param InState - 블럭의 상태입니다.
+	 * @param InPosition - 블럭의 상대적인 위치입니다.
+	 */
+	Block(const EType& InType, const EState& InState, const Vec2i& InPosition)
+	{
+		Type_ = InType;
+		State_ = InState;
+		Position_ = InPosition;
+	}
+
+
+	/**
 	 * 블록의 복사 생성자입니다.
 	 *
 	 * @param InInstance - 복사할 객체입니다.
@@ -73,6 +88,7 @@ public:
 	{
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
+		Position_ = InInstance.Position_;
 	}
 
 
@@ -85,6 +101,7 @@ public:
 	{
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
+		Position_ = InInstance.Position_;
 	}
 
 
@@ -108,6 +125,7 @@ public:
 
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
+		Position_ = InInstance.Position_;
 
 		return *this;
 	}
@@ -127,6 +145,7 @@ public:
 
 		Type_ = InInstance.Type_;
 		State_ = InInstance.State_;
+		Position_ = InInstance.Position_;
 
 		return *this;
 	}
@@ -148,6 +167,22 @@ public:
 	EState GetState() const { return State_; }
 
 
+	/**
+	 * 블록의 상대적인 위치를 얻습니다.
+	 * 
+	 * @return 블록의 상대적인 위치를 반환합니다.
+	 */
+	Vec2i GetPosition() const { return Position_; }
+
+
+	/**
+	 * 블록의 상대적인 위치를 설정합니다.
+	 * 
+	 * @param InPosition - 설정할 위치 좌표값 입니다.
+	 */
+	void SetPosition(const Vec2i& InPosition) { Position_ = InPosition; }
+
+
 private:
 	/**
 	 * 블럭의 타입입니다.
@@ -159,4 +194,10 @@ private:
 	 * 블럭의 상태입니다.
 	 */
 	EState State_;
+
+
+	/**
+	 * 블럭의 상대적인 위치입니다.
+	 */
+	Vec2i Position_;
 };
