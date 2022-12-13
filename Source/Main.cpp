@@ -67,7 +67,7 @@ public:
 				bIsDone_ = true;
 			}
 
-			Board_->Render();
+			Board_->Render(Vec2i(5, 5));
 		}
 	}
 
