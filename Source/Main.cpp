@@ -40,6 +40,24 @@ public:
 		ConsoleManager::Get().Clear();
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
+
+		Board_ = std::vector<Block>(Width_ * Height_, Block());
+		for (int32_t y = 0; y < Height_; ++y)
+		{
+			if (y == Height_ - 1)
+			{
+				for (int32_t x = 0; x < Width_; ++x)
+				{
+					int32_t Offset = y * Width_ + x;
+					Board_[Offset] = Block(Block::EType::GRAY, Block::EState::WALL);
+				}
+			}
+			else
+			{
+				Board_[y * Width_ + 0] = Block(Block::EType::GRAY, Block::EState::WALL);
+				Board_[y * Width_ + Width_ - 1] = Block(Block::EType::GRAY, Block::EState::WALL);
+			}
+		}
 	}
 
 
@@ -61,6 +79,21 @@ public:
 			{
 				bIsDone_ = true;
 			}
+
+			for (int32_t y = 0; y < Height_; ++y)
+			{
+				for (int32_t x = 0; x < Width_; ++x)
+				{
+					if (Board_[y * Width_ + x].GetState() == Block::EState::WALL)
+					{
+						ConsoleManager::Get().RenderText(Vec2i(x, y), "■", EColor::GRAY);
+					}
+					else
+					{
+						ConsoleManager::Get().RenderText(Vec2i(x, y), "·", EColor::WHITE);
+					}
+				}
+			}
 		}
 	}
 
@@ -76,6 +109,24 @@ private:
 	 * 게임 타이머입니다.
 	 */
 	Timer Timer_;
+
+
+	/**
+	 * 테트리스 보드의 가로 크기입니다.
+	 */
+	int32_t Width_ = 10;
+
+
+	/**
+	 * 테트리스 보드의 세로 크기입니다.
+	 */
+	int32_t Height_ = 20;
+
+
+	/**
+	 * 테트리스 보드입니다.
+	 */
+	std::vector<Block> Board_;
 };
 
 
