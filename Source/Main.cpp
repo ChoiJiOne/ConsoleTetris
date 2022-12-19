@@ -47,6 +47,7 @@ public:
 
 		//Board_ = std::make_unique<Board>(10, 20);
 		Tetromino_ = std::make_unique<Tetromino>(Vec2i(3, 0), Vec2i(0, 0));
+		Tetromino_->SetState(Tetromino::EState::ACTIVE);
 	}
 
 
@@ -69,7 +70,7 @@ public:
 				bIsDone_ = true;
 			}
 
-			//Board_->Render(Vec2i(5, 5));
+			Tetromino_->Update(Timer_.GetDeltaTime());
 			Tetromino_->Render();
 		}
 	}

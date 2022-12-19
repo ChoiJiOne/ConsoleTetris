@@ -44,6 +44,16 @@ public:
 	};
 
 
+	/**
+	 * 테트로미노의 상태입니다.
+	 */
+	enum class EState : int32_t
+	{
+		WAIT   = 0,
+		ACTIVE = 1
+	};
+
+
 public:
 	/**
 	 * 테트로미노의 생성자입니다.
@@ -101,6 +111,54 @@ public:
 
 
 	/**
+	 * 테트로미노의 보드 상 위치를 얻습니다.
+	 * 
+	 * @return 테트로미노의 보드 상 위치를 반환합니다.
+	 */
+	Vec2i GetBoardPosition() const { return BoardPosition_; }
+
+
+	/**
+	 * 테트로미노의 보드 상 위치를 설정합니다.
+	 * 
+	 * @param InBoardPosition - 설정할 테트로미노의 보드 상 위치입니다.
+	 */
+	void SetBoardPosition(const Vec2i& InBoardPosition) { BoardPosition_ = InBoardPosition; }
+
+
+	/**
+	 * 테트로미노의 콘솔 화면 상 위치를 얻습니다.
+	 * 
+	 * @return 테트로미노의 콘솔 화면 상 위치를 반환합니다.
+	 */
+	Vec2i GetConsolePosition() const { return ConsolePosition_; }
+
+
+	/**
+	 * 테트로미노의 콘솔 화면 상 위치를 설정합니다.
+	 * 
+	 * @param InConsolePosition - 설정할 테트로미노의 콘솔 상 위치입니다.
+	 */
+	void SetConsolePosition(const Vec2i& InConsolePosition) { ConsolePosition_ = InConsolePosition; }
+
+
+	/**
+	 * 테트로미노의 상태를 얻습니다.
+	 * 
+	 * @return 테트로미노의 상태를 반환합니다.
+	 */
+	EState GetState() const { return State_; }
+
+
+	/**
+	 * 테트로미노의 상태를 설정합니다.
+	 * 
+	 * @param InState - 설정할 테트로미노의 상태입니다.
+	 */
+	void SetState(const EState& InState) { State_ = InState; }
+
+
+	/**
 	 * 테트로미노 움직임의 반대 방향을 얻습니다.
 	 *
 	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.
@@ -108,6 +166,14 @@ public:
 	 * @return 움직임의 반대 방향을 반환합니다.
 	 */
 	static EMovement GetCountMovement(const EMovement& InMovement);
+
+
+	/**
+	 * 테트리스 보드 상의 테트로미노를 움직입니다.
+	 * 
+	 * @param InMovement - 테트리스가 움직일 방향입니다.
+	 */
+	void Move(const EMovement& InMovement);
 
 
 public:
@@ -137,6 +203,12 @@ private:
 	 * 테트로미노 블럭의 색상입니다.
 	 */
 	EColor Color_ = EColor::BLACK;
+
+
+	/**
+	 * 테트로미노의 상태입니다.
+	 */
+	EState State_ = EState::WAIT;
 
 
 	/**

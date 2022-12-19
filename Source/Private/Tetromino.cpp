@@ -46,14 +46,37 @@ Tetromino::Tetromino(const Vec2i& InBoardPosition, const Vec2i& InConsolePositio
 
 void Tetromino::Update(float InDeltaSeconds)
 {
+	if (State_ == EState::ACTIVE)
+	{
+		if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
+		{
+			Move(EMovement::CW);
+		}
+	}
 }
 
 void Tetromino::Render()
 {
-	for (const auto& BlockPosition : BlockPositions_)
+	Vec2i Position;
+	bool bIsFound = false;
+
+	for (int32_t x = 0; x < BoundSize_; ++x)
 	{
-		Vec2i Position = BlockPosition + ConsolePosition_;
-		ConsoleManager::Get().RenderText(Position, "бс", Color_);
+		for (int32_t y = 0; y < BoundSize_; ++y)
+		{
+			Position = Vec2i(x, y);
+			bIsFound = false;
+
+			for (const auto& BlockPosition : BlockPositions_)
+			{
+				if (Position == BlockPosition)
+				{
+					bIsFound = true;
+				}
+			}
+
+			ConsoleManager::Get().RenderText(Position + ConsolePosition_, bIsFound ? "бс" : "бд", Color_);
+		}
 	}
 }
 
@@ -96,6 +119,48 @@ Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)
 	}
 
 	return CountMovement;
+}
+
+void Tetromino::Move(const EMovement& InMovement)
+{
+	switch (InMovement)
+	{
+	case EMovement::NONE:
+		break;
+
+	case EMovement::UP:
+		BoardPosition_.y -= 1;
+		break;
+
+	case EMovement::DOWN:
+		BoardPosition_.y += 1;
+		break;
+
+	case EMovement::LEFT:
+		BoardPosition_.x -= 1;
+		break;
+
+	case EMovement::RIGHT:
+		BoardPosition_.x += 1;
+		break;
+
+	case EMovement::CCW:
+		BlockPositions_[0] = Vec2i(BlockPositions_[0].y, BoundSize_ - 1 - BlockPositions_[0].x);
+		BlockPositions_[1] = Vec2i(BlockPositions_[1].y, BoundSize_ - 1 - BlockPositions_[1].x);
+		BlockPositions_[2] = Vec2i(BlockPositions_[2].y, BoundSize_ - 1 - BlockPositions_[2].x);
+		BlockPositions_[3] = Vec2i(BlockPositions_[3].y, BoundSize_ - 1 - BlockPositions_[3].x);
+		break;
+
+	case EMovement::CW:
+		BlockPositions_[0] = Vec2i(BoundSize_ - 1 - BlockPositions_[0].y, BlockPositions_[0].x);
+		BlockPositions_[1] = Vec2i(BoundSize_ - 1 - BlockPositions_[1].y, BlockPositions_[1].x);
+		BlockPositions_[2] = Vec2i(BoundSize_ - 1 - BlockPositions_[2].y, BlockPositions_[2].x);
+		BlockPositions_[3] = Vec2i(BoundSize_ - 1 - BlockPositions_[3].y, BlockPositions_[3].x);
+		break;
+
+	default:
+		ENFORCE_THROW_EXCEPTION("undefined tetromino type...");
+	}
 }
 
 void Tetromino::CreateTetrominoBlocks(const EShape& InType)
