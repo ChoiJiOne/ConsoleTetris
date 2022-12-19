@@ -77,7 +77,7 @@ void Tetromino::Render()
 				}
 			}
 
-			ConsoleManager::Get().RenderText(Position + ConsolePosition_, bIsFound ? "бс" : "бд", Color_);
+			ConsoleManager::Get().RenderText(Position + ConsolePosition_, bIsFound ? "бс" : "  ", Color_);
 		}
 	}
 }
