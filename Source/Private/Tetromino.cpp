@@ -1,4 +1,5 @@
 #include <Tetromino.h>
+#include <Component.h>
 #include <InputManager.h>
 #include <Macro.h>
 #include <Random.h>
