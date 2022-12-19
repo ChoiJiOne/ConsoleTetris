@@ -72,6 +72,7 @@ void Tetromino::Render()
 				if (Position == BlockPosition)
 				{
 					bIsFound = true;
+					break;
 				}
 			}
 
