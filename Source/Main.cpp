@@ -6,6 +6,8 @@
 #include <Timer.h>
 #include <Vector.hpp>
 
+#include <list>
+
 
 /**
  * 테트리스 게임입니다.
@@ -25,8 +27,10 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		Tetromino_.reset();
-		//Board_.reset();
+		for (auto& WaitTetromino : WaitTetrominos_)
+		{
+			WaitTetromino.reset();
+		}
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -45,9 +49,13 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		//Board_ = std::make_unique<Board>(10, 20);
-		Tetromino_ = std::make_unique<Tetromino>(Vec2i(3, 0), Vec2i(0, 0));
-		Tetromino_->SetState(Tetromino::EState::ACTIVE);
+		Vec2i ConsolePosition = Vec2i(15, 2);
+		for (int32_t Count = 1; Count <= 4; ++Count)
+		{
+			std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Vec2i(3, 0), ConsolePosition);
+			WaitTetrominos_.push_back(std::move(NewTetromino));
+			ConsolePosition.y += 4;
+		}
 	}
 
 
@@ -70,8 +78,29 @@ public:
 				bIsDone_ = true;
 			}
 
-			Tetromino_->Update(Timer_.GetDeltaTime());
-			Tetromino_->Render();
+			Update();
+			Render();
+		}
+	}
+
+
+private:
+	/**
+	 * 루프를 업데이트합니다.
+	 */
+	void Update()
+	{
+	}
+
+
+	/**
+	 * 콘솔 화면에 렌더링을 수행합니다.
+	 */
+	void Render()
+	{
+		for (auto& WaitTetromino : WaitTetrominos_)
+		{
+			WaitTetromino->Render();
 		}
 	}
 
@@ -90,15 +119,9 @@ private:
 
 
 	/**
-	 * 테트리스 보드입니다.
+	 * 대기중인 테트로미노들입니다.
 	 */
-	//std::unique_ptr<Board> Board_ = nullptr;
-
-
-	/**
-	 * 테트리스 테트로미노입니다.
-	 */
-	std::unique_ptr<Tetromino> Tetromino_ = nullptr;
+	std::list<std::unique_ptr<Tetromino>> WaitTetrominos_;
 };
 
 
