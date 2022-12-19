@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Block.h>
+#include <GameObject.h>
+#include <ConsoleManager.h>
 
 #include <vector>
 
@@ -8,7 +9,7 @@
 /**
  * 테트리스 테트로미노입니다.
  */
-class Tetromino
+class Tetromino : public GameObject
 {
 public:
 	/**
@@ -48,10 +49,16 @@ public:
 	 * 테트로미노의 생성자입니다.
 	 * 
 	 * @param InBoardPosition - 테트리스 보드 상의 테트로미노 상단 원점의 좌표입니다.
+	 * @param InConsolePosition - 콘솔 상의 테트로미노 상단 원점의 좌표입니다.
 	 * @param InType - 테트로미노의 모양 타입입니다.
-	 * @param InBlockType - 테트로미노 블럭의 타입입니다.
+	 * @param InBlockType - 테트로미노 블럭의 색상입니다.
 	 */
-	explicit Tetromino(const Vec2i& InBoardPosition, const EShape& InType, const Block::EType& InBlockType);
+	explicit Tetromino(
+		const Vec2i& InBoardPosition, 
+		const Vec2i& InConsolePosition,
+		const EShape& InType, 
+		const EColor& InColor
+	);
 
 
 	/**
@@ -59,24 +66,12 @@ public:
 	 * 이때, 이 생성자는 임의의 테트로미노를 생성합니다.
 	 * 
 	 * @param InBoardPosition - 테트리스 보드 상의 테트로미노 상단 원점의 좌표입니다.
+	 * @param InConsolePosition - 콘솔 상의 테트로미노 상단 원점의 좌표입니다.
 	 */
-	explicit Tetromino(const Vec2i& InBoardPosition);
-
-
-	/**
-	 * 테트로미노의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사를 수행할 객체입니다.
-	 */
-	Tetromino(Tetromino&& InInstance) noexcept;
-
-
-	/**
-	 * 테트로미노의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사를 수행할 객체입니다.
-	 */
-	Tetromino(const Tetromino& InInstance) noexcept;
+	explicit Tetromino(
+		const Vec2i& InBoardPosition,
+		const Vec2i& InConsolePosition
+	);
 
 
 	/**
@@ -86,37 +81,23 @@ public:
 
 
 	/**
-	 * 테트로미노의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 대입할 객체입니다.
-	 *
-	 * @return 대입한 객체의 참조자를 반환합니다.
+	 * 테트로미노의 복사 생성자 및 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	Tetromino& operator=(Tetromino&& InInstance) noexcept;
-
-
-	/**
-	 * 테트로미노의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 대입할 객체입니다.
-	 *
-	 * @return 대입한 객체의 참조자를 반환합니다.
-	 */
-	Tetromino& operator=(const Tetromino& InInstance) noexcept;
+	DISALLOW_COPY_AND_ASSIGN(Tetromino);
 
 
 	/**
 	 * 테트로미노를 업데이트합니다.
+	 *
+	 * @param InDeltaTime - 초단위 델타 시간값입니다.
 	 */
-	void Update();
+	virtual void Update(float InDeltaSeconds) override;
 
 
 	/**
 	 * 테트로미노를 화면에 그립니다.
-	 * 
-	 * @param InPosition - 테트로미노의 상대 좌표 기준점입니다.
 	 */
-	void Render(const Vec2i& InPosition);
+	virtual void Render() override;
 
 
 	/**
@@ -136,7 +117,7 @@ public:
 	 * @param InType - 테트로미노의 모양 타입입니다.
 	 * @param InBlockType - 테트로미노 블럭의 타입입니다.
 	 */
-	void CreateTetrominoBlocks(const EShape& InType, const Block::EType& InBlockType);
+	void CreateTetrominoBlocks(const EShape& InType);
 
 
 private:
@@ -144,6 +125,18 @@ private:
 	 * 테트리스 보드 상 위치입니다.
 	 */
 	Vec2i BoardPosition_;
+
+
+	/**
+	 * 콘솔 화면 상의 위치입니다.
+	 */
+	Vec2i ConsolePosition_;
+
+
+	/**
+	 * 테트로미노 블럭의 색상입니다.
+	 */
+	EColor Color_ = EColor::BLACK;
 
 
 	/**
@@ -157,5 +150,5 @@ private:
 	 * 테트로미노 블럭들입니다.
 	 * 이때, 이 블럭들은 상대적인 좌표를 갖습니다.
 	 */
-	std::vector<Block> Blocks_;
+	std::vector<Vec2i> BlockPositions_;
 };
