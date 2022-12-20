@@ -1,4 +1,4 @@
-#include <Board.h>
+#include <Block.h>
 #include <Debug.h>
 #include <InputManager.h>
 #include <ConsoleManager.h>
@@ -27,10 +27,8 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		for (auto& WaitTetromino : WaitTetrominos_)
-		{
-			WaitTetromino.reset();
-		}
+		EmptyBlock_.reset();
+		FillBlock_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -49,13 +47,8 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		Vec2i ConsolePosition = Vec2i(15, 2);
-		for (int32_t Count = 1; Count <= 4; ++Count)
-		{
-			std::unique_ptr<Tetromino> NewTetromino = std::make_unique<Tetromino>(Vec2i(3, 0), ConsolePosition);
-			WaitTetrominos_.push_back(std::move(NewTetromino));
-			ConsolePosition.y += 4;
-		}
+		FillBlock_ = std::make_unique<Block>(Vec2i(5, 5), Block::EState::FILL, EColor::AQUA);
+		EmptyBlock_ = std::make_unique<Block>(Vec2i(6, 5), Block::EState::EMPTY, EColor::RED);
 	}
 
 
@@ -98,10 +91,8 @@ private:
 	 */
 	void Render()
 	{
-		for (auto& WaitTetromino : WaitTetrominos_)
-		{
-			WaitTetromino->Render();
-		}
+		FillBlock_->Render();
+		EmptyBlock_->Render();
 	}
 
 
@@ -119,9 +110,15 @@ private:
 
 
 	/**
-	 * 대기중인 테트로미노들입니다.
+	 * 테트리스 채움 블럭입니다.
 	 */
-	std::list<std::unique_ptr<Tetromino>> WaitTetrominos_;
+	std::unique_ptr<Block> FillBlock_ = nullptr;
+
+
+	/**
+	 * 테트리스 비어있는 블럭입니다.
+	 */
+	std::unique_ptr<Block> EmptyBlock_ = nullptr;
 };
 
 
