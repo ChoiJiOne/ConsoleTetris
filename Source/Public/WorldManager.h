@@ -9,26 +9,27 @@ class GameObject;
 
 /**
  * 게임 오브젝트가 위치할 월드입니다.
+ * 이때, 이 클래스는 싱글턴입니다.
  */
-class World
+class WorldManager
 {
 public:
 	/**
-	 * 게임 월드의 디폴트 생성자입니다.
+	 * 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	World() = default;
+	DISALLOW_COPY_AND_ASSIGN(WorldManager);
 
 
 	/**
-	 * 게임 월드의 가상 소멸자입니다.
+	 * WorldManager의 싱글 인스턴스를 얻습니다.
+	 *
+	 * @return WorldManager의 인스턴스를 반환합니다.
 	 */
-	virtual ~World();
-
-
-	/**
-	 * 명시적으로 복사 생성자와 대입 연산자를 삭제합니다.
-	 */
-	DISALLOW_COPY_AND_ASSIGN(World);
+	static WorldManager& Get()
+	{
+		static WorldManager Instance;
+		return Instance;
+	}
 
 
 	/**
@@ -67,6 +68,19 @@ public:
 	 * @param InObject - 2D 월드에서 삭제할 오브젝트의 키 값입니다.
 	 */
 	void RemoveObject(const std::size_t& InKey);
+
+
+private:
+	/**
+	 * 게임 월드의 생성자입니다.
+	 */
+	WorldManager() {}
+
+
+	/**
+	 * 게임 월드의 가상 소멸자입니다.
+	 */
+	virtual ~WorldManager() {}
 
 
 private:
