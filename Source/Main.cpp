@@ -82,35 +82,7 @@ private:
 	 */
 	void Update()
 	{
-		if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED)
-		{
-			ConsoleManager::Get().Clear();
-			Tetromino_->Move(Tetromino::EMovement::LEFT);
-		}
-
-		if (InputManager::Get().GetKeyPressState(EKeyCode::RIGHT) == EPressState::PRESSED)
-		{
-			ConsoleManager::Get().Clear();
-			Tetromino_->Move(Tetromino::EMovement::RIGHT);
-		}
-
-		if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
-		{
-			ConsoleManager::Get().Clear();
-			Tetromino_->Move(Tetromino::EMovement::UP);
-		}
-
-		if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
-		{
-			ConsoleManager::Get().Clear();
-			Tetromino_->Move(Tetromino::EMovement::DOWN);
-		}
-
-		if (InputManager::Get().GetKeyPressState(EKeyCode::SPACE) == EPressState::PRESSED)
-		{
-			ConsoleManager::Get().Clear();
-			Tetromino_->Move(Tetromino::EMovement::CW);
-		}
+		Tetromino_->Update(Timer_.GetDeltaTime());
 	}
 
 
