@@ -33,22 +33,22 @@ public:
 
 
 	/**
-	 * 게임 월드에 오브젝트를 추가합니다.
+	 * 게임 월드에 오브젝트를 등록합니다.
 	 *
-	 * @param InObject - 2D 월드에 추가할 오브젝트입니다.
+	 * @param InObject - 2D 월드에 등록할 오브젝트입니다.
 	 * @param InKey - 2D 월드에 추가할 오브젝트의 키 값입니다.
 	 */
-	void AddOjbect(GameObject* InObject, const std::size_t& InKey);
+	void RegisterOjbect(GameObject* InObject, const std::size_t& InKey);
 
 
 	/**
-	 * 게임 월드에 오브젝트가 존재하는지 확인합니다.
+	 * 게임 월드에 오브젝트가 등록되었는지 확인합니다.
 	 *
-	 * @param InKey - 존재하는지 확인할 오브젝트의 키 값입니다.
+	 * @param InKey - 등록되었는지 확인할 오브젝트의 키 값입니다.
 	 *
-	 * @return 게임 월드에 존재한다면 true, 그렇지 않다면 false를 반환합니다.
+	 * @return 게임 월드에 등록 되었다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	bool IsExistObject(const std::size_t& InKey);
+	bool IsRegisterObject(const std::size_t& InKey);
 
 
 	/**
@@ -62,12 +62,12 @@ public:
 
 
 	/**
-	 * 게임 월드에 오브젝트를 삭제합니다.
+	 * 게임 월드에 오브젝트를 등록 해제합니다.
 	 * 이때, 해당 오브젝트가 존재하지 않는다면 아무 동작도 하지 않습니다.
 	 *
-	 * @param InObject - 2D 월드에서 삭제할 오브젝트의 키 값입니다.
+	 * @param InKey - 게임 월드에서 등록 해제할 오브젝트의 키 값입니다.
 	 */
-	void RemoveObject(const std::size_t& InKey);
+	void UnregisterObject(const std::size_t& InKey);
 
 
 private:
