@@ -65,7 +65,7 @@ public:
 	/**
 	 * 테트로미노의 가상 소멸자입니다.
 	 */
-	virtual ~Tetromino() {}
+	virtual ~Tetromino();
 
 
 	/**
@@ -114,6 +114,20 @@ public:
 	static EMovement GetCountMovement(const EMovement& InMovement);
 
 
+	/**
+	 * 현재까지 생성된 테트로미노의 수를 얻습니다.
+	 * 
+	 * @return 현재까지 생성된 테트로미노의 수를 반환합니다.
+	 */
+	static int32_t GetCountOfTetromino() { return CountOfTetromino_; }
+
+
+	/**
+	 * 현재까지 생성된 테트로미노의 수를 초기화합니다.
+	 */
+	static void ResetCountOfTetromino() { CountOfTetromino_ = 0; }
+
+
 private:
 	/**
 	 * 테트로미노 타입에 맞는 블럭들의 위치를 생성합니다.
@@ -141,4 +155,17 @@ private:
 	 * 테트로미노의 블럭들입니다.
 	 */
 	std::vector<Block> Blocks_;
+
+
+	/**
+	 * 테트로미노의 아이디입니다.
+	 * 이 멤버 변수는 테트로미노를 게임 월드에 등록 및 삭제할 때 사용합니다.
+	 */
+	int32_t ID_ = 0;
+
+
+	/**
+	 * 게임 플레이 중 생성된 테트로미노의 수입니다.
+	 */
+	static int32_t CountOfTetromino_;
 };

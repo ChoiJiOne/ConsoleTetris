@@ -2,13 +2,21 @@
 #include <InputManager.h>
 #include <Macro.h>
 #include <Random.h>
+#include <Text.hpp>
+#include <WorldManager.h>
 
 #include <array>
+
+int32_t Tetromino::CountOfTetromino_ = 0;
 
 Tetromino::Tetromino(const Vec2i& InPosition, const EShape& InShape, const EColor& InColor)
 	: Position_(InPosition)
 {
 	CreateTetrominoBlocks(InShape, InColor);
+
+	ID_ = CountOfTetromino_;
+	CountOfTetromino_++;
+	WorldManager::Get().AddOjbect(this, Text::GetHash(std::to_string(ID_)));
 }
 
 Tetromino::Tetromino(const Vec2i& InPosition)
@@ -37,6 +45,15 @@ Tetromino::Tetromino(const Vec2i& InPosition)
 	int32_t ColorIndex = GenerateRandomInt(0, static_cast<int32_t>(std::size(Colors)) - 1);
 
 	CreateTetrominoBlocks(Shapes[ShapeIndex], Colors[ColorIndex]);
+
+	ID_ = CountOfTetromino_;
+	CountOfTetromino_++;
+	WorldManager::Get().AddOjbect(this, Text::GetHash(std::to_string(ID_)));
+}
+
+Tetromino::~Tetromino()
+{
+	WorldManager::Get().RemoveObject(Text::GetHash(std::to_string(ID_)));
 }
 
 void Tetromino::Update(float InDeltaSeconds)
