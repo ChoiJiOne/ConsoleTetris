@@ -97,6 +97,14 @@ public:
 
 
 	/**
+	 * 테트로미노의 블럭들을 반환합니다.
+	 * 
+	 * @return 테트로미노 블럭 목록을 반환합니다.
+	 */
+	const std::vector<Block>& GetBlocks() const { return Blocks_; }
+
+
+	/**
 	 * 테트로미노 움직임의 반대 방향을 얻습니다.
 	 *
 	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.
