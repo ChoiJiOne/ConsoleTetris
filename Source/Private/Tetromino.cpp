@@ -58,28 +58,37 @@ Tetromino::~Tetromino()
 
 void Tetromino::Update(float InDeltaSeconds)
 {
+	bool bIsMove = false;
+	Tetromino::EMovement Movement;
+
 	if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED)
 	{
-		RemoveFromConsole();
-		Move(Tetromino::EMovement::LEFT);
+		bIsMove = true;
+		Movement = Tetromino::EMovement::LEFT;
 	}
 
 	if (InputManager::Get().GetKeyPressState(EKeyCode::RIGHT) == EPressState::PRESSED)
 	{
-		RemoveFromConsole();
-		Move(Tetromino::EMovement::RIGHT);
+		bIsMove = true;
+		Movement = Tetromino::EMovement::RIGHT;
 	}
 
 	if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
 	{
-		RemoveFromConsole();
-		Move(Tetromino::EMovement::UP);
+		bIsMove = true;
+		Movement = Tetromino::EMovement::CW;
 	}
 
 	if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
 	{
+		bIsMove = true;
+		Movement = Tetromino::EMovement::DOWN;
+	}
+
+	if (bIsMove)
+	{
 		RemoveFromConsole();
-		Move(Tetromino::EMovement::DOWN);
+		Move(Movement);
 	}
 }
 
