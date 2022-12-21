@@ -24,6 +24,12 @@ public:
 
 public:
 	/**
+	 * 블럭의 디폴트 생성자입니다.
+	 */
+	Block() = default;
+
+
+	/**
 	 * 블럭의 생성자입니다.
 	 * 
 	 * @param InPosition - 콘솔 상의 블럭의 위치입니다.
