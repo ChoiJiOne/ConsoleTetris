@@ -16,7 +16,7 @@ Tetromino::Tetromino(const Vec2i& InPosition, const EShape& InShape, const EColo
 
 	ID_ = CountOfTetromino_;
 	CountOfTetromino_++;
-	WorldManager::Get().AddOjbect(this, Text::GetHash(std::to_string(ID_)));
+	WorldManager::Get().RegisterOjbect(this, Text::GetHash(std::to_string(ID_)));
 }
 
 Tetromino::Tetromino(const Vec2i& InPosition)
@@ -48,12 +48,12 @@ Tetromino::Tetromino(const Vec2i& InPosition)
 
 	ID_ = CountOfTetromino_;
 	CountOfTetromino_++;
-	WorldManager::Get().AddOjbect(this, Text::GetHash(std::to_string(ID_)));
+	WorldManager::Get().RegisterOjbect(this, Text::GetHash(std::to_string(ID_)));
 }
 
 Tetromino::~Tetromino()
 {
-	WorldManager::Get().RemoveObject(Text::GetHash(std::to_string(ID_)));
+	WorldManager::Get().UnregisterObject(Text::GetHash(std::to_string(ID_)));
 }
 
 void Tetromino::Update(float InDeltaSeconds)
