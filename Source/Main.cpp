@@ -47,16 +47,6 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		std::array<Tetromino::EShape, 7> Shapes = {
-			Tetromino::EShape::I,
-			Tetromino::EShape::O,
-			Tetromino::EShape::T,
-			Tetromino::EShape::J,
-			Tetromino::EShape::L,
-			Tetromino::EShape::S,
-			Tetromino::EShape::Z
-		};
-
 		Tetromino_ = std::make_unique<Tetromino>(Vec2i(0, 0), Tetromino::EShape::L, EColor::GRAY);
 	}
 
