@@ -6,6 +6,7 @@
 #include <Timer.h>
 #include <Vector.hpp>
 
+#include <array>
 #include <list>
 
 
@@ -27,8 +28,10 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		EmptyBlock_.reset();
-		FillBlock_.reset();
+		for (auto& tetromino : Tetrominos_)
+		{
+			tetromino.reset();
+		}
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -47,8 +50,24 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		FillBlock_ = std::make_unique<Block>(Vec2i(5, 5), Block::EState::FILL, EColor::AQUA);
-		EmptyBlock_ = std::make_unique<Block>(Vec2i(6, 5), Block::EState::EMPTY, EColor::RED);
+		std::array<Tetromino::EShape, 7> Shapes = {
+			Tetromino::EShape::I,
+			Tetromino::EShape::O,
+			Tetromino::EShape::T,
+			Tetromino::EShape::J,
+			Tetromino::EShape::L,
+			Tetromino::EShape::S,
+			Tetromino::EShape::Z
+		};
+
+		Vec2i Position(0, 0);
+		for (const auto& Shape : Shapes)
+		{
+			auto NewTetromino = std::make_unique<Tetromino>(Position, Shape, EColor::AQUA);
+			Tetrominos_.push_back(std::move(NewTetromino));
+
+			Position.x += 4;
+		}
 	}
 
 
@@ -91,8 +110,10 @@ private:
 	 */
 	void Render()
 	{
-		FillBlock_->Render();
-		EmptyBlock_->Render();
+		for (auto& tetromino : Tetrominos_)
+		{
+			tetromino->Render();
+		}
 	}
 
 
@@ -110,15 +131,9 @@ private:
 
 
 	/**
-	 * 테트리스 채움 블럭입니다.
+	 * 테트로미노들 입니다.
 	 */
-	std::unique_ptr<Block> FillBlock_ = nullptr;
-
-
-	/**
-	 * 테트리스 비어있는 블럭입니다.
-	 */
-	std::unique_ptr<Block> EmptyBlock_ = nullptr;
+	std::list<std::unique_ptr<Tetromino>> Tetrominos_;
 };
 
 
