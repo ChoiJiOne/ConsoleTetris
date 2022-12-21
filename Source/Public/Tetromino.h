@@ -89,6 +89,14 @@ public:
 
 
 	/**
+	 * 테트로미노를 움직입니다.
+	 * 
+	 * @param InMovement - 테트로미노가 움직일 방향입니다.
+	 */
+	void Move(const EMovement& InMovement);
+
+
+	/**
 	 * 테트로미노 움직임의 반대 방향을 얻습니다.
 	 *
 	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.

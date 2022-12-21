@@ -41,6 +41,7 @@ Tetromino::Tetromino(const Vec2i& InPosition)
 
 void Tetromino::Update(float InDeltaSeconds)
 {
+	
 }
 
 void Tetromino::Render()
@@ -48,6 +49,88 @@ void Tetromino::Render()
 	for (auto& block : Blocks_)
 	{
 		block.Render();
+	}
+}
+
+void Tetromino::Move(const EMovement& InMovement)
+{
+	switch (InMovement)
+	{
+	case EMovement::NONE:
+		break;
+
+	case EMovement::UP:
+		Position_.y -= 1;
+
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition.y -= 1;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::DOWN:
+		Position_.y += 1;
+
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition.y += 1;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::LEFT:
+		Position_.x -= 1;
+
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition.x -= 1;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::RIGHT:
+		Position_.x += 1;
+
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition.x += 1;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::CCW:
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition -= Position_;
+
+			BlockPosition = Vec2i(BlockPosition.y, BoundSize_ - 1 - BlockPosition.x);
+
+			BlockPosition += Position_;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::CW:
+		for (auto& block : Blocks_)
+		{
+			Vec2i BlockPosition = block.GetPosition();
+			BlockPosition -= Position_;
+
+			BlockPosition = Vec2i(BoundSize_ - 1 - BlockPosition.y, BlockPosition.x);
+
+			BlockPosition += Position_;
+			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	default:
+		ENFORCE_THROW_EXCEPTION("undefined tetromino type...");
 	}
 }
 

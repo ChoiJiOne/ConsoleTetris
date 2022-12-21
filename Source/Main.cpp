@@ -28,10 +28,7 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		for (auto& tetromino : Tetrominos_)
-		{
-			tetromino.reset();
-		}
+		Tetromino_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -60,14 +57,7 @@ public:
 			Tetromino::EShape::Z
 		};
 
-		Vec2i Position(0, 0);
-		for (const auto& Shape : Shapes)
-		{
-			auto NewTetromino = std::make_unique<Tetromino>(Position, Shape, EColor::AQUA);
-			Tetrominos_.push_back(std::move(NewTetromino));
-
-			Position.x += 4;
-		}
+		Tetromino_ = std::make_unique<Tetromino>(Vec2i(0, 0), Tetromino::EShape::L, EColor::GRAY);
 	}
 
 
@@ -102,6 +92,35 @@ private:
 	 */
 	void Update()
 	{
+		if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED)
+		{
+			ConsoleManager::Get().Clear();
+			Tetromino_->Move(Tetromino::EMovement::LEFT);
+		}
+
+		if (InputManager::Get().GetKeyPressState(EKeyCode::RIGHT) == EPressState::PRESSED)
+		{
+			ConsoleManager::Get().Clear();
+			Tetromino_->Move(Tetromino::EMovement::RIGHT);
+		}
+
+		if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
+		{
+			ConsoleManager::Get().Clear();
+			Tetromino_->Move(Tetromino::EMovement::UP);
+		}
+
+		if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
+		{
+			ConsoleManager::Get().Clear();
+			Tetromino_->Move(Tetromino::EMovement::DOWN);
+		}
+
+		if (InputManager::Get().GetKeyPressState(EKeyCode::SPACE) == EPressState::PRESSED)
+		{
+			ConsoleManager::Get().Clear();
+			Tetromino_->Move(Tetromino::EMovement::CW);
+		}
 	}
 
 
@@ -110,10 +129,7 @@ private:
 	 */
 	void Render()
 	{
-		for (auto& tetromino : Tetrominos_)
-		{
-			tetromino->Render();
-		}
+		Tetromino_->Render();
 	}
 
 
@@ -131,9 +147,9 @@ private:
 
 
 	/**
-	 * 테트로미노들 입니다.
+	 * 테트로미노 입니다.
 	 */
-	std::list<std::unique_ptr<Tetromino>> Tetrominos_;
+	std::unique_ptr<Tetromino> Tetromino_ = nullptr;
 };
 
 
