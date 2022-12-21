@@ -58,7 +58,29 @@ Tetromino::~Tetromino()
 
 void Tetromino::Update(float InDeltaSeconds)
 {
-	
+	if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED)
+	{
+		RemoveFromConsole();
+		Move(Tetromino::EMovement::LEFT);
+	}
+
+	if (InputManager::Get().GetKeyPressState(EKeyCode::RIGHT) == EPressState::PRESSED)
+	{
+		RemoveFromConsole();
+		Move(Tetromino::EMovement::RIGHT);
+	}
+
+	if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
+	{
+		RemoveFromConsole();
+		Move(Tetromino::EMovement::UP);
+	}
+
+	if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
+	{
+		RemoveFromConsole();
+		Move(Tetromino::EMovement::DOWN);
+	}
 }
 
 void Tetromino::Render()
@@ -256,5 +278,14 @@ void Tetromino::CreateTetrominoBlocks(const EShape& InShape, const EColor& InCol
 
 	default:
 		ENFORCE_THROW_EXCEPTION("undefined tetromino type...");
+	}
+}
+
+void Tetromino::RemoveFromConsole()
+{
+	for (auto& block : Blocks_)
+	{
+		Vec2i BlockPosition = block.GetPosition();
+		ConsoleManager::Get().RenderText(BlockPosition, "  ", EColor::BLACK);
 	}
 }

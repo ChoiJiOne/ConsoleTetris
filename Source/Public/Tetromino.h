@@ -138,6 +138,12 @@ private:
 	void CreateTetrominoBlocks(const EShape& InShape, const EColor& InColor);
 
 
+	/**
+	 * 테트로미노를 콘솔 화면 상에서 지웁니다.
+	 */
+	void RemoveFromConsole();
+
+
 private:
 	/**
 	 * 테트로미노 영역의 왼쪽 상단 좌표입니다.
