@@ -25,7 +25,7 @@ std::string Block::GetStateText(const EState& InState)
 		break;
 
 	case EState::WALL:
-		StateText = "бс";
+		StateText = "в╦";
 		break;
 
 	default:
