@@ -1,10 +1,6 @@
 #include <WorldManager.h>
 #include <GameObject.h>
 
-WorldManager::~WorldManager()
-{
-}
-
 void WorldManager::AddOjbect(GameObject* InObject, const std::size_t& InKey)
 {
 	if (IsExistObject(InKey)) return;
