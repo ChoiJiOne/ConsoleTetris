@@ -49,7 +49,9 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		Tetromino_ = std::make_unique<Tetromino>(Vec2i(10, 5), Tetromino::EShape::L, EColor::GRAY);
+		StartPosition_ = Vec2i(10, 5);
+
+		Tetromino_ = std::make_unique<Tetromino>(StartPosition_);
 		Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
 	}
 
@@ -110,6 +112,12 @@ private:
 	 */
 	Timer Timer_;
 
+	
+	/**
+	 * 테트로미노의 시작점입니다.
+	 */
+	Vec2i StartPosition_;
+	
 
 	/**
 	 * 테트로미노 입니다.
