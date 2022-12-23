@@ -1,4 +1,5 @@
 #include <Block.h>
+#include <Board.h>
 #include <Debug.h>
 #include <InputManager.h>
 #include <ConsoleManager.h>
@@ -29,6 +30,7 @@ public:
 	virtual ~Tetris()
 	{
 		//Tetromino_.reset();
+		Board_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -48,6 +50,7 @@ public:
 		ConsoleManager::Get().SetCursorVisible(false);
 
 		//Tetromino_ = std::make_unique<Tetromino>(Vec2i(15, 5), Tetromino::EShape::L, EColor::GRAY);
+		Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
 	}
 
 
@@ -92,6 +95,7 @@ private:
 	void Render()
 	{
 		//Tetromino_->Render();
+		Board_->Render();
 	}
 
 
@@ -112,6 +116,12 @@ private:
 	 * 테트로미노 입니다.
 	 */
 	//std::unique_ptr<Tetromino> Tetromino_ = nullptr;
+
+
+	/**
+	 * 테트리스 보드입니다.
+	 */
+	std::unique_ptr<Board> Board_ = nullptr;
 };
 
 
