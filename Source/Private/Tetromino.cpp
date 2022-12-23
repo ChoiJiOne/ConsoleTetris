@@ -1,4 +1,5 @@
 #include <Tetromino.h>
+#include <Board.h>
 #include <InputManager.h>
 #include <Macro.h>
 #include <Random.h>
@@ -58,37 +59,18 @@ Tetromino::~Tetromino()
 
 void Tetromino::Update(float InDeltaSeconds)
 {
-	bool bIsMove = false;
-	Tetromino::EMovement Movement;
+	Tetromino::EMovement Movement = GetMovementDirection();
 
-	if (InputManager::Get().GetKeyPressState(EKeyCode::LEFT) == EPressState::PRESSED)
-	{
-		bIsMove = true;
-		Movement = Tetromino::EMovement::LEFT;
-	}
-
-	if (InputManager::Get().GetKeyPressState(EKeyCode::RIGHT) == EPressState::PRESSED)
-	{
-		bIsMove = true;
-		Movement = Tetromino::EMovement::RIGHT;
-	}
-
-	if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
-	{
-		bIsMove = true;
-		Movement = Tetromino::EMovement::CW;
-	}
-
-	if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
-	{
-		bIsMove = true;
-		Movement = Tetromino::EMovement::DOWN;
-	}
-
-	if (bIsMove)
+	if (Movement != EMovement::NONE)
 	{
 		RemoveFromConsole();
 		Move(Movement);
+	}
+
+	if (IsCollision())
+	{
+		EMovement CountMovement = GetCountMovement(Movement);
+		Move(CountMovement);
 	}
 }
 
@@ -297,4 +279,44 @@ void Tetromino::RemoveFromConsole()
 		Vec2i BlockPosition = block.GetPosition();
 		ConsoleManager::Get().RenderText(BlockPosition, "  ", EColor::BLACK);
 	}
+}
+
+Tetromino::EMovement Tetromino::GetMovementDirection() const
+{
+	Tetromino::EMovement Movement = EMovement::NONE;
+
+	static std::unordered_map< EKeyCode, Tetromino::EMovement> KeyMovements = {
+		{ EKeyCode::LEFT,  EMovement::LEFT },
+		{ EKeyCode::RIGHT, EMovement::RIGHT },
+		{ EKeyCode::UP,    EMovement::CW },
+		{ EKeyCode::DOWN,  EMovement::DOWN },
+	};
+
+	for (const auto& KeyMovement : KeyMovements)
+	{
+		if (InputManager::Get().GetKeyPressState(KeyMovement.first) == EPressState::PRESSED)
+		{
+			Movement = KeyMovement.second;
+		}
+	}
+
+	return Movement;
+}
+
+bool Tetromino::IsCollision()
+{
+	const std::vector<Block>& BoardBlocks = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")))->GetBlocks();
+
+	for (const auto& BoardBlock : BoardBlocks)
+	{
+		for (const auto& block : Blocks_)
+		{
+			if (BoardBlock.GetPosition() == block.GetPosition() && BoardBlock.GetState() != Block::EState::EMPTY)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
 }

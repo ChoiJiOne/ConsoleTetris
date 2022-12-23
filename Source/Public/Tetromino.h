@@ -144,6 +144,18 @@ private:
 	void RemoveFromConsole();
 
 
+	/**
+	 * 테트로미노의 움직임 방향을 얻습니다.
+	 */
+	EMovement GetMovementDirection() const;
+
+
+	/**
+	 * 테트로미노와 보드의 충돌을 검사합니다.
+	 */
+	bool IsCollision();
+
+
 private:
 	/**
 	 * 테트로미노 영역의 왼쪽 상단 좌표입니다.
