@@ -16,7 +16,7 @@ Board::Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InH
 		{
 			Vec2i ConsolePosition = Position_ + Vec2i(x, y);
 
-			if (x == 0 || x == Width_ - 1 || y == Height_ - 1)
+			if (x == 0 || x == Width_ - 1 || y == 0 || y == Height_ - 1)
 			{
 				SetBlock(Block(ConsolePosition, Block::EState::WALL, EColor::GRAY));
 
@@ -46,6 +46,21 @@ void Board::Render()
 	{
 		block.Render();
 	}
+}
+
+bool Board::IsCollision(const Block& InBlock)
+{
+	bool bIsCollision = false;
+
+	Vec2i BoardPosition = InBlock.GetPosition() - Position_;
+	Block BoardBlock = GetBlock(BoardPosition);
+
+	if (BoardBlock.GetState() != Block::EState::EMPTY && InBlock.GetState() != Block::EState::EMPTY)
+	{
+		bIsCollision = true;
+	}
+
+	return bIsCollision;
 }
 
 int32_t Board::GetOffset(const Vec2i& InPosition)

@@ -48,6 +48,16 @@ public:
 
 
 	/**
+	 * 보드와 블럭과의 충돌을 검사합니다.
+	 * 
+	 * @param InBlock - 충돌을 검사할 블럭입니다.
+	 * 
+	 * @return 보드와 블럭이 충돌한다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsCollision(const Block& InBlock);
+
+
+	/**
 	 * 보드의 블럭들을 얻습니다.
 	 * 
 	 * @return 보드의 블럭들을 반환합니다.
