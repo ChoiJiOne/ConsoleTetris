@@ -47,6 +47,14 @@ public:
 	virtual void Render() override;
 
 
+	/**
+	 * 보드의 블럭들을 얻습니다.
+	 * 
+	 * @return 보드의 블럭들을 반환합니다.
+	 */
+	const std::vector<Block>& GetBlocks() const { return Blocks_; }
+
+
 private:
 	/**
 	 * 보드의 Offset을 얻습니다.
