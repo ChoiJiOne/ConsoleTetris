@@ -128,6 +128,14 @@ public:
 	 */
 	static void ResetCountOfTetromino() { CountOfTetromino_ = 0; }
 
+	
+	/**
+	 * 테트로미노의 최대 누적 시간을 설정합니다.
+	 * 
+	 * @param InMaxAccrueTime - 설정할 테트로미노의 최대 누적 시간입니다.
+	 */
+	static void SetMaxAccrueTime(const float& InMaxAccrueTime) { MaxAccrueTime_ = InMaxAccrueTime; }
+
 
 private:
 	/**
@@ -187,4 +195,17 @@ private:
 	 * 게임 플레이 중 생성된 테트로미노의 수입니다.
 	 */
 	static int32_t CountOfTetromino_;
+
+
+	/**
+	 * 테트로미노의 누적 시간입니다.
+	 */
+	float AccrueTime_ = 0.0f;
+
+
+	/**
+	 * 테트로미노의 최대 누적 시간입니다.
+	 * 이때, 기본 값은 1초입니다.
+	 */
+	static float MaxAccrueTime_;
 };

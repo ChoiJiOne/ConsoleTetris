@@ -9,6 +9,7 @@
 #include <array>
 
 int32_t Tetromino::CountOfTetromino_ = 0;
+float Tetromino::MaxAccrueTime_ = 1.0f;
 
 Tetromino::Tetromino(const Vec2i& InPosition, const EShape& InShape, const EColor& InColor)
 	: Position_(InPosition)
@@ -59,6 +60,7 @@ Tetromino::~Tetromino()
 
 void Tetromino::Update(float InDeltaSeconds)
 {
+	AccrueTime_ += InDeltaSeconds;
 	Tetromino::EMovement Movement = GetMovementDirection();
 
 	if (Movement != EMovement::NONE)
@@ -71,6 +73,22 @@ void Tetromino::Update(float InDeltaSeconds)
 			EMovement CountMovement = GetCountMovement(Movement);
 			Move(CountMovement);
 		}
+
+		AccrueTime_ = 0.0f;
+	}
+
+	if (AccrueTime_ >= MaxAccrueTime_)
+	{
+		Movement = EMovement::DOWN;
+		Move(Movement);
+
+		if (IsCollision())
+		{
+			EMovement CountMovement = GetCountMovement(Movement);
+			Move(CountMovement);
+		}
+
+		AccrueTime_ = 0.0f;
 	}
 }
 
