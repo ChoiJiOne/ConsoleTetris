@@ -285,7 +285,7 @@ Tetromino::EMovement Tetromino::GetMovementDirection() const
 {
 	Tetromino::EMovement Movement = EMovement::NONE;
 
-	static std::unordered_map< EKeyCode, Tetromino::EMovement> KeyMovements = {
+	static std::unordered_map<EKeyCode, Tetromino::EMovement> KeyMovements = {
 		{ EKeyCode::LEFT,  EMovement::LEFT },
 		{ EKeyCode::RIGHT, EMovement::RIGHT },
 		{ EKeyCode::UP,    EMovement::CW },
@@ -305,16 +305,13 @@ Tetromino::EMovement Tetromino::GetMovementDirection() const
 
 bool Tetromino::IsCollision()
 {
-	const std::vector<Block>& BoardBlocks = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")))->GetBlocks();
+	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
 
-	for (const auto& BoardBlock : BoardBlocks)
+	for (const auto& block : Blocks_)
 	{
-		for (const auto& block : Blocks_)
+		if (board->IsCollision(block))
 		{
-			if (BoardBlock.GetPosition() == block.GetPosition() && BoardBlock.GetState() != Block::EState::EMPTY)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 
