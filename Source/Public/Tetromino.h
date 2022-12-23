@@ -39,7 +39,8 @@ public:
 		DOWN  = 3,
 		UP    = 4,
 		CCW   = 5,
-		CW    = 6
+		CW    = 6,
+		JUMP  = 7,
 	};
 
 
