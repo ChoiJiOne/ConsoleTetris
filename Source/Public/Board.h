@@ -13,11 +13,12 @@ class Board : public GameObject
 public:
 	/**
 	 * 보드의 생성자입니다.
-	 *
+	 * 
+	 * @param InPosition - 보드의 윈쪽 상단 좌표입니다.
 	 * @param InWidth - 보드의 가로 크기입니다.
 	 * @param InHeight - 보드의 세로 크기입니다.
 	 */
-	Board(const int32_t& InWidth, const int32_t& InHeight) noexcept;
+	Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight) noexcept;
 
 
 	/**
@@ -44,4 +45,62 @@ public:
 	 * 보드를 화면에 그립니다.
 	 */
 	virtual void Render() override;
+
+
+private:
+	/**
+	 * 보드의 Offset을 얻습니다.
+	 * 
+	 * @param InPosition - 보드의 (x, y) 좌표입니다.
+	 * 
+	 * @return 보드 배열 상 (x, y) 좌표의 Offset을 반환합니다.
+	 */
+	int32_t GetOffset(const Vec2i& InPosition);
+
+
+	/**
+	 * 보드의 (x, y)에 대응하는 블럭을 얻습니다.
+	 *
+	 * @param InPosition - 보드의 (x, y) 좌표입니다.
+	 *
+	 * @throws 보드의 배열 범위를 벗어나면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 보드의 (x, y)에 대응하는 블럭을 반환합니다.
+	 */
+	Block GetBlock(const Vec2i& InPosition);
+
+
+	/**
+	 * 보드의 (x, y)에 대응하는 블럭을 설정합니다.
+	 *
+	 * @param InBlock - 설정할 보드의 블럭입니다.
+	 *
+	 * @throws 보드의 배열 범위를 벗어나면 c++ 표준 예외를 던집니다.
+	 */
+	void SetBlock(const Block& InBlock);
+
+
+private:
+	/**
+	 * 보드의 왼쪽 상단 좌표입니다.
+	 */
+	Vec2i Position_;
+
+
+	/**
+	 * 보드의 가로 크기입니다.
+	 */
+	int32_t Width_ = 0;
+
+
+	/**
+	 * 보드의 세로 크기입니다.
+	 */
+	int32_t Height_ = 0;
+
+
+	/**
+	 * 보드의 블럭들입니다.
+	 */
+	std::vector<Block> Blocks_;
 };
