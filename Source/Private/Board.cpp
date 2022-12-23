@@ -27,6 +27,13 @@ Board::Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InH
 			}
 		}
 	}
+
+	WorldManager::Get().RegisterOjbect(this, Text::GetHash("Board"));
+}
+
+Board::~Board()
+{
+	WorldManager::Get().UnregisterObject(Text::GetHash("Board"));
 }
 
 void Board::Update(float InDeltaSeconds)

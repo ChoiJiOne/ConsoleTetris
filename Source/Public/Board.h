@@ -24,7 +24,7 @@ public:
 	/**
 	 * 보드의 가상 소멸자입니다.
 	 */
-	virtual ~Board() {}
+	virtual ~Board();
 
 
 	/**
