@@ -94,8 +94,8 @@ private:
 	 */
 	void Render()
 	{
-		Tetromino_->Render();
 		Board_->Render();
+		Tetromino_->Render();
 	}
 
 
