@@ -63,6 +63,22 @@ bool Board::IsCollision(const Block& InBlock)
 	return bIsCollision;
 }
 
+void Board::WriteBlocks(const std::vector<Block>& InBlocks)
+{
+	for (const auto& WriteBlock : InBlocks)
+	{
+		SetBlock(WriteBlock);
+	}
+}
+
+void Board::RemoveBlocks(const std::vector<Block>& InBlocks)
+{
+	for (const auto& RemoveBlock : InBlocks)
+	{
+		SetBlock(Block(RemoveBlock.GetPosition(), Block::EState::EMPTY, EColor::WHITE));
+	}
+}
+
 int32_t Board::GetOffset(const Vec2i& InPosition)
 {
 	return InPosition.y * Width_ + InPosition.x;

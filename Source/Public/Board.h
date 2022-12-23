@@ -65,6 +65,22 @@ public:
 	const std::vector<Block>& GetBlocks() const { return Blocks_; }
 
 
+	/**
+	 * 보드에 블럭들을 덮어 씁니다.
+	 * 
+	 * @param InBlocks - 덮어 쓸 블럭들입니다.
+	 */
+	void WriteBlocks(const std::vector<Block>& InBlocks);
+
+
+	/**
+	 * 보드에 블럭들을 지웁니다.
+	 * 
+	 * @param InBlocks - 지울 블럭들입니다.
+	 */
+	void RemoveBlocks(const std::vector<Block>& InBlocks);
+
+
 private:
 	/**
 	 * 보드의 Offset을 얻습니다.
