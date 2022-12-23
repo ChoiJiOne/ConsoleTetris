@@ -29,7 +29,7 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		//Tetromino_.reset();
+		Tetromino_.reset();
 		Board_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
@@ -49,7 +49,7 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		//Tetromino_ = std::make_unique<Tetromino>(Vec2i(15, 5), Tetromino::EShape::L, EColor::GRAY);
+		Tetromino_ = std::make_unique<Tetromino>(Vec2i(10, 5), Tetromino::EShape::L, EColor::GRAY);
 		Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
 	}
 
@@ -85,7 +85,7 @@ private:
 	 */
 	void Update()
 	{
-		//Tetromino_->Update(Timer_.GetDeltaTime());
+		Tetromino_->Update(Timer_.GetDeltaTime());
 	}
 
 
@@ -94,7 +94,7 @@ private:
 	 */
 	void Render()
 	{
-		//Tetromino_->Render();
+		Tetromino_->Render();
 		Board_->Render();
 	}
 
@@ -115,7 +115,7 @@ private:
 	/**
 	 * 테트로미노 입니다.
 	 */
-	//std::unique_ptr<Tetromino> Tetromino_ = nullptr;
+	std::unique_ptr<Tetromino> Tetromino_ = nullptr;
 
 
 	/**
