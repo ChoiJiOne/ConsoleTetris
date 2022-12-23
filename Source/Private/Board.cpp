@@ -23,7 +23,7 @@ Board::Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InH
 			}
 			else
 			{
-				SetBlock(Block(ConsolePosition, Block::EState::EMPTY, EColor::BLACK));
+				SetBlock(Block(ConsolePosition, Block::EState::EMPTY, EColor::WHITE));
 			}
 		}
 	}
