@@ -64,18 +64,7 @@ void Tetromino::Update(float InDeltaSeconds)
 	if (Movement != EMovement::NONE)
 	{
 		RemoveFromConsole();
-
-		if (Movement == EMovement::JUMP)
-		{
-			while (!IsCollision())
-			{
-				Move(EMovement::DOWN);
-			}
-		}
-		else
-		{
-			Move(Movement);
-		}
+		Move(Movement);
 
 		if (IsCollision())
 		{
@@ -167,6 +156,13 @@ void Tetromino::Move(const EMovement& InMovement)
 
 			BlockPosition += Position_;
 			block.SetPosition(BlockPosition);
+		}
+		break;
+
+	case EMovement::JUMP:
+		while (!IsCollision())
+		{
+			Move(EMovement::DOWN);
 		}
 		break;
 
