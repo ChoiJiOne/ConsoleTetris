@@ -63,6 +63,9 @@ void Tetromino::Update(float InDeltaSeconds)
 	AccrueTime_ += InDeltaSeconds;
 	Tetromino::EMovement Movement = GetMovementDirection();
 
+	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+	board->RemoveBlocks(Blocks_);
+
 	if (Movement != EMovement::NONE)
 	{
 		RemoveFromConsole();
@@ -90,6 +93,8 @@ void Tetromino::Update(float InDeltaSeconds)
 
 		AccrueTime_ = 0.0f;
 	}
+
+	board->WriteBlocks(Blocks_);
 }
 
 void Tetromino::Render()
