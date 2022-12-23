@@ -64,13 +64,24 @@ void Tetromino::Update(float InDeltaSeconds)
 	if (Movement != EMovement::NONE)
 	{
 		RemoveFromConsole();
-		Move(Movement);
-	}
 
-	if (IsCollision())
-	{
-		EMovement CountMovement = GetCountMovement(Movement);
-		Move(CountMovement);
+		if (Movement == EMovement::JUMP)
+		{
+			while (!IsCollision())
+			{
+				Move(EMovement::DOWN);
+			}
+		}
+		else
+		{
+			Move(Movement);
+		}
+
+		if (IsCollision())
+		{
+			EMovement CountMovement = GetCountMovement(Movement);
+			Move(CountMovement);
+		}
 	}
 }
 
@@ -198,6 +209,10 @@ Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)
 		CountMovement = EMovement::LEFT;
 		break;
 
+	case EMovement::JUMP:
+		CountMovement = EMovement::UP;
+		break;
+
 	default:
 		ENFORCE_THROW_EXCEPTION("undefined movement type...");
 	}
@@ -286,10 +301,11 @@ Tetromino::EMovement Tetromino::GetMovementDirection() const
 	Tetromino::EMovement Movement = EMovement::NONE;
 
 	static std::unordered_map<EKeyCode, Tetromino::EMovement> KeyMovements = {
-		{ EKeyCode::LEFT,  EMovement::LEFT },
+		{ EKeyCode::LEFT,  EMovement::LEFT  },
 		{ EKeyCode::RIGHT, EMovement::RIGHT },
-		{ EKeyCode::UP,    EMovement::CW },
-		{ EKeyCode::DOWN,  EMovement::DOWN },
+		{ EKeyCode::UP,    EMovement::CW    },
+		{ EKeyCode::DOWN,  EMovement::DOWN  },
+		{ EKeyCode::SPACE, EMovement::JUMP  }
 	};
 
 	for (const auto& KeyMovement : KeyMovements)
