@@ -50,7 +50,7 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		StartPosition_ = Vec2i(10, 6);
+		StartPosition_ = Vec2i(9, 6);
 		WaitPosition_ = Vec2i(19, 6);
 
 		CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
