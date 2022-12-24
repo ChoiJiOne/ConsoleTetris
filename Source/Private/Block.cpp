@@ -10,6 +10,12 @@ void Block::Render()
 	ConsoleManager::Get().RenderText(Position_, Text_, Color_);
 }
 
+void Block::SetState(const EState& InState)
+{
+	State_ = InState;
+	Text_ = GetStateText(State_);
+}
+
 std::string Block::GetStateText(const EState& InState)
 {
 	std::string StateText;

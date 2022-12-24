@@ -156,7 +156,7 @@ public:
 	 * 
 	 * @param InState - 설정할 블럭의 상태입니다.
 	 */
-	void SetState(const EState& InState) { State_ = InState; }
+	void SetState(const EState& InState);
 
 
 	/**
