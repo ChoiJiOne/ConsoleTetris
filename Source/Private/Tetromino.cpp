@@ -63,6 +63,7 @@ void Tetromino::Update(float InDeltaSeconds)
 	if (State_ == EState::ACTIVE)
 	{
 		AccrueTime_ += InDeltaSeconds;
+
 		Tetromino::EMovement Movement = GetMovementDirection();
 
 		Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
@@ -95,6 +96,7 @@ void Tetromino::Update(float InDeltaSeconds)
 		if (!CanMove(EMovement::DOWN))
 		{
 			State_ = EState::WAIT;
+			board->SetState(Board::EState::WAIT);
 		}
 
 		board->WriteBlocks(Blocks_);
