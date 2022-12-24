@@ -100,6 +100,22 @@ public:
 
 
 	/**
+	 * 테트로미노 왼쪽 상단의 위치를 얻습니다.
+	 * 
+	 * @return 테트로미노 왼쪽 상단의 좌표를 반환합니다.
+	 */
+	Vec2i GetPosition() const { return Position_; }
+
+
+	/**
+	 * 테트로미노 왼쪽 상단의 위치를 설정합니다.
+	 * 
+	 * @param InPosition - 설정할 테트로미노 왼쪽 상단의 위치입니다.
+	 */
+	void SetPosition(const Vec2i& InPosition);
+	
+
+	/**
 	 * 테트로미노를 움직입니다.
 	 * 
 	 * @param InMovement - 테트로미노가 움직일 방향입니다.

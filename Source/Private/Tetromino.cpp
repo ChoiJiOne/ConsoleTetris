@@ -92,6 +92,11 @@ void Tetromino::Update(float InDeltaSeconds)
 			AccrueTime_ = 0.0f;
 		}
 
+		if (!CanMove(EMovement::DOWN))
+		{
+			State_ = EState::WAIT;
+		}
+
 		board->WriteBlocks(Blocks_);
 	}
 }
@@ -102,6 +107,19 @@ void Tetromino::Render()
 	{
 		block.Render();
 	}
+}
+
+void Tetromino::SetPosition(const Vec2i& InPosition)
+{
+	for (auto& block : Blocks_)
+	{
+		Vec2i Position = block.GetPosition();
+		Position -= Position_;
+		Position += InPosition;
+		block.SetPosition(Position);
+	}
+
+	Position_ = InPosition;
 }
 
 void Tetromino::Move(const EMovement& InMovement)
