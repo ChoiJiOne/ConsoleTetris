@@ -12,6 +12,17 @@ class Board : public GameObject
 {
 public:
 	/**
+	 * 테트리스 보드의 상태입니다.
+	 */
+	enum class EState : int32_t
+	{
+		WAIT   = 0,
+		ACTIVE = 1
+	};
+
+
+public:
+	/**
 	 * 보드의 생성자입니다.
 	 * 
 	 * @param InPosition - 보드의 윈쪽 상단 좌표입니다.
@@ -81,6 +92,30 @@ public:
 	void RemoveBlocks(const std::vector<Block>& InBlocks);
 
 
+	/**
+	 * 보드의 상태를 얻습니다.
+	 *
+	 * @return 보드의 상태를 반환합니다.
+	 */
+	EState GetState() const { return State_; }
+
+
+	/**
+	 * 보드의 상태를 설정합니다.
+	 *
+	 * @param InState - 설정할 보드의 상태입니다.
+	 */
+	void SetState(const EState& InState) { State_ = InState; }
+
+
+	/**
+	 * 보드의 최대 누적 시간을 설정합니다.
+	 *
+	 * @param InMaxAccrueTime - 설정할 보드의 최대 누적 시간입니다.
+	 */
+	static void SetMaxAccrueTime(const float& InMaxAccrueTime) { MaxAccrueTime_ = InMaxAccrueTime; }
+
+	
 private:
 	/**
 	 * 보드의 Offset을 얻습니다.
@@ -114,6 +149,49 @@ private:
 	void SetBlock(const Block& InBlock);
 
 
+	/**
+	 * 보드 가로 라인의 덮어 쓰기를 수행합니다.
+	 * 
+	 * @param InFromYPosition - 덮어 쓰기를 수행할 위치입니다.
+	 * @param InToYPosition - 덮어 쓸 위치입니다.
+	 */
+	void OverwriteRowLine(const int32_t& InFromYPosition, const int32_t& InToYPosition);
+
+
+	/**
+	 * 보드의 Y좌표 라인을 지울 수 있는지 검사합니다.
+	 * 
+	 * @param InYPositon - 검사할 보드 상의 Y좌표입니다.
+	 * 
+	 * @return 보드를 지울 수 있다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool CanRemoveRowLine(const int32_t& InYPosition);
+
+
+	/**
+	 * 보드의 Y좌표 라인이 비어있는지 검사합니다.
+	 * 
+	 * @param InYPositon - 검사할 보드 상의 Y좌표입니다.
+	 * 
+	 * @return 비어져있으면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsEmptyRowLine(const int32_t& InYPosition);
+
+
+	/**
+	 * 보드의 Y좌표 라인을 비웁니다.
+	 * 
+	 * @param InYPositon - 비울 보드 상의 Y좌표입니다.
+	 */
+	void ClearRowLine(const int32_t& InYPosition);
+
+
+	/**
+	 * 보드의 비어있는 부분을 정리합니다.
+	 */
+	void ArrangeEmptyRowLine();
+
+
 private:
 	/**
 	 * 보드의 왼쪽 상단 좌표입니다.
@@ -137,4 +215,23 @@ private:
 	 * 보드의 블럭들입니다.
 	 */
 	std::vector<Block> Blocks_;
+
+
+	/**
+	 * 보드의 상태입니다.
+	 */
+	EState State_ = EState::ACTIVE;
+
+
+	/**
+	 * 보드의 누적 시간입니다.
+	 */
+	float AccrueTime_ = 0.0f;
+
+
+	/**
+	 * 보드의 최대 누적 시간입니다.
+	 * 이때, 기본 값은 1초입니다.
+	 */
+	static float MaxAccrueTime_;
 };
