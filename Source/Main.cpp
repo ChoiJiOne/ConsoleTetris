@@ -29,7 +29,8 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		Tetromino_.reset();
+		NextTetromino_.reset();
+		CurrTetromino_.reset();
 		Board_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
@@ -50,8 +51,13 @@ public:
 		ConsoleManager::Get().SetCursorVisible(false);
 
 		StartPosition_ = Vec2i(10, 5);
+		WaitPosition_ = Vec2i(19, 5);
 
-		Tetromino_ = std::make_unique<Tetromino>(StartPosition_);
+		CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
+		CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
+
+		NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
+
 		Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
 	}
 
@@ -87,7 +93,7 @@ private:
 	 */
 	void Update()
 	{
-		Tetromino_->Update(Timer_.GetDeltaTime());
+		CurrTetromino_->Update(Timer_.GetDeltaTime());
 	}
 
 
@@ -96,7 +102,15 @@ private:
 	 */
 	void Render()
 	{
-		Board_->Render();
+		const std::array<GameObject*, 2> Objects = {
+			Board_.get(),
+			NextTetromino_.get()
+		};
+
+		for (auto& Object : Objects)
+		{
+			Object->Render();
+		}
 	}
 
 
@@ -117,12 +131,24 @@ private:
 	 * 테트로미노의 시작점입니다.
 	 */
 	Vec2i StartPosition_;
+
+	
+	/**
+	 * 테트로미노의 대기점입니다.
+	 */
+	Vec2i WaitPosition_;
 	
 
 	/**
-	 * 테트로미노 입니다.
+	 * 현재 테트로미노 입니다.
 	 */
-	std::unique_ptr<Tetromino> Tetromino_ = nullptr;
+	std::shared_ptr<Tetromino> CurrTetromino_ = nullptr;
+
+
+	/**
+	 * 다음 테트로미노입니다.
+	 */
+	std::shared_ptr<Tetromino> NextTetromino_ = nullptr;
 
 
 	/**

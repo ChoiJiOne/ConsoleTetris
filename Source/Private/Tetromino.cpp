@@ -60,41 +60,40 @@ Tetromino::~Tetromino()
 
 void Tetromino::Update(float InDeltaSeconds)
 {
-	AccrueTime_ += InDeltaSeconds;
-	Tetromino::EMovement Movement = GetMovementDirection();
-
-	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
-	board->RemoveBlocks(Blocks_);
-
-	if (Movement != EMovement::NONE)
+	if (State_ == EState::ACTIVE)
 	{
-		RemoveFromConsole();
-		Move(Movement);
+		AccrueTime_ += InDeltaSeconds;
+		Tetromino::EMovement Movement = GetMovementDirection();
 
-		if (IsCollision())
+		Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+		board->RemoveBlocks(Blocks_);
+
+		if (Movement != EMovement::NONE)
 		{
-			EMovement CountMovement = GetCountMovement(Movement);
-			Move(CountMovement);
+			RemoveFromConsole();
+
+			if (CanMove(Movement))
+			{
+				Move(Movement);
+			}
+
+			AccrueTime_ = 0.0f;
 		}
 
-		AccrueTime_ = 0.0f;
-	}
-
-	if (AccrueTime_ >= MaxAccrueTime_)
-	{
-		Movement = EMovement::DOWN;
-		Move(Movement);
-
-		if (IsCollision())
+		if (AccrueTime_ >= MaxAccrueTime_)
 		{
-			EMovement CountMovement = GetCountMovement(Movement);
-			Move(CountMovement);
+			Movement = EMovement::DOWN;
+
+			if (CanMove(Movement))
+			{
+				Move(Movement);
+			}
+
+			AccrueTime_ = 0.0f;
 		}
 
-		AccrueTime_ = 0.0f;
+		board->WriteBlocks(Blocks_);
 	}
-
-	board->WriteBlocks(Blocks_);
 }
 
 void Tetromino::Render()
@@ -192,6 +191,19 @@ void Tetromino::Move(const EMovement& InMovement)
 	default:
 		ENFORCE_THROW_EXCEPTION("undefined tetromino type...");
 	}
+}
+
+bool Tetromino::CanMove(const EMovement& InMovement)
+{
+	bool bCanMove = true;
+
+	Move(InMovement);
+	bCanMove = !IsCollision();
+
+	EMovement CountMovement = GetCountMovement(InMovement);
+	Move(CountMovement);
+
+	return bCanMove;
 }
 
 Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)

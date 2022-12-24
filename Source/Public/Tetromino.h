@@ -44,6 +44,16 @@ public:
 	};
 
 
+	/**
+	 * 테트로미노의 상태입니다.
+	 */
+	enum class EState : int32_t
+	{
+		WAIT   = 0,
+		ACTIVE = 1
+	};
+
+
 public:
 	/**
 	 * 테트로미노의 생성자입니다.
@@ -95,6 +105,32 @@ public:
 	 * @param InMovement - 테트로미노가 움직일 방향입니다.
 	 */
 	void Move(const EMovement& InMovement);
+
+
+	/**
+	 * 테트로미노가 움직일 수 있는지 확인합니다.
+	 * 
+	 * @param InMovement - 테트로미노가 움직일 수 있는지 확인할 방향입니다.
+	 * 
+	 * @return 테트로미노가 움직일 수 있다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool CanMove(const EMovement& InMovement);
+
+
+	/**
+	 * 테트로미노의 상태를 얻습니다.
+	 * 
+	 * @return 테트로미노의 상태를 반환합니다.
+	 */
+	EState GetState() const { return State_; }
+
+
+	/**
+	 * 테트로미노의 상태를 설정합니다.
+	 * 
+	 * @param InState - 설정할 테트로미노의 상태입니다.
+	 */
+	void SetState(const EState& InState) { State_ = InState; }
 
 
 	/**
@@ -182,6 +218,12 @@ private:
 	 * 테트로미노의 블럭들입니다.
 	 */
 	std::vector<Block> Blocks_;
+
+
+	/**
+	 * 테트로미노의 상태입니다.
+	 */
+	EState State_ = EState::WAIT;
 
 
 	/**
