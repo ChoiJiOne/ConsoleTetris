@@ -102,6 +102,11 @@ private:
 			CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
 
 			NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
+
+			if (CurrTetromino_->IsCollision())
+			{
+				bIsDone_ = true;
+			}
 		}
 	}
 
