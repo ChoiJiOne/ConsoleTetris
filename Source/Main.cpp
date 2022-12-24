@@ -93,9 +93,17 @@ private:
 	 */
 	void Update()
 	{
-		CurrTetromino_->Update(Timer_.GetDeltaTime());
+		const std::array<GameObject*, 2> Objects = {
+			Board_.get(),
+			CurrTetromino_.get()
+		};
 
-		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT)
+		for (auto& Object : Objects)
+		{
+			Object->Update(Timer_.GetDeltaTime());
+		}
+
+		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT && Board_->GetState() == Board::EState::ACTIVE)
 		{
 			CurrTetromino_ = NextTetromino_;
 			CurrTetromino_->SetPosition(StartPosition_);
