@@ -50,8 +50,8 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		StartPosition_ = Vec2i(10, 5);
-		WaitPosition_ = Vec2i(19, 5);
+		StartPosition_ = Vec2i(10, 6);
+		WaitPosition_ = Vec2i(19, 6);
 
 		CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
 		CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
@@ -94,6 +94,15 @@ private:
 	void Update()
 	{
 		CurrTetromino_->Update(Timer_.GetDeltaTime());
+
+		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT)
+		{
+			CurrTetromino_ = NextTetromino_;
+			CurrTetromino_->SetPosition(StartPosition_);
+			CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
+
+			NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
+		}
 	}
 
 
