@@ -111,6 +111,8 @@ void Tetromino::Render()
 
 void Tetromino::SetPosition(const Vec2i& InPosition)
 {
+	RemoveFromConsole();
+
 	for (auto& block : Blocks_)
 	{
 		Vec2i Position = block.GetPosition();
@@ -222,6 +224,21 @@ bool Tetromino::CanMove(const EMovement& InMovement)
 	Move(CountMovement);
 
 	return bCanMove;
+}
+
+bool Tetromino::IsCollision()
+{
+	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+
+	for (const auto& block : Blocks_)
+	{
+		if (board->IsCollision(block))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)
@@ -366,19 +383,4 @@ Tetromino::EMovement Tetromino::GetMovementDirection() const
 	}
 
 	return Movement;
-}
-
-bool Tetromino::IsCollision()
-{
-	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
-
-	for (const auto& block : Blocks_)
-	{
-		if (board->IsCollision(block))
-		{
-			return true;
-		}
-	}
-
-	return false;
 }

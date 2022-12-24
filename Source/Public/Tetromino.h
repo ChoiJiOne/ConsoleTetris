@@ -134,6 +134,14 @@ public:
 
 
 	/**
+	 * 테트로미노와 보드의 충돌을 검사합니다.
+	 * 
+	 * @return 테트로미노와 보드가 충돌한다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsCollision();
+
+
+	/**
 	 * 테트로미노의 상태를 얻습니다.
 	 * 
 	 * @return 테트로미노의 상태를 반환합니다.
@@ -209,12 +217,6 @@ private:
 	 * 테트로미노의 움직임 방향을 얻습니다.
 	 */
 	EMovement GetMovementDirection() const;
-
-
-	/**
-	 * 테트로미노와 보드의 충돌을 검사합니다.
-	 */
-	bool IsCollision();
 
 
 private:
