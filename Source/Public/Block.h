@@ -159,6 +159,22 @@ public:
 	void SetState(const EState& InState) { State_ = InState; }
 
 
+	/**
+	 * 블럭의 색상을 얻습니다.
+	 * 
+	 * @return 블럭의 색상을 반환합니다.
+	 */
+	EColor GetColor() const { return Color_; }
+
+
+	/**
+	 * 블럭의 색상을 설정합니다.
+	 * 
+	 * @param InColor - 설정할 블럭의 색상입니다.
+	 */
+	void SetColor(const EColor& InColor) { Color_ = InColor; }
+
+
 private:
 	/**
 	 * 블럭의 상태에 대응하는 텍스트를 얻습니다.
