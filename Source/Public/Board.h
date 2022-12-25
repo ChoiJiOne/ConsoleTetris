@@ -109,6 +109,14 @@ public:
 
 
 	/**
+	 * 보드가 삭제한 라인의 수를 얻습니다.
+	 * 
+	 * @return 보드가 삭제한 라인의 수를 반환합니다.
+	 */
+	int32_t GetRemoveLine() const { return RemoveLine_; }
+
+
+	/**
 	 * 보드의 최대 누적 시간을 설정합니다.
 	 *
 	 * @param InMaxAccrueTime - 설정할 보드의 최대 누적 시간입니다.
@@ -204,6 +212,12 @@ private:
 	 * 보드의 현재 상태입니다.
 	 */
 	EState CurrentState_ = EState::ACTIVE;
+
+
+	/**
+	 * 보드가 삭제한 라인 수입니다.
+	 */
+	int32_t RemoveLine_ = 0;
 
 
 	/**

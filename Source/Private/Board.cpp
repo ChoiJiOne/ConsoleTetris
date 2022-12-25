@@ -44,6 +44,7 @@ void Board::Update(float InDeltaSeconds)
 			if (bHaveRemoveRowLine)
 			{
 				ClearRowLine(RemoveYPosition);
+				RemoveLine_++;
 			}
 			else
 			{
