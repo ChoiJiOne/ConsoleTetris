@@ -94,17 +94,17 @@ void Tetromino::Update(float InDeltaSeconds)
 			AccrueTime_ = 0.0f;
 		}
 
-		if (!CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, EMovement::DOWN))
-		{
-			CurrentState_ = EState::WAIT;
-			TetrisBoard->SetCurrentState(Board::EState::WAIT);
-		}
-
 		ShadowConsolePosition = ConsolePosition_;
 		ShadowTetrominoBlocks = TetrominoBlocks_;
 
 		Move(ShadowConsolePosition, ShadowTetrominoBlocks, Shape_, EMovement::JUMP);
 		Move(ShadowConsolePosition, ShadowTetrominoBlocks, Shape_, GetCountMovement(EMovement::JUMP));
+
+		if (!CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, EMovement::DOWN))
+		{
+			CurrentState_ = EState::WAIT;
+			TetrisBoard->SetCurrentState(Board::EState::WAIT);
+		}
 
 		TetrisBoard->WriteBlocks(TetrominoBlocks_);
 	}
@@ -112,17 +112,18 @@ void Tetromino::Update(float InDeltaSeconds)
 
 void Tetromino::Render()
 {
-	if (CurrentState_ == EState::WAIT)
+	Board* TetrisBoard = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+
+	if (TetrisBoard->GetCurrentState() == Board::EState::ACTIVE)
 	{
-		for (auto& TetrominoBlock : TetrominoBlocks_)
+		if (CurrentState_ == EState::WAIT)
 		{
-			TetrominoBlock.Render();
+			for (auto& TetrominoBlock : TetrominoBlocks_)
+			{
+				TetrominoBlock.Render();
+			}
 		}
-	}
-	else
-	{
-		Board* TetrisBoard = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
-		if (TetrisBoard->GetCurrentState() == Board::EState::ACTIVE)
+		else
 		{
 			for (auto& ShadowBlock : ShadowTetrominoBlocks)
 			{
