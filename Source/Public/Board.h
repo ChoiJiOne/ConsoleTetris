@@ -73,39 +73,39 @@ public:
 	 * 
 	 * @return 보드의 블럭들을 반환합니다.
 	 */
-	const std::vector<Block>& GetBlocks() const { return Blocks_; }
+	const std::vector<Block>& GetBoardBlocks() const { return BoardBlocks_; }
 
 
 	/**
 	 * 보드에 블럭들을 덮어 씁니다.
 	 * 
-	 * @param InBlocks - 덮어 쓸 블럭들입니다.
+	 * @param InWriteBlocks - 덮어 쓸 블럭들입니다.
 	 */
-	void WriteBlocks(const std::vector<Block>& InBlocks);
+	void WriteBlocks(const std::vector<Block>& InWriteBlocks);
 
 
 	/**
 	 * 보드에 블럭들을 지웁니다.
 	 * 
-	 * @param InBlocks - 지울 블럭들입니다.
+	 * @param InRemoveBlocks - 지울 블럭들입니다.
 	 */
-	void RemoveBlocks(const std::vector<Block>& InBlocks);
+	void RemoveBlocks(const std::vector<Block>& InRemoveBlocks);
 
 
 	/**
-	 * 보드의 상태를 얻습니다.
+	 * 보드의 현재 상태를 얻습니다.
 	 *
 	 * @return 보드의 상태를 반환합니다.
 	 */
-	EState GetState() const { return State_; }
+	EState GetCurrentState() const { return CurrentState_; }
 
 
 	/**
-	 * 보드의 상태를 설정합니다.
+	 * 보드의 현재 상태를 설정합니다.
 	 *
-	 * @param InState - 설정할 보드의 상태입니다.
+	 * @param InState - 설정할 보드의 현재 상태입니다.
 	 */
-	void SetState(const EState& InState) { State_ = InState; }
+	void SetCurrentState(const EState& InCurrentState) { CurrentState_ = InCurrentState; }
 
 
 	/**
@@ -139,37 +139,6 @@ private:
 	 * @return 비어있는 보드의 블럭들을 반환합니다.
 	 */
 	std::vector<Block> CreateEmptyBlocks(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight);
-
-
-	/**
-	 * 보드의 (x, y)에 대응하는 블럭을 얻습니다.
-	 *
-	 * @param InPosition - 보드의 (x, y) 좌표입니다.
-	 *
-	 * @throws 보드의 배열 범위를 벗어나면 C++ 표준 예외를 던집니다.
-	 *
-	 * @return 보드의 (x, y)에 대응하는 블럭을 반환합니다.
-	 */
-	Block GetBlock(const Vec2i& InPosition);
-
-
-	/**
-	 * 보드의 (x, y)에 대응하는 블럭을 설정합니다.
-	 *
-	 * @param InBlock - 설정할 보드의 블럭입니다.
-	 *
-	 * @throws 보드의 배열 범위를 벗어나면 c++ 표준 예외를 던집니다.
-	 */
-	void SetBlock(const Block& InBlock);
-
-
-	/**
-	 * 보드 가로 라인의 덮어 쓰기를 수행합니다.
-	 * 
-	 * @param InFromYPosition - 덮어 쓰기를 수행할 위치입니다.
-	 * @param InToYPosition - 덮어 쓸 위치입니다.
-	 */
-	void OverwriteRowLine(const int32_t& InFromYPosition, const int32_t& InToYPosition);
 
 
 	/**
@@ -228,13 +197,13 @@ private:
 	/**
 	 * 보드의 블럭들입니다.
 	 */
-	std::vector<Block> Blocks_;
+	std::vector<Block> BoardBlocks_;
 
 
 	/**
-	 * 보드의 상태입니다.
+	 * 보드의 현재 상태입니다.
 	 */
-	EState State_ = EState::ACTIVE;
+	EState CurrentState_ = EState::ACTIVE;
 
 
 	/**

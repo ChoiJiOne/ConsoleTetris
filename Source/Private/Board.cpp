@@ -10,7 +10,7 @@ Board::Board(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32
 	, Width_(InWidth)
 	, Height_(InHeight)
 {
-	Blocks_ = CreateEmptyBlocks(ConsolePosition_, Width_, Height_);
+	BoardBlocks_ = CreateEmptyBlocks(ConsolePosition_, Width_, Height_);
 
 	WorldManager::Get().RegisterOjbect(this, Text::GetHash("Board"));
 }
@@ -22,33 +22,33 @@ Board::~Board()
 
 void Board::Update(float InDeltaSeconds)
 {
-	if (State_ == EState::WAIT)
+	if (CurrentState_ == EState::WAIT)
 	{
 		AccrueTime_ += InDeltaSeconds;
 
 		if (AccrueTime_ >= MaxAccrueTime_)
 		{
-			bool bIsRemoveRowLine = false;
+			bool bHaveRemoveRowLine = false;
 			int32_t RemoveYPosition = 0;
 
 			for (int32_t y = Height_ - 2; y >= 1; --y)
 			{
 				if (CanRemoveRowLine(y))
 				{
-					bIsRemoveRowLine = true;
+					bHaveRemoveRowLine = true;
 					RemoveYPosition = y;
 					break;
 				}
 			}
 
-			if (bIsRemoveRowLine)
+			if (bHaveRemoveRowLine)
 			{
 				ClearRowLine(RemoveYPosition);
 			}
 			else
 			{
 				ArrangeEmptyRowLine();
-				State_ = EState::ACTIVE;
+				CurrentState_ = EState::ACTIVE;
 			}
 
 			AccrueTime_ = 0.0f;
@@ -58,9 +58,9 @@ void Board::Update(float InDeltaSeconds)
 
 void Board::Render()
 {
-	for (auto& block : Blocks_)
+	for (auto& BoardBlock : BoardBlocks_)
 	{
-		block.Render();
+		BoardBlock.Render();
 	}
 }
 
@@ -68,10 +68,10 @@ bool Board::IsCollision(const Block& InBlock)
 {
 	bool bIsCollision = false;
 
-	Vec2i BoardPosition = InBlock.GetPosition() - Position_;
-	Block BoardBlock = GetBlock(BoardPosition);
+	Vec2i BoardPosition = InBlock.GetPosition() - ConsolePosition_;
+	int32_t Offset = GetOffset(BoardPosition, Width_, Height_);
 
-	if (BoardBlock.GetState() != Block::EState::EMPTY && InBlock.GetState() != Block::EState::EMPTY)
+	if (BoardBlocks_[Offset].GetState() != Block::EState::EMPTY && InBlock.GetState() != Block::EState::EMPTY)
 	{
 		bIsCollision = true;
 	}
@@ -79,19 +79,25 @@ bool Board::IsCollision(const Block& InBlock)
 	return bIsCollision;
 }
 
-void Board::WriteBlocks(const std::vector<Block>& InBlocks)
+void Board::WriteBlocks(const std::vector<Block>& InWriteBlocks)
 {
-	for (const auto& WriteBlock : InBlocks)
+	for (const auto& WriteBlock : InWriteBlocks)
 	{
-		SetBlock(WriteBlock);
+		Vec2i BoardPosition = WriteBlock.GetPosition() - ConsolePosition_;
+		int32_t Offset = GetOffset(BoardPosition, Width_, Height_);
+
+		BoardBlocks_[Offset] = WriteBlock;
 	}
 }
 
-void Board::RemoveBlocks(const std::vector<Block>& InBlocks)
+void Board::RemoveBlocks(const std::vector<Block>& InRemoveBlocks)
 {
-	for (const auto& RemoveBlock : InBlocks)
+	for (const auto& RemoveBlock : InRemoveBlocks)
 	{
-		SetBlock(Block(RemoveBlock.GetPosition(), Block::EState::EMPTY, EColor::WHITE));
+		Vec2i BoardPosition = RemoveBlock.GetPosition() - ConsolePosition_;
+		int32_t Offset = GetOffset(BoardPosition, Width_, Height_);
+
+		BoardBlocks_[Offset] = Block(RemoveBlock.GetPosition(), Block::EState::EMPTY, EColor::WHITE);
 	}
 }
 
@@ -136,42 +142,11 @@ std::vector<Block> Board::CreateEmptyBlocks(const Vec2i& InConsolePosition, cons
 	return Blocks;
 }
 
-Block Board::GetBlock(const Vec2i& InPosition)
-{
-	CHECK((0 <= InPosition.x && InPosition.x < Width_ && 0 <= InPosition.y && InPosition.y < Height_), "out of range in board...");
-	
-	int32_t Offset = GetOffset(InPosition);
-	return Blocks_[Offset];
-}
-
-void Board::SetBlock(const Block& InBlock)
-{
-	Vec2i Position = InBlock.GetPosition() - Position_;
-	CHECK((0 <= Position.x && Position.x < Width_ && 0 <= Position.y && Position.y < Height_), "out of range in board...");
-
-	int32_t Offset = GetOffset(Position);
-	Blocks_[Offset] = InBlock;
-}
-
-void Board::OverwriteRowLine(const int32_t& InFromYPosition, const int32_t& InToYPosition)
-{
-	for (int32_t x = 1; x < Width_ - 1; ++x)
-	{
-		Block FromBlock = GetBlock(Vec2i(x, InFromYPosition));
-		Block ToBlock = GetBlock(Vec2i(x, InToYPosition));
-
-		ToBlock.SetState(FromBlock.GetState());
-		ToBlock.SetColor(FromBlock.GetColor());
-
-		SetBlock(ToBlock);
-	}
-}
-
 bool Board::CanRemoveRowLine(const int32_t& InYPosition)
 {
 	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		if (GetBlock(Vec2i(x, InYPosition)).GetState() != Block::EState::FILL)
+		if (BoardBlocks_[GetOffset(Vec2i(x, InYPosition), Width_, Height_)].GetState() != Block::EState::FILL)
 		{
 			return false;
 		}
@@ -184,7 +159,7 @@ bool Board::IsEmptyRowLine(const int32_t& InYPosition)
 {
 	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		if (GetBlock(Vec2i(x, InYPosition)).GetState() != Block::EState::EMPTY)
+		if (BoardBlocks_[GetOffset(Vec2i(x, InYPosition), Width_, Height_)].GetState() != Block::EState::EMPTY)
 		{
 			return false;
 		}
@@ -197,49 +172,31 @@ void Board::ClearRowLine(const int32_t& InYPosition)
 {
 	for (int32_t x = 1; x < Width_ - 1; ++x)
 	{
-		Block BoardBlock = GetBlock(Vec2i(x, InYPosition));
-
-		BoardBlock.SetState(Block::EState::EMPTY);
-		BoardBlock.SetColor(EColor::WHITE);
-		
-		SetBlock(BoardBlock);
+		BoardBlocks_[GetOffset(Vec2i(x, InYPosition), Width_, Height_)].SetState(Block::EState::EMPTY);
+		BoardBlocks_[GetOffset(Vec2i(x, InYPosition), Width_, Height_)].SetColor(EColor::WHITE);
 	}
 }
 
 void Board::ArrangeEmptyRowLine()
 {
-	/*for (int32_t y = Height_ - 2; y >= 1;)
-	{
-		if (IsEmptyRowLine(y))
-		{
-			for (int32_t OverwriteY = y - 1; OverwriteY >= 1; --OverwriteY)
-			{
-				OverwriteRowLine(OverwriteY, OverwriteY + 1);
-			}
-		}
-		else
-		{
-			--y;
-		}
-	}
+	std::vector<Block> NewBoardBlocks = CreateEmptyBlocks(ConsolePosition_, Width_, Height_);
 
-	ClearRowLine(1);*/
-
-	std::vector<int32_t> NotEmptyRowLines;
-	for (int32_t y = Height_ - 2; y >= 1; --y)
+	for (int32_t y = Height_ - 2, CurrentRowLine = Height_ - 2; y >= 1; --y)
 	{
 		if (!IsEmptyRowLine(y))
 		{
-			NotEmptyRowLines.push_back(y);
+			for (int32_t x = 1; x < Width_ - 1; ++x)
+			{
+				Block& OriginBlock = BoardBlocks_[GetOffset(Vec2i(x, y), Width_, Height_)];
+				Block& NewBlock = NewBoardBlocks[GetOffset(Vec2i(x, CurrentRowLine), Width_, Height_)];
+
+				NewBlock.SetState(OriginBlock.GetState());
+				NewBlock.SetColor(OriginBlock.GetColor());
+			}
+
+			CurrentRowLine--;
 		}
 	}
 
-	int32_t NewRowLine = Height_ - 2;
-	for (int32_t NotEmptyRowLine : NotEmptyRowLines)
-	{
-		
-
-		NewRowLine--;
-	}
-
+	BoardBlocks_ = NewBoardBlocks;
 }

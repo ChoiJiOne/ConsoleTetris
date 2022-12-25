@@ -103,7 +103,7 @@ private:
 			Object->Update(Timer_.GetDeltaTime());
 		}
 
-		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT && Board_->GetState() == Board::EState::ACTIVE)
+		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT && Board_->GetCurrentState() == Board::EState::ACTIVE)
 		{
 			CurrTetromino_ = NextTetromino_;
 			CurrTetromino_->SetPosition(StartPosition_);
