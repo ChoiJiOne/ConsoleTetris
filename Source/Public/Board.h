@@ -118,13 +118,15 @@ public:
 	
 private:
 	/**
-	 * 보드의 Offset을 얻습니다.
+	 * 2차원 배열의 Offset을 얻습니다.
 	 * 
-	 * @param InPosition - 보드의 (x, y) 좌표입니다.
+	 * @param InPosition - 2차원 배열의 (x, y) 좌표입니다.
+	 * @param InWidth - 2차원 배열의 가로 크기입니다.
+	 * @param InHeight - 2차원 배열의 세로 크기입니다.
 	 * 
-	 * @return 보드 배열 상 (x, y) 좌표의 Offset을 반환합니다.
+	 * @return 2차원 배열 상 (x, y) 좌표의 Offset을 반환합니다.
 	 */
-	int32_t GetOffset(const Vec2i& InPosition);
+	int32_t GetOffset(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight);
 
 
 	/**

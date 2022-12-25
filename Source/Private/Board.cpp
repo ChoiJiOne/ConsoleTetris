@@ -113,9 +113,9 @@ void Board::RemoveBlocks(const std::vector<Block>& InBlocks)
 	}
 }
 
-int32_t Board::GetOffset(const Vec2i& InPosition)
+int32_t Board::GetOffset(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight)
 {
-	return InPosition.y * Width_ + InPosition.x;
+	return InPosition.y * InWidth + InPosition.x;
 }
 
 Block Board::GetBlock(const Vec2i& InPosition)
