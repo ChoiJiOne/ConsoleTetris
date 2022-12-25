@@ -5,30 +5,12 @@
 
 float Board::MaxAccrueTime_ = 1.0f;
 
-Board::Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight) noexcept
-	: Position_(InPosition)
+Board::Board(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight) noexcept
+	: ConsolePosition_(InConsolePosition)
 	, Width_(InWidth)
 	, Height_(InHeight)
 {
-	Blocks_ = std::vector<Block>(Width_ * Height_);
-
-	for (int32_t y = 0; y < Height_; ++y)
-	{
-		for (int32_t x = 0; x < Width_; ++x)
-		{
-			Vec2i ConsolePosition = Position_ + Vec2i(x, y);
-
-			if (x == 0 || x == Width_ - 1 || y == 0 || y == Height_ - 1)
-			{
-				SetBlock(Block(ConsolePosition, Block::EState::WALL, EColor::GRAY));
-
-			}
-			else
-			{
-				SetBlock(Block(ConsolePosition, Block::EState::EMPTY, EColor::WHITE));
-			}
-		}
-	}
+	Blocks_ = CreateEmptyBlocks(ConsolePosition_, Width_, Height_);
 
 	WorldManager::Get().RegisterOjbect(this, Text::GetHash("Board"));
 }
@@ -116,6 +98,42 @@ void Board::RemoveBlocks(const std::vector<Block>& InBlocks)
 int32_t Board::GetOffset(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight)
 {
 	return InPosition.y * InWidth + InPosition.x;
+}
+
+std::vector<Block> Board::CreateEmptyBlocks(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight)
+{
+	std::vector<Block> Blocks(InWidth * InHeight);
+
+	Vec2i BoardPosition;
+	Vec2i ConsolePosition;
+
+	for (int32_t BoardY = 0; BoardY < InHeight; ++BoardY)
+	{
+		for (int32_t BoardX = 0; BoardX < InWidth; ++BoardX)
+		{
+			BoardPosition = Vec2i(BoardX, BoardY);
+			ConsolePosition = InConsolePosition + BoardPosition;
+			Block NewBlock;
+
+			NewBlock.SetPosition(ConsolePosition);
+
+			if (BoardX == 0 || BoardX == Width_ - 1 || BoardY == 0 || BoardY == Height_ - 1)
+			{
+				NewBlock.SetState(Block::EState::WALL);
+				NewBlock.SetColor(EColor::GRAY);
+
+			}
+			else
+			{
+				NewBlock.SetState(Block::EState::EMPTY);
+				NewBlock.SetColor(EColor::WHITE);
+			}
+
+			Blocks[GetOffset(BoardPosition, InWidth, InHeight)] = NewBlock;
+		}
+	}
+
+	return Blocks;
 }
 
 Block Board::GetBlock(const Vec2i& InPosition)

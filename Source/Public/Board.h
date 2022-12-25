@@ -25,11 +25,11 @@ public:
 	/**
 	 * 보드의 생성자입니다.
 	 * 
-	 * @param InPosition - 보드의 윈쪽 상단 좌표입니다.
+	 * @param InConsolePosition - 콘솔 상의 보드 윈쪽 상단 좌표입니다.
 	 * @param InWidth - 보드의 가로 크기입니다.
 	 * @param InHeight - 보드의 세로 크기입니다.
 	 */
-	Board(const Vec2i& InPosition, const int32_t& InWidth, const int32_t& InHeight) noexcept;
+	Board(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight) noexcept;
 
 
 	/**
@@ -130,6 +130,18 @@ private:
 
 
 	/**
+	 * 비어있는 보드의 블럭들을 생성합니다.
+	 * 
+	 * @param InConsolePosition - 콘솔 상의 보드 왼쪽 상단 좌표입니다.
+	 * @param InWidth - 보드의 가로 크기입니다.
+	 * @param InHeight - 보드의 세로 크기입니다.
+	 * 
+	 * @return 비어있는 보드의 블럭들을 반환합니다.
+	 */
+	std::vector<Block> CreateEmptyBlocks(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight);
+
+
+	/**
 	 * 보드의 (x, y)에 대응하는 블럭을 얻습니다.
 	 *
 	 * @param InPosition - 보드의 (x, y) 좌표입니다.
@@ -196,9 +208,9 @@ private:
 
 private:
 	/**
-	 * 보드의 왼쪽 상단 좌표입니다.
+	 * 콘솔 상의 보드의 왼쪽 상단 좌표입니다.
 	 */
-	Vec2i Position_;
+	Vec2i ConsolePosition_;
 
 
 	/**
