@@ -3,7 +3,7 @@
 #include <Macro.h>
 #include <WorldManager.h>
 
-float Board::MaxAccrueTime_ = 1.0f;
+float Board::MaxAccrueTime_ = 0.5f;
 
 Board::Board(const Vec2i& InConsolePosition, const int32_t& InWidth, const int32_t& InHeight) noexcept
 	: ConsolePosition_(InConsolePosition)
