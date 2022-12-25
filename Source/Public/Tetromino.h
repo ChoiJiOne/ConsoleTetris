@@ -273,6 +273,18 @@ private:
 
 
 	/**
+	 * 콘솔 화면 상의 테트로미노 그림자 상단 위치입니다.
+	 */
+	Vec2i ShadowConsolePosition_;
+
+
+	/**
+	 * 테트로미노 그림자의 위치입니다.
+	 */
+	std::vector<Block> ShadowTetrominoBlocks_;
+
+
+	/**
 	 * 게임 플레이 중 생성된 테트로미노의 수입니다.
 	 */
 	static int32_t CountOfTetromino_;
@@ -289,8 +301,4 @@ private:
 	 * 이때, 기본 값은 1초입니다.
 	 */
 	static float MaxAccrueTime_;
-
-
-	Vec2i ShadowConsolePosition;
-	std::vector<Block> ShadowTetrominoBlocks;
 };

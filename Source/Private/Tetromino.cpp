@@ -94,11 +94,11 @@ void Tetromino::Update(float InDeltaSeconds)
 			AccrueTime_ = 0.0f;
 		}
 
-		ShadowConsolePosition = ConsolePosition_;
-		ShadowTetrominoBlocks = TetrominoBlocks_;
+		ShadowConsolePosition_ = ConsolePosition_;
+		ShadowTetrominoBlocks_ = TetrominoBlocks_;
 
-		Move(ShadowConsolePosition, ShadowTetrominoBlocks, Shape_, EMovement::JUMP);
-		Move(ShadowConsolePosition, ShadowTetrominoBlocks, Shape_, GetCountMovement(EMovement::JUMP));
+		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, EMovement::JUMP);
+		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, GetCountMovement(EMovement::JUMP));
 
 		if (!CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, EMovement::DOWN))
 		{
@@ -125,7 +125,7 @@ void Tetromino::Render()
 		}
 		else
 		{
-			for (auto& ShadowBlock : ShadowTetrominoBlocks)
+			for (auto& ShadowBlock : ShadowTetrominoBlocks_)
 			{
 				ConsoleManager::Get().RenderText(
 					ShadowBlock.GetPosition(),
