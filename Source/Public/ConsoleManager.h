@@ -143,7 +143,7 @@ private:
 	/**
 	 * ConsoleManager의 생성자입니다.
 	 */
-	ConsoleManager() {}
+	ConsoleManager() = default;
 
 
 	/**

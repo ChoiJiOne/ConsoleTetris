@@ -74,13 +74,13 @@ private:
 	/**
 	 * 게임 월드의 생성자입니다.
 	 */
-	WorldManager() {}
+	WorldManager() = default;
 
 
 	/**
 	 * 게임 월드의 가상 소멸자입니다.
 	 */
-	virtual ~WorldManager() {}
+	virtual ~WorldManager() = default;
 
 
 private:

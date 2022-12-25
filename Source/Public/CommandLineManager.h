@@ -62,7 +62,7 @@ private:
 	/**
 	 * CommandLineManager의 가상 소멸자입니다.
 	 */
-	virtual ~CommandLineManager() {}
+	virtual ~CommandLineManager() = default;
 
 
 private:

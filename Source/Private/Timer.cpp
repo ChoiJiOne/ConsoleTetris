@@ -11,10 +11,6 @@ Timer::Timer()
 	SecondsPerCounter_ = 1.0 / static_cast<double>(CounterPerSeconds);
 }
 
-Timer::~Timer()
-{
-}
-
 float Timer::GetDeltaTime() const
 {
 	float DeltaTime = 0.0f;

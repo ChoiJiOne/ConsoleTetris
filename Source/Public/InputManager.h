@@ -92,7 +92,7 @@ private:
 	/**
 	 * InputManager의 가상 소멸자입니다.
 	 */
-	virtual ~InputManager();
+	virtual ~InputManager() = default;
 
 
 	/**

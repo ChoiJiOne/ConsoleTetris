@@ -23,10 +23,6 @@ InputManager::InputManager()
 	}
 }
 
-InputManager::~InputManager()
-{
-}
-
 void InputManager::Tick()
 {
 	PrevKeyState_ = CurrKeyState_;

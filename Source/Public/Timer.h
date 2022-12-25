@@ -48,7 +48,7 @@ public:
 	/**
 	 * 타이머 클래스의 가상 소멸자입니다.
 	 */
-	virtual ~Timer();
+	virtual ~Timer() = default;
 
 
 	/**

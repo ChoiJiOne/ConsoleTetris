@@ -70,7 +70,7 @@ public:
 	/**
 	 * 블럭의 가상 소멸자입니다.
 	 */
-	virtual ~Block() {}
+	virtual ~Block() = default;
 
 
 	/**
