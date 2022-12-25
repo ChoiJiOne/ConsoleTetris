@@ -228,11 +228,11 @@ bool Tetromino::CanMove(const EMovement& InMovement)
 
 bool Tetromino::IsCollision()
 {
-	Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+	Board* TetrisBoard = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
 
 	for (const auto& block : Blocks_)
 	{
-		if (board->IsCollision(block))
+		if (TetrisBoard->IsCollision(block))
 		{
 			return true;
 		}
