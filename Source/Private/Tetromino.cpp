@@ -66,8 +66,8 @@ void Tetromino::Update(float InDeltaSeconds)
 
 		Tetromino::EMovement Movement = GetMovementDirection();
 
-		Board* board = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
-		board->RemoveBlocks(Blocks_);
+		Board* TetrisBoard = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
+		TetrisBoard->RemoveBlocks(Blocks_);
 
 		if (Movement != EMovement::NONE)
 		{
@@ -77,8 +77,6 @@ void Tetromino::Update(float InDeltaSeconds)
 			{
 				Move(Movement);
 			}
-
-			AccrueTime_ = 0.0f;
 		}
 
 		if (AccrueTime_ >= MaxAccrueTime_)
@@ -96,10 +94,10 @@ void Tetromino::Update(float InDeltaSeconds)
 		if (!CanMove(EMovement::DOWN))
 		{
 			State_ = EState::WAIT;
-			board->SetState(Board::EState::WAIT);
+			TetrisBoard->SetCurrentState(Board::EState::WAIT);
 		}
 
-		board->WriteBlocks(Blocks_);
+		TetrisBoard->WriteBlocks(Blocks_);
 	}
 }
 
