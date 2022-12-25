@@ -58,19 +58,19 @@ public:
 	/**
 	 * 테트로미노의 생성자입니다.
 	 * 
-	 * @param InPosition - 테트로미노 영역의 왼쪽 상단 좌표입니다.
+	 * @param InPosition - 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
 	 * @param InShape - 테트로미노의 모양입니다.
 	 * @param InColor - 테트로미노의 색상입니다.
 	 */
-	explicit Tetromino(const Vec2i& InPosition, const EShape& InShape, const EColor& InColor);
+	explicit Tetromino(const Vec2i& InConsolePosition, const EShape& InShape, const EColor& InColor);
 
 
 	/**
 	 * 테트로미노의 생성자입니다.
 	 * 
-	 * @param InPosition - 테트로미노 영역의 왼쪽 상단 좌표입니다.
+	 * @param InConsolePosition - 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
 	 */
-	explicit Tetromino(const Vec2i& InPosition);
+	explicit Tetromino(const Vec2i& InConsolePosition);
 
 
 	/**
@@ -100,79 +100,43 @@ public:
 
 
 	/**
-	 * 테트로미노 왼쪽 상단의 위치를 얻습니다.
+	 * 콘솔 상의 테트로미노 왼쪽 상단 위치를 얻습니다.
 	 * 
 	 * @return 테트로미노 왼쪽 상단의 좌표를 반환합니다.
 	 */
-	Vec2i GetPosition() const { return Position_; }
+	Vec2i GetConsolePosition() const { return ConsolePosition_; }
 
 
 	/**
-	 * 테트로미노 왼쪽 상단의 위치를 설정합니다.
+	 * 콘솔 상의 테트로미노 왼쪽 상단 위치를 설정합니다.
 	 * 
-	 * @param InPosition - 설정할 테트로미노 왼쪽 상단의 위치입니다.
+	 * @param InConsolePosition - 설정할 테트로미노 왼쪽 상단의 위치입니다.
 	 */
-	void SetPosition(const Vec2i& InPosition);
+	void SetConsolePosition(const Vec2i& InConsolePosition);
 	
 
 	/**
-	 * 테트로미노를 움직입니다.
+	 * 테트로미노의 현재 상태를 얻습니다.
 	 * 
-	 * @param InMovement - 테트로미노가 움직일 방향입니다.
+	 * @return 테트로미노의 상태를 반환합니다.
 	 */
-	void Move(const EMovement& InMovement);
+	EState GetCurrentState() const { return CurrentState_; }
 
 
 	/**
-	 * 테트로미노가 움직일 수 있는지 확인합니다.
+	 * 테트로미노의 현재 상태를 설정합니다.
 	 * 
-	 * @param InMovement - 테트로미노가 움직일 수 있는지 확인할 방향입니다.
-	 * 
-	 * @return 테트로미노가 움직일 수 있다면 true, 그렇지 않다면 false를 반환합니다.
+	 * @param InState - 설정할 테트로미노의 상태입니다.
 	 */
-	bool CanMove(const EMovement& InMovement);
+	void SetCurrentState(const EState& InCurrentState) { CurrentState_ = InCurrentState; }
 
 
 	/**
 	 * 테트로미노와 보드의 충돌을 검사합니다.
-	 * 
+	 *
 	 * @return 테트로미노와 보드가 충돌한다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
 	bool IsCollision();
-
-
-	/**
-	 * 테트로미노의 상태를 얻습니다.
-	 * 
-	 * @return 테트로미노의 상태를 반환합니다.
-	 */
-	EState GetState() const { return State_; }
-
-
-	/**
-	 * 테트로미노의 상태를 설정합니다.
-	 * 
-	 * @param InState - 설정할 테트로미노의 상태입니다.
-	 */
-	void SetState(const EState& InState) { State_ = InState; }
-
-
-	/**
-	 * 테트로미노의 블럭들을 반환합니다.
-	 * 
-	 * @return 테트로미노 블럭 목록을 반환합니다.
-	 */
-	const std::vector<Block>& GetBlocks() const { return Blocks_; }
-
-
-	/**
-	 * 테트로미노 움직임의 반대 방향을 얻습니다.
-	 *
-	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.
-	 *
-	 * @return 움직임의 반대 방향을 반환합니다.
-	 */
-	static EMovement GetCountMovement(const EMovement& InMovement);
 
 
 	/**
@@ -199,12 +163,49 @@ public:
 
 private:
 	/**
-	 * 테트로미노 타입에 맞는 블럭들의 위치를 생성합니다.
+	 * 테트로미노 블럭들울 생성합니다.
 	 *
+	 * @param InConsolePosition - 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
 	 * @param InShape - 테트로미노의 모양 타입입니다.
 	 * @param InColor - 테트로미노 블럭의 색상입니다.
+	 * 
+	 * @return 테트로미노 블럭들을 반환합니다.
 	 */
-	void CreateTetrominoBlocks(const EShape& InShape, const EColor& InColor);
+	std::vector<Block> CreateTetrominoBlocks(const Vec2i& InConsolePosition, const EShape& InShape, const EColor& InColor);
+
+
+	/**
+	 * 테트로미노 블럭들을 특정 방향으로 움직입니다.
+	 * 
+	 * @param InConsolePosition - 움직일 테트로미노의 콘솔 상 왼쪽 상단 좌표입니다.
+	 * @param InTetrominoBlocks - 움직일 테트로미노의 블럭입니다.
+	 * @param InShape - 테트로미노의 모양입니다.
+	 * @param InMovement - 테트로미노의 움직임 방향입니다.
+	 */
+	void Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement);
+
+
+	/**
+	 * 테트로미노 블럭들이 보드와 충돌하는지 검사합니다.
+	 * 
+	 * @param InTetrominoBlocks - 충돌하는지 검사할 테트로미노의 블럭입니다.
+	 * 
+	 * @param 테트로미노 블럭들과 충돌하면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsCollision(const std::vector<Block>& InTetrominoBlocks);
+
+
+	/**
+	 * 테트로미노가 움직일 수 있는지 확인합니다.
+	 *
+	 * @param InConsolePosition - 검사할 테트로미노의 콘솔 상 왼쪽 상단 좌표입니다.
+	 * @param InTetrominoBlocks - 검사할 테트로미노의 블럭입니다.
+	 * @param InShape - 검사할 테트로미노의 모양입니다.
+	 * @param InMovement - 테트로미노가 움직일 수 있는지 확인할 방향입니다.
+	 *
+	 * @return 테트로미노가 움직일 수 있다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool CanMove(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement);
 
 
 	/**
@@ -219,36 +220,56 @@ private:
 	EMovement GetMovementDirection() const;
 
 
+	/**
+	 * 테트로미노의 영역 크기을 얻습니다.
+	 * 
+	 * @param InShape - 테트로미노의 영역 크기를 얻을 테트로미노의 모양입니다.
+	 * 
+	 * @return 테트로미노의 영역 크기를 반환합니다.
+	 */
+	int32_t GetBoundSize(const EShape& InShape) const;
+
+
+	/**
+	 * 테트로미노 움직임의 반대 방향을 얻습니다.
+	 *
+	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.
+	 *
+	 * @return 움직임의 반대 방향을 반환합니다.
+	 */
+	static EMovement GetCountMovement(const EMovement& InMovement);
+
+
 private:
 	/**
-	 * 테트로미노 영역의 왼쪽 상단 좌표입니다.
+	 * 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
 	 */
-	Vec2i Position_;
+	Vec2i ConsolePosition_;
 
 
 	/**
-	 * 테트로미노 영역의 크기입니다.
+	 * 테트로미노의 모양입니다.
 	 */
-	int32_t BoundSize_ = 0;
+	EShape Shape_;
 
 
 	/**
 	 * 테트로미노의 블럭들입니다.
 	 */
-	std::vector<Block> Blocks_;
+	std::vector<Block> TetrominoBlocks_;
 
 
 	/**
-	 * 테트로미노의 상태입니다.
+	 * 테트로미노의 현재 상태입니다.
 	 */
-	EState State_ = EState::WAIT;
+	EState CurrentState_ = EState::WAIT;
 
 
 	/**
-	 * 테트로미노의 아이디입니다.
+	 * 현재 테트로미노의 아이디입니다.
 	 * 이 멤버 변수는 테트로미노를 게임 월드에 등록 및 삭제할 때 사용합니다.
 	 */
-	int32_t ID_ = 0;
+	int32_t CurrentID_ = 0;
 
 
 	/**
@@ -268,4 +289,8 @@ private:
 	 * 이때, 기본 값은 1초입니다.
 	 */
 	static float MaxAccrueTime_;
+
+
+	Vec2i ShadowConsolePosition;
+	std::vector<Block> ShadowTetrominoBlocks;
 };

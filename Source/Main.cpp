@@ -54,7 +54,7 @@ public:
 		WaitPosition_ = Vec2i(19, 6);
 
 		CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
-		CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
+		CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
 
 		NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
 
@@ -103,11 +103,11 @@ private:
 			Object->Update(Timer_.GetDeltaTime());
 		}
 
-		if (CurrTetromino_->GetState() == Tetromino::EState::WAIT && Board_->GetCurrentState() == Board::EState::ACTIVE)
+		if (CurrTetromino_->GetCurrentState() == Tetromino::EState::WAIT && Board_->GetCurrentState() == Board::EState::ACTIVE)
 		{
 			CurrTetromino_ = NextTetromino_;
-			CurrTetromino_->SetPosition(StartPosition_);
-			CurrTetromino_->SetState(Tetromino::EState::ACTIVE);
+			CurrTetromino_->SetConsolePosition(StartPosition_);
+			CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
 
 			NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
 
@@ -124,8 +124,9 @@ private:
 	 */
 	void Render()
 	{
-		const std::array<GameObject*, 2> Objects = {
+		const std::array<GameObject*, 3> Objects = {
 			Board_.get(),
+			CurrTetromino_.get(),
 			NextTetromino_.get()
 		};
 
