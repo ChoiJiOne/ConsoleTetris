@@ -58,7 +58,7 @@ public:
 	/**
 	 * 테트로미노의 생성자입니다.
 	 * 
-	 * @param InPosition - 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
+	 * @param InConsolePosition - 콘솔 상의 테트로미노 영역 왼쪽 상단 좌표입니다.
 	 * @param InShape - 테트로미노의 모양입니다.
 	 * @param InColor - 테트로미노의 색상입니다.
 	 */
