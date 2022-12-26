@@ -1,0 +1,90 @@
+#pragma once
+
+#include <Vector.hpp>
+#include <SceneNode.h>
+
+class Board;
+class Tetromino;
+
+
+/**
+ * 플레이 씬의 노드입니다.
+ */
+class PlaySceneNode : public SceneNode
+{
+public:
+	/**
+	 * 플레이 씬 노드의 생성자입니다.
+	 */
+	explicit PlaySceneNode();
+
+
+	/**
+	 * 플레이 씬 노드의 가상 소멸자입니다.
+	 */
+	virtual ~PlaySceneNode();
+
+
+	/**
+	 * 복사 생성자와 대입 연산자를 삭제합니다.
+	 */
+	DISALLOW_COPY_AND_ASSIGN(PlaySceneNode);
+
+
+	/**
+	 * 플레이 씬의 모든 요소를 리셋합니다.
+	 */
+	void Reset();
+
+
+	/**
+	 * 플레이 씬을 업데이트합니다.
+	 *
+	 * @param InDeltaTime - 초단위 델타 시간값입니다.
+	 */
+	virtual void Update(float InDeltaSeconds) override;
+
+
+	/**
+	 * 플레이 씬을 화면에 그립니다.
+	 */
+	virtual void Render() override;
+
+
+private:
+	/**
+	 * 플레이 씬의 모든 요소를 정리합니다.
+	 */
+	void CleanupAllProperties();
+
+
+private:
+	/**
+	 * 테트로미노의 시작점입니다.
+	 */
+	Vec2i StartPosition_;
+
+
+	/**
+	 * 테트로미노의 대기점입니다.
+	 */
+	Vec2i WaitPosition_;
+
+
+	/**
+	 * 현재 테트로미노 입니다.
+	 */
+	std::shared_ptr<Tetromino> CurrTetromino_ = nullptr;
+
+
+	/**
+	 * 다음 테트로미노입니다.
+	 */
+	std::shared_ptr<Tetromino> NextTetromino_ = nullptr;
+
+
+	/**
+	 * 테트리스 보드입니다.
+	 */
+	std::unique_ptr<Board> Board_ = nullptr;
+};

@@ -1,14 +1,9 @@
-#include <Block.h>
-#include <Board.h>
 #include <Debug.h>
 #include <InputManager.h>
+#include <PlaySceneNode.h>
 #include <ConsoleManager.h>
-#include <Tetromino.h>
 #include <Timer.h>
 #include <Vector.hpp>
-
-#include <array>
-#include <list>
 
 
 /**
@@ -29,9 +24,7 @@ public:
 	 */
 	virtual ~Tetris()
 	{
-		NextTetromino_.reset();
-		CurrTetromino_.reset();
-		Board_.reset();
+		PlaySceneNode_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
 	}
@@ -50,15 +43,9 @@ public:
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
 
-		StartPosition_ = Vec2i(9, 6);
-		WaitPosition_ = Vec2i(19, 6);
-
-		CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
-		CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
-
-		NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
-
-		Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
+		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
+		PlaySceneNode_->SetSwitchEvent([&]() { bIsDone_ = true; });
+		PlaySceneNode_->Reset();
 	}
 
 
@@ -93,29 +80,7 @@ private:
 	 */
 	void Update()
 	{
-		const std::array<GameObject*, 2> Objects = {
-			Board_.get(),
-			CurrTetromino_.get()
-		};
-
-		for (auto& Object : Objects)
-		{
-			Object->Update(Timer_.GetDeltaTime());
-		}
-
-		if (CurrTetromino_->GetCurrentState() == Tetromino::EState::WAIT && Board_->GetCurrentState() == Board::EState::ACTIVE)
-		{
-			CurrTetromino_ = NextTetromino_;
-			CurrTetromino_->SetConsolePosition(StartPosition_);
-			CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
-
-			NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
-
-			if (CurrTetromino_->IsCollision())
-			{
-				bIsDone_ = true;
-			}
-		}
+		PlaySceneNode_->Update(Timer_.GetDeltaTime());
 	}
 
 
@@ -124,16 +89,7 @@ private:
 	 */
 	void Render()
 	{
-		const std::array<GameObject*, 3> Objects = {
-			Board_.get(),
-			CurrTetromino_.get(),
-			NextTetromino_.get()
-		};
-
-		for (auto& Object : Objects)
-		{
-			Object->Render();
-		}
+		PlaySceneNode_->Render();
 	}
 
 
@@ -151,33 +107,9 @@ private:
 
 	
 	/**
-	 * 테트로미노의 시작점입니다.
+	 * 플레이 씬 노드입니다.
 	 */
-	Vec2i StartPosition_;
-
-	
-	/**
-	 * 테트로미노의 대기점입니다.
-	 */
-	Vec2i WaitPosition_;
-	
-
-	/**
-	 * 현재 테트로미노 입니다.
-	 */
-	std::shared_ptr<Tetromino> CurrTetromino_ = nullptr;
-
-
-	/**
-	 * 다음 테트로미노입니다.
-	 */
-	std::shared_ptr<Tetromino> NextTetromino_ = nullptr;
-
-
-	/**
-	 * 테트리스 보드입니다.
-	 */
-	std::unique_ptr<Board> Board_ = nullptr;
+	std::unique_ptr<PlaySceneNode> PlaySceneNode_ = nullptr;
 };
 
 
