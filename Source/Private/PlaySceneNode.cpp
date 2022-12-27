@@ -1,4 +1,5 @@
 #include <PlaySceneNode.h>
+#include <InputManager.h>
 #include <GameObject.h>
 #include <Board.h>
 #include <Tetromino.h>
@@ -32,6 +33,11 @@ void PlaySceneNode::Reset()
 
 void PlaySceneNode::Update(float InDeltaSeconds)
 {
+	if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
+	{
+		RunSwitchEvent();
+	}
+
 	const std::array<GameObject*, 2> Objects = {
 			Board_.get(),
 			CurrTetromino_.get()
