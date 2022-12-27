@@ -20,15 +20,15 @@ void PlaySceneNode::Reset()
 {
 	CleanupAllProperties();
 
-	StartPosition_ = Vec2i(9, 6);
-	WaitPosition_ = Vec2i(19, 6);
+	StartPosition_ = Vec2i(6, 3);
+	WaitPosition_ = Vec2i(15, 3);
 
 	CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
 	CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
 
 	NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
 
-	Board_ = std::make_unique<Board>(Vec2i(5, 5), 12, 22);
+	Board_ = std::make_unique<Board>(Vec2i(2, 2), 12, 22);
 }
 
 void PlaySceneNode::Update(float InDeltaSeconds)
