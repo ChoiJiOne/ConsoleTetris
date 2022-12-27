@@ -2,6 +2,7 @@
 #include <InputManager.h>
 #include <PlaySceneNode.h>
 #include <StartSceneNode.h>
+#include <PauseSceneNode.h>
 #include <ConsoleManager.h>
 #include <Timer.h>
 #include <Vector.hpp>
@@ -46,16 +47,39 @@ public:
 		ConsoleManager::Get().SetCursorVisible(false);
 
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
-		PlaySceneNode_->SetSwitchEvent([&]() { bIsDone_ = true; });
+		PlaySceneNode_->SetSwitchEvent([&]() { 
+			ConsoleManager::Get().Clear();
+			CurrentSceneNode_ = PauseSceneNode_.get();
+		});
 
 		StartSceneNode_ = std::make_unique<StartSceneNode>();
 		StartSceneNode_->SetSwitchEvent([&]() {
 			ConsoleManager::Get().Clear();
-			PlaySceneNode_->Reset();
-
 			const std::string& SelectMenu = StartSceneNode_->GetCurrentSelectMenu();
 
 			if (SelectMenu.compare("START") == 0)
+			{
+				PlaySceneNode_->Reset();
+				CurrentSceneNode_ = PlaySceneNode_.get();
+			}
+
+			if (SelectMenu.compare("QUIT") == 0)
+			{
+				bIsDone_ = true;
+			}
+		});
+
+		PauseSceneNode_ = std::make_unique<PauseSceneNode>();
+		PauseSceneNode_->SetSwitchEvent([&]() {
+			ConsoleManager::Get().Clear();
+			const std::string& SelectMenu = PauseSceneNode_->GetCurrentSelectMenu();
+
+			if (SelectMenu.compare("RESET") == 0)
+			{
+				CurrentSceneNode_ = StartSceneNode_.get();
+			}
+
+			if (SelectMenu.compare("CONTINUE") == 0)
 			{
 				CurrentSceneNode_ = PlaySceneNode_.get();
 			}
@@ -83,11 +107,6 @@ public:
 		{
 			Timer_.Tick();
 			InputManager::Get().Tick();
-
-			if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
-			{
-				bIsDone_ = true;
-			}
 
 			Update();
 			Render();
@@ -143,6 +162,12 @@ private:
 	 * 시작 씬 노드입니다.
 	 */
 	std::unique_ptr<StartSceneNode> StartSceneNode_ = nullptr;
+
+	
+	/**
+	 * 중지 씬 노드입니다.
+	 */
+	std::unique_ptr<PauseSceneNode> PauseSceneNode_ = nullptr;
 };
 
 
