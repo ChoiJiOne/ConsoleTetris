@@ -64,8 +64,8 @@ void StartSceneNode::Render()
 	{
 		ConsoleManager::Get().RenderText(
 			ConsolePosition,
-			Text::Format("бс %s", SelectMenu_[MenuIndex].c_str()),
-			(MenuIndex == CurrentSelectMenu_) ? EColor::WHITE : EColor::AQUA
+			Text::Format("%s %s", (MenuIndex == CurrentSelectMenu_) ? "в║" : "  ", SelectMenu_[MenuIndex].c_str()),
+			EColor::AQUA
 		);
 
 		ConsolePosition.y += 1;
