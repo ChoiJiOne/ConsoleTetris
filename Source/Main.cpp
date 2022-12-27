@@ -47,9 +47,26 @@ public:
 
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
 		PlaySceneNode_->SetSwitchEvent([&]() { bIsDone_ = true; });
-		PlaySceneNode_->Reset();
 
 		StartSceneNode_ = std::make_unique<StartSceneNode>();
+		StartSceneNode_->SetSwitchEvent([&]() {
+			ConsoleManager::Get().Clear();
+			PlaySceneNode_->Reset();
+
+			const std::string& SelectMenu = StartSceneNode_->GetCurrentSelectMenu();
+
+			if (SelectMenu.compare("START") == 0)
+			{
+				CurrentSceneNode_ = PlaySceneNode_.get();
+			}
+
+			if (SelectMenu.compare("QUIT") == 0)
+			{
+				bIsDone_ = true;
+			}
+		});
+
+		CurrentSceneNode_ = StartSceneNode_.get();
 	}
 
 
@@ -84,7 +101,7 @@ private:
 	 */
 	void Update()
 	{
-		//PlaySceneNode_->Update(Timer_.GetDeltaTime());
+		CurrentSceneNode_->Update(Timer_.GetDeltaTime());
 	}
 
 
@@ -93,8 +110,7 @@ private:
 	 */
 	void Render()
 	{
-		//PlaySceneNode_->Render();
-		StartSceneNode_->Render();
+		CurrentSceneNode_->Render();
 	}
 
 
@@ -109,6 +125,12 @@ private:
 	 * 게임 타이머입니다.
 	 */
 	Timer Timer_;
+
+
+	/**
+	 * 현재 씬 노드입니다.
+	 */
+	SceneNode* CurrentSceneNode_ = nullptr;
 
 	
 	/**
