@@ -5,6 +5,8 @@
 PauseSceneNode::PauseSceneNode()
 	: SceneNode("PauseScene")
 	, CurrentSelectMenu_(0)
+	, TitlePosition_(Vec2i(2, 2))
+	, SelectMenuPosition_(Vec2i(10, 15))
 {
 	SelectMenu_ = {
 		"RESET",
@@ -54,21 +56,22 @@ void PauseSceneNode::Render()
 		"    |_|  |______|  |_|  |_|  \\_\\_____|_____/ ",
 	};
 
-	Vec2i ConsolePosition = Vec2i(5, 5);
+	Vec2i TitleConsolePosition = TitlePosition_;
 	for (const auto& TitleLine : Title)
 	{
-		ConsoleManager::Get().RenderText(ConsolePosition, TitleLine, EColor::AQUA);
-		ConsolePosition.y += 1;
+		ConsoleManager::Get().RenderText(TitleConsolePosition, TitleLine, EColor::AQUA);
+		TitleConsolePosition.y += 1;
 	}
 
+	Vec2i SelectMenuConsolePosition = SelectMenuPosition_;
 	for (std::size_t MenuIndex = 0; MenuIndex < SelectMenu_.size(); ++MenuIndex)
 	{
 		ConsoleManager::Get().RenderText(
-			ConsolePosition,
+			SelectMenuConsolePosition,
 			Text::Format("%s %s", (MenuIndex == CurrentSelectMenu_) ? "¢º" : "  ", SelectMenu_[MenuIndex].c_str()),
 			EColor::AQUA
 		);
 
-		ConsolePosition.y += 1;
+		SelectMenuConsolePosition.y += 1;
 	}
 }

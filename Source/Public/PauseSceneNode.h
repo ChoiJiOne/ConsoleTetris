@@ -63,4 +63,16 @@ private:
 	 * 현재 선택 중인 메뉴 요소입니다.
 	 */
 	int32_t CurrentSelectMenu_ = 0;
+
+
+	/**
+	 * 타이틀 화면의 위치입니다.
+	 */
+	Vec2i TitlePosition_;
+
+
+	/**
+	 * 선택 메뉴의 위치입니다.
+	 */
+	Vec2i SelectMenuPosition_;
 };
