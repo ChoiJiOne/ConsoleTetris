@@ -1,6 +1,7 @@
 #include <Debug.h>
 #include <InputManager.h>
 #include <PlaySceneNode.h>
+#include <StartSceneNode.h>
 #include <ConsoleManager.h>
 #include <Timer.h>
 #include <Vector.hpp>
@@ -24,6 +25,7 @@ public:
 	 */
 	virtual ~Tetris()
 	{
+		StartSceneNode_.reset();
 		PlaySceneNode_.reset();
 
 		ConsoleManager::Get().SetCursorVisible(true);
@@ -46,6 +48,8 @@ public:
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
 		PlaySceneNode_->SetSwitchEvent([&]() { bIsDone_ = true; });
 		PlaySceneNode_->Reset();
+
+		StartSceneNode_ = std::make_unique<StartSceneNode>();
 	}
 
 
@@ -80,7 +84,7 @@ private:
 	 */
 	void Update()
 	{
-		PlaySceneNode_->Update(Timer_.GetDeltaTime());
+		//PlaySceneNode_->Update(Timer_.GetDeltaTime());
 	}
 
 
@@ -89,7 +93,8 @@ private:
 	 */
 	void Render()
 	{
-		PlaySceneNode_->Render();
+		//PlaySceneNode_->Render();
+		StartSceneNode_->Render();
 	}
 
 
@@ -110,6 +115,12 @@ private:
 	 * 플레이 씬 노드입니다.
 	 */
 	std::unique_ptr<PlaySceneNode> PlaySceneNode_ = nullptr;
+
+
+	/**
+	 * 시작 씬 노드입니다.
+	 */
+	std::unique_ptr<StartSceneNode> StartSceneNode_ = nullptr;
 };
 
 
