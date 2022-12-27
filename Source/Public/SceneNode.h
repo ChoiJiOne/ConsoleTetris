@@ -62,32 +62,6 @@ public:
 
 
 	/**
-	 * 현재 씬 노드에 다른 씬 노드를 연결합니다.
-	 * 단, 자기 자신을 연결하거나 이미 연결이 되어 있다면 아무런 동작도 하지 않습니다.
-	 * 
-	 * @param InSceneNode - 연결할 씬 노드입니다.
-	 */
-	void Link(SceneNode* InSceneNode);
-
-
-	/**
-	 * 현재 씬 노드에 연결된 다른 씬 노드의 연결을 해제합니다.
-	 * 단, 연결 해제할 대상이 존재하지 않으면 아무런 동작도 수행하지 않습니다.
-	 * 
-	 * @param InSceneNode - 연결 해제할 씬 노드입니다.
-	 */
-	void Unlink(SceneNode* InSceneNode);
-
-
-	/**
-	 * 현재 씬 노드와 연결된 노드 목록을 얻습니다.
-	 * 
-	 * @return 현재 씬 노드와 연결된 노드 목록을 얻습니다.
-	 */
-	const std::list<SceneNode*>& GetLinkNodes() const { return LinkNodes_; }
-
-
-	/**
 	 * 현재 씬을 업데이트합니다.
 	 * 
 	 * @param InDeltaTime - 초단위 델타 시간값입니다.
@@ -106,12 +80,6 @@ private:
 	 * 씬 그래프 노드의 시그니처 값입니다.
 	 */
 	std::string Signature_;
-
-
-	/**
-	 * 현재 씬 노드와 연결된 노드 목록입니다.
-	 */
-	std::list<SceneNode*> LinkNodes_;
 
 
 	/**
