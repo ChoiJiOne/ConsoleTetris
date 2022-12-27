@@ -1,5 +1,6 @@
 #include <Debug.h>
 #include <InputManager.h>
+#include <DoneSceneNode.h>
 #include <PlaySceneNode.h>
 #include <StartSceneNode.h>
 #include <PauseSceneNode.h>
@@ -26,6 +27,8 @@ public:
 	 */
 	virtual ~Tetris()
 	{
+		DoneSceneNode_.reset();
+		PauseSceneNode_.reset();
 		StartSceneNode_.reset();
 		PlaySceneNode_.reset();
 
@@ -49,7 +52,15 @@ public:
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
 		PlaySceneNode_->SetSwitchEvent([&]() { 
 			ConsoleManager::Get().Clear();
-			CurrentSceneNode_ = PauseSceneNode_.get();
+
+			if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
+			{
+				CurrentSceneNode_ = PauseSceneNode_.get();
+			}
+			else
+			{
+				CurrentSceneNode_ = DoneSceneNode_.get();
+			}
 		});
 
 		StartSceneNode_ = std::make_unique<StartSceneNode>();
@@ -82,6 +93,22 @@ public:
 			if (SelectMenu.compare("CONTINUE") == 0)
 			{
 				CurrentSceneNode_ = PlaySceneNode_.get();
+			}
+
+			if (SelectMenu.compare("QUIT") == 0)
+			{
+				bIsDone_ = true;
+			}
+		});
+
+		DoneSceneNode_ = std::make_unique<DoneSceneNode>();
+		DoneSceneNode_->SetSwitchEvent([&]() {
+			ConsoleManager::Get().Clear();
+			const std::string& SelectMenu = DoneSceneNode_->GetCurrentSelectMenu();
+
+			if (SelectMenu.compare("RESTART") == 0)
+			{
+				CurrentSceneNode_ = StartSceneNode_.get();
 			}
 
 			if (SelectMenu.compare("QUIT") == 0)
@@ -168,6 +195,12 @@ private:
 	 * 중지 씬 노드입니다.
 	 */
 	std::unique_ptr<PauseSceneNode> PauseSceneNode_ = nullptr;
+
+
+	/**
+	 * 종료 씬 노드입니다.
+	 */
+	std::unique_ptr<DoneSceneNode> DoneSceneNode_ = nullptr;
 };
 
 
