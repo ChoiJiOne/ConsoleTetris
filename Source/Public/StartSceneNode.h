@@ -3,6 +3,8 @@
 #include <Vector.hpp>
 #include <SceneNode.h>
 
+#include <array>
+
 
 /**
  * 시작 씬의 노드입니다.
@@ -42,5 +44,23 @@ public:
 	virtual void Render() override;
 
 
+	/**
+	 * 현재 선택한 메뉴 요소를 얻습니다.
+	 * 
+	 * @return 현재 선택한 메뉴 요소를 반환합니다.
+	 */
+	const std::string& GetCurrentSelectMenu() const { return SelectMenu_[CurrentSelectMenu_]; }
+
+
 private:
+	/**
+	 * 시작 씬의 선택 메뉴 목록입니다.
+	 */
+	std::array<std::string, 2> SelectMenu_;
+
+
+	/**
+	 * 현재 선택 중인 메뉴 요소입니다.
+	 */
+	int32_t CurrentSelectMenu_ = 0;
 };

@@ -1,9 +1,15 @@
 #include <StartSceneNode.h>
 #include <ConsoleManager.h>
+#include <InputManager.h>
 
 StartSceneNode::StartSceneNode()
 	: SceneNode("StartScene")
+	, CurrentSelectMenu_(0)
 {
+	SelectMenu_ = {
+		"START",
+		"QUIT"
+	};
 }
 
 StartSceneNode::~StartSceneNode()
@@ -12,6 +18,22 @@ StartSceneNode::~StartSceneNode()
 
 void StartSceneNode::Update(float InDeltaSeconds)
 {
+	if (InputManager::Get().GetKeyPressState(EKeyCode::UP) == EPressState::PRESSED)
+	{
+		CurrentSelectMenu_--;
+	}
+
+	if (InputManager::Get().GetKeyPressState(EKeyCode::DOWN) == EPressState::PRESSED)
+	{
+		CurrentSelectMenu_++;
+	}
+
+	CurrentSelectMenu_ = std::clamp<int32_t>(CurrentSelectMenu_, 0, static_cast<int32_t>(SelectMenu_.size()) - 1);
+
+	if (InputManager::Get().GetKeyPressState(EKeyCode::ENTER) == EPressState::PRESSED)
+	{
+		RunSwitchEvent();
+	}
 }
 
 void StartSceneNode::Render()
@@ -35,6 +57,17 @@ void StartSceneNode::Render()
 	for (const auto& TitleLine : Title)
 	{
 		ConsoleManager::Get().RenderText(ConsolePosition, TitleLine, EColor::AQUA);
+		ConsolePosition.y += 1;
+	}
+
+	for (std::size_t MenuIndex = 0; MenuIndex < SelectMenu_.size(); ++MenuIndex)
+	{
+		ConsoleManager::Get().RenderText(
+			ConsolePosition,
+			Text::Format("бс %s", SelectMenu_[MenuIndex].c_str()),
+			(MenuIndex == CurrentSelectMenu_) ? EColor::WHITE : EColor::AQUA
+		);
+
 		ConsolePosition.y += 1;
 	}
 }
