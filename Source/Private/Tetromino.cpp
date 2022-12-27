@@ -67,12 +67,12 @@ void Tetromino::Update(float InDeltaSeconds)
 	{
 		AccrueTime_ += InDeltaSeconds;
 
-		Tetromino::EMovement Movement = GetMovementDirection();
+		Tetromino::EDirection Movement = GetMovementDirection();
 
 		Board* TetrisBoard = reinterpret_cast<Board*>(WorldManager::Get().GetObject(Text::GetHash("Board")));
 		TetrisBoard->RemoveBlocks(TetrominoBlocks_);
 
-		if (Movement != EMovement::NONE)
+		if (Movement != EDirection::NONE)
 		{
 			RemoveFromConsole();
 
@@ -84,7 +84,7 @@ void Tetromino::Update(float InDeltaSeconds)
 
 		if (AccrueTime_ >= MaxAccrueTime_)
 		{
-			Movement = EMovement::DOWN;
+			Movement = EDirection::DOWN;
 
 			if (CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, Movement))
 			{
@@ -97,10 +97,10 @@ void Tetromino::Update(float InDeltaSeconds)
 		ShadowConsolePosition_ = ConsolePosition_;
 		ShadowTetrominoBlocks_ = TetrominoBlocks_;
 
-		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, EMovement::JUMP);
-		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, GetCountMovement(EMovement::JUMP));
+		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, EDirection::JUMP);
+		Move(ShadowConsolePosition_, ShadowTetrominoBlocks_, Shape_, GetCountDirection(EDirection::JUMP));
 
-		if (!CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, EMovement::DOWN))
+		if (!CanMove(ConsolePosition_, TetrominoBlocks_, Shape_, EDirection::DOWN))
 		{
 			CurrentState_ = EState::WAIT;
 			TetrisBoard->SetCurrentState(Board::EState::WAIT);
@@ -229,14 +229,14 @@ std::vector<Block> Tetromino::CreateTetrominoBlocks(const Vec2i& InConsolePositi
 	return TetrominoBlocks;
 }
 
-void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement)
+void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EDirection& InMovement)
 {
 	switch (InMovement)
 	{
-	case EMovement::NONE:
+	case EDirection::NONE:
 		break;
 
-	case EMovement::UP:
+	case EDirection::UP:
 		InConsolePosition.y -= 1;
 
 		for (auto& TetrominoBlock : InTetrominoBlocks)
@@ -247,7 +247,7 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::DOWN:
+	case EDirection::DOWN:
 		InConsolePosition.y += 1;
 
 		for (auto& TetrominoBlock : InTetrominoBlocks)
@@ -258,7 +258,7 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::LEFT:
+	case EDirection::LEFT:
 		InConsolePosition.x -= 1;
 
 		for (auto& TetrominoBlock : InTetrominoBlocks)
@@ -269,7 +269,7 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::RIGHT:
+	case EDirection::RIGHT:
 		InConsolePosition.x += 1;
 
 		for (auto& TetrominoBlock : InTetrominoBlocks)
@@ -280,7 +280,7 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::CCW:
+	case EDirection::CCW:
 		for (auto& TetrominoBlock : InTetrominoBlocks)
 		{
 			Vec2i BlockPosition = TetrominoBlock.GetPosition();
@@ -293,7 +293,7 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::CW:
+	case EDirection::CW:
 		for (auto& TetrominoBlock : InTetrominoBlocks)
 		{
 			Vec2i BlockPosition = TetrominoBlock.GetPosition();
@@ -306,10 +306,10 @@ void Tetromino::Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBl
 		}
 		break;
 
-	case EMovement::JUMP:
+	case EDirection::JUMP:
 		while (!IsCollision(InTetrominoBlocks))
 		{
-			Move(InConsolePosition, InTetrominoBlocks, InShape, EMovement::DOWN);
+			Move(InConsolePosition, InTetrominoBlocks, InShape, EDirection::DOWN);
 		}
 		break;
 
@@ -333,53 +333,53 @@ bool Tetromino::IsCollision(const std::vector<Block>& InTetrominoBlocks)
 	return false;
 }
 
-bool Tetromino::CanMove(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement)
+bool Tetromino::CanMove(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EDirection& InMovement)
 {
 	bool bCanMove = true;
 
 	Move(InConsolePosition, InTetrominoBlocks, InShape, InMovement);
 	bCanMove = !IsCollision();
-	Move(InConsolePosition, InTetrominoBlocks, InShape, GetCountMovement(InMovement));
+	Move(InConsolePosition, InTetrominoBlocks, InShape, GetCountDirection(InMovement));
 
 	return bCanMove;
 }
 
-Tetromino::EMovement Tetromino::GetCountMovement(const EMovement& InMovement)
+Tetromino::EDirection Tetromino::GetCountDirection(const EDirection& InMovement)
 {
-	EMovement CountMovement;
+	EDirection CountMovement;
 
 	switch (InMovement)
 	{
-	case EMovement::NONE:
-		CountMovement = EMovement::NONE;
+	case EDirection::NONE:
+		CountMovement = EDirection::NONE;
 		break;
 
-	case EMovement::CW:
-		CountMovement = EMovement::CCW;
+	case EDirection::CW:
+		CountMovement = EDirection::CCW;
 		break;
 
-	case EMovement::CCW:
-		CountMovement = EMovement::CW;
+	case EDirection::CCW:
+		CountMovement = EDirection::CW;
 		break;
 
-	case EMovement::DOWN:
-		CountMovement = EMovement::UP;
+	case EDirection::DOWN:
+		CountMovement = EDirection::UP;
 		break;
 
-	case EMovement::UP:
-		CountMovement = EMovement::DOWN;
+	case EDirection::UP:
+		CountMovement = EDirection::DOWN;
 		break;
 
-	case EMovement::LEFT:
-		CountMovement = EMovement::RIGHT;
+	case EDirection::LEFT:
+		CountMovement = EDirection::RIGHT;
 		break;
 
-	case EMovement::RIGHT:
-		CountMovement = EMovement::LEFT;
+	case EDirection::RIGHT:
+		CountMovement = EDirection::LEFT;
 		break;
 
-	case EMovement::JUMP:
-		CountMovement = EMovement::UP;
+	case EDirection::JUMP:
+		CountMovement = EDirection::UP;
 		break;
 
 	default:
@@ -398,16 +398,16 @@ void Tetromino::RemoveFromConsole()
 	}
 }
 
-Tetromino::EMovement Tetromino::GetMovementDirection() const
+Tetromino::EDirection Tetromino::GetMovementDirection() const
 {
-	Tetromino::EMovement Movement = EMovement::NONE;
+	Tetromino::EDirection Movement = EDirection::NONE;
 
-	static std::unordered_map<EKeyCode, Tetromino::EMovement> KeyMovements = {
-		{ EKeyCode::LEFT,  EMovement::LEFT  },
-		{ EKeyCode::RIGHT, EMovement::RIGHT },
-		{ EKeyCode::UP,    EMovement::CW    },
-		{ EKeyCode::DOWN,  EMovement::DOWN  },
-		{ EKeyCode::SPACE, EMovement::JUMP  }
+	static std::unordered_map<EKeyCode, Tetromino::EDirection> KeyMovements = {
+		{ EKeyCode::LEFT,  EDirection::LEFT  },
+		{ EKeyCode::RIGHT, EDirection::RIGHT },
+		{ EKeyCode::UP,    EDirection::CW    },
+		{ EKeyCode::DOWN,  EDirection::DOWN  },
+		{ EKeyCode::SPACE, EDirection::JUMP  }
 	};
 
 	for (const auto& KeyMovement : KeyMovements)

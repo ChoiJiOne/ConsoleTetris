@@ -29,9 +29,9 @@ public:
 
 
 	/**
-	 * 테트로미노의 움직임입니다.
+	 * 테트로미노의 움직임 방향입니다.
 	 */
-	enum class EMovement : int32_t
+	enum class EDirection : int32_t
 	{
 		NONE  = 0,
 		LEFT  = 1,
@@ -180,9 +180,9 @@ private:
 	 * @param InConsolePosition - 움직일 테트로미노의 콘솔 상 왼쪽 상단 좌표입니다.
 	 * @param InTetrominoBlocks - 움직일 테트로미노의 블럭입니다.
 	 * @param InShape - 테트로미노의 모양입니다.
-	 * @param InMovement - 테트로미노의 움직임 방향입니다.
+	 * @param InDirection - 테트로미노의 움직임 방향입니다.
 	 */
-	void Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement);
+	void Move(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EDirection& InDirection);
 
 
 	/**
@@ -201,11 +201,11 @@ private:
 	 * @param InConsolePosition - 검사할 테트로미노의 콘솔 상 왼쪽 상단 좌표입니다.
 	 * @param InTetrominoBlocks - 검사할 테트로미노의 블럭입니다.
 	 * @param InShape - 검사할 테트로미노의 모양입니다.
-	 * @param InMovement - 테트로미노가 움직일 수 있는지 확인할 방향입니다.
+	 * @param InDirection - 테트로미노가 움직일 수 있는지 확인할 방향입니다.
 	 *
 	 * @return 테트로미노가 움직일 수 있다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	bool CanMove(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EMovement& InMovement);
+	bool CanMove(Vec2i& InConsolePosition, std::vector<Block>& InTetrominoBlocks, const EShape& InShape, const EDirection& InDirection);
 
 
 	/**
@@ -217,7 +217,7 @@ private:
 	/**
 	 * 테트로미노의 움직임 방향을 얻습니다.
 	 */
-	EMovement GetMovementDirection() const;
+	EDirection GetMovementDirection() const;
 
 
 	/**
@@ -233,11 +233,11 @@ private:
 	/**
 	 * 테트로미노 움직임의 반대 방향을 얻습니다.
 	 *
-	 * @param InMovement - 반대 방향을 알고 싶은 움직임입니다.
+	 * @param InDirection - 반대 방향을 알고 싶은 움직임입니다.
 	 *
 	 * @return 움직임의 반대 방향을 반환합니다.
 	 */
-	static EMovement GetCountMovement(const EMovement& InMovement);
+	static EDirection GetCountDirection(const EDirection& InDirection);
 
 
 private:
