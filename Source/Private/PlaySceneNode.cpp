@@ -50,6 +50,11 @@ void PlaySceneNode::Reset()
 	Board_ = std::make_unique<Board>(Vec2i(2, 2), 12, 22);
 }
 
+int32_t PlaySceneNode::GetRemoveLine() const
+{
+	return Board_->GetRemoveLine();
+}
+
 void PlaySceneNode::Update(float InDeltaSeconds)
 {
 	PlayTime_ += InDeltaSeconds;

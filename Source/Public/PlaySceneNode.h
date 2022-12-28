@@ -55,6 +55,30 @@ public:
 
 
 	/**
+	 * 플레이 시간을 얻습니다.
+	 * 
+	 * @return 플레이 시간을 반환합니다.
+	 */
+	float GetPlayTime() const { return PlayTime_; }
+
+
+	/**
+	 * 플레이어가 삭제한 라인 수를 얻습니다.
+	 * 
+	 * @return 플레이어가 삭제한 라인 수를 반환합니다.
+	 */
+	int32_t GetRemoveLine() const;
+
+
+	/**
+	 * 플레이어의 레벨을 얻습니다.
+	 * 
+	 * @return 플레이어의 레벨을 반환합니다.
+	 */
+	ELevel GetPlayerLevel() const { return Level_; }
+
+
+	/**
 	 * 플레이 씬을 업데이트합니다.
 	 *
 	 * @param InDeltaTime - 초단위 델타 시간값입니다.
