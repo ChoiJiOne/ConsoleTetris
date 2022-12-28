@@ -25,6 +25,9 @@ void PlaySceneNode::Reset()
 
 	RemoveLinePosition_ = Vec2i(15, 12);
 
+	Level_ = ELevel::LEVEL1;
+	PlayerLevelPosition_ = Vec2i(15, 14);
+
 	StartPosition_ = Vec2i(6, 3);
 	WaitPosition_ = Vec2i(15, 3);
 
@@ -85,13 +88,19 @@ void PlaySceneNode::Render()
 
 	ConsoleManager::Get().RenderText(
 		PlayTimePosition_,
-		Text::Format("TIME : %3d", static_cast<int32_t>(PlayTime_)),
+		Text::Format("TIME  %3d", static_cast<int32_t>(PlayTime_)),
 		EColor::AQUA
 	);
 
 	ConsoleManager::Get().RenderText(
 		RemoveLinePosition_,
-		Text::Format("LINE : %3d", Board_->GetRemoveLine()), 
+		Text::Format("LINE  %3d", Board_->GetRemoveLine()), 
+		EColor::AQUA
+	);
+
+	ConsoleManager::Get().RenderText(
+		PlayerLevelPosition_,
+		Text::Format("LEVEL %3d", static_cast<int32_t>(Level_)),
 		EColor::AQUA
 	);
 }

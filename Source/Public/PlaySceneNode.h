@@ -14,6 +14,21 @@ class PlaySceneNode : public SceneNode
 {
 public:
 	/**
+	 * 게임 플레이어의 레벨입니다.
+	 */
+	enum class ELevel : int32_t
+	{
+		LEVEL1 = 1,
+		LEVEL2 = 2,
+		LEVEL3 = 3,
+		LEVEL4 = 4,
+		LEVEL5 = 5,
+		LEVEL6 = 6,
+	};
+
+
+public:
+	/**
 	 * 플레이 씬 노드의 생성자입니다.
 	 */
 	explicit PlaySceneNode();
@@ -75,6 +90,18 @@ private:
 	 * 플레이어가 삭제한 라인 수의 콘솔 상 위치입니다.
 	 */
 	Vec2i RemoveLinePosition_;
+
+
+	/**
+	 * 플레이어의 레벨입니다.
+	 */
+	ELevel Level_ = ELevel::LEVEL1;
+
+
+	/**
+	 * 플레이어 레벨의 콘솔 상 위치입니다.
+	 */
+	Vec2i PlayerLevelPosition_;
 
 
 	/**
