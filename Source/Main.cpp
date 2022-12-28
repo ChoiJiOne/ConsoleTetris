@@ -117,6 +117,13 @@ public:
 			}
 		});
 
+		StartSceneNode_->LinkNode(PlaySceneNode_.get());
+		StartSceneNode_->LinkNode(PauseSceneNode_.get());
+		StartSceneNode_->LinkNode(DoneSceneNode_.get());
+
+		PlaySceneNode_->LinkNode(PauseSceneNode_.get());
+		PlaySceneNode_->LinkNode(DoneSceneNode_.get());
+
 		CurrentSceneNode_ = StartSceneNode_.get();
 	}
 
