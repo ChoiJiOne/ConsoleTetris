@@ -20,6 +20,9 @@ void PlaySceneNode::Reset()
 {
 	CleanupAllProperties();
 
+	PlayTime_ = 0.0f;
+	PlayTimePosition_ = Vec2i(15, 10);
+
 	StartPosition_ = Vec2i(6, 3);
 	WaitPosition_ = Vec2i(15, 3);
 
@@ -33,6 +36,8 @@ void PlaySceneNode::Reset()
 
 void PlaySceneNode::Update(float InDeltaSeconds)
 {
+	PlayTime_ += InDeltaSeconds;
+
 	if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
 	{
 		RunSwitchEvent();
@@ -75,6 +80,12 @@ void PlaySceneNode::Render()
 	{
 		Object->Render();
 	}
+
+	ConsoleManager::Get().RenderText(
+		PlayTimePosition_,
+		Text::Format("TIME : %3d", static_cast<int32_t>(PlayTime_)),
+		EColor::AQUA
+	);
 }
 
 void PlaySceneNode::CleanupAllProperties()

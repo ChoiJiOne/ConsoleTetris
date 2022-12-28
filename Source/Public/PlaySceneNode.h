@@ -60,6 +60,18 @@ private:
 
 private:
 	/**
+	 * 게임 플레이 타임입니다.
+	 */
+	float PlayTime_ = 0.0f;
+
+
+	/**
+	 * 게임 플레이 타임의 콘솔 상 위치입니다.
+	 */
+	Vec2i PlayTimePosition_;
+
+
+	/**
 	 * 테트로미노의 시작점입니다.
 	 */
 	Vec2i StartPosition_;
