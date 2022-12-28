@@ -70,6 +70,24 @@ private:
 	 */
 	Vec2i TitlePosition_;
 
+	
+	/**
+	 * 플레이 시간의 위치입니다.
+	 */
+	Vec2i PlayTimePosition_;
+
+
+	/**
+	 * 삭제한 라인의 위치입니다.
+	 */
+	Vec2i RemoveLinePosition_;
+
+
+	/**
+	 * 플레이어의 레벨 위치입니다.
+	 */
+	Vec2i PlayerLevelPosition_;
+
 
 	/**
 	 * 선택 메뉴의 위치입니다.

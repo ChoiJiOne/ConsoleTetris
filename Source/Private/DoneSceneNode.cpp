@@ -1,4 +1,5 @@
 #include <DoneSceneNode.h>
+#include <PlaySceneNode.h>
 #include <ConsoleManager.h>
 #include <InputManager.h>
 
@@ -6,7 +7,10 @@ DoneSceneNode::DoneSceneNode()
 	: SceneNode("DoneScene")
 	, CurrentSelectMenu_(0)
 	, TitlePosition_(Vec2i(2, 2))
-	, SelectMenuPosition_(Vec2i(10, 15))
+	, PlayTimePosition_(Vec2i(10, 15))
+	, RemoveLinePosition_(Vec2i(10, 16))
+	, PlayerLevelPosition_(Vec2i(10, 17))
+	, SelectMenuPosition_(Vec2i(9, 19))
 {
 	SelectMenu_ = {
 		"RESTART",
@@ -61,6 +65,25 @@ void DoneSceneNode::Render()
 		ConsoleManager::Get().RenderText(TitleConsolePosition, TitleLine, EColor::AQUA);
 		TitleConsolePosition.y += 1;
 	}
+
+	PlaySceneNode* CurrentPlaySceneNode = reinterpret_cast<PlaySceneNode*>(FindLinkNode("PlayScene"));
+	ConsoleManager::Get().RenderText(
+		PlayTimePosition_,
+		Text::Format("TIME  %3d", static_cast<int32_t>(CurrentPlaySceneNode->GetPlayTime())),
+		EColor::AQUA
+	);
+
+	ConsoleManager::Get().RenderText(
+		RemoveLinePosition_,
+		Text::Format("LINE  %3d", CurrentPlaySceneNode->GetRemoveLine()),
+		EColor::AQUA
+	);
+
+	ConsoleManager::Get().RenderText(
+		PlayerLevelPosition_,
+		Text::Format("LEVEL %3d", static_cast<int32_t>(CurrentPlaySceneNode->GetPlayerLevel())),
+		EColor::AQUA
+	);
 
 	Vec2i SelectMenuConsolePosition = SelectMenuPosition_;
 	for (std::size_t MenuIndex = 0; MenuIndex < SelectMenu_.size(); ++MenuIndex)
