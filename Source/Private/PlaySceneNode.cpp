@@ -84,7 +84,7 @@ void PlaySceneNode::Update(float InDeltaSeconds)
 		}
 	}
 
-	if (AccruePlayTime_ >= 10.0f && Level_ != ELevel::LEVEL6)
+	if (AccruePlayTime_ >= 30.0f && Level_ != ELevel::LEVEL6)
 	{
 		AccruePlayTime_ = 0.0f;
 		Level_ = static_cast<ELevel>(static_cast<int32_t>(Level_) + 1);
@@ -104,6 +104,12 @@ void PlaySceneNode::Render()
 	{
 		Object->Render();
 	}
+
+	ConsoleManager::Get().RenderText(
+		Vec2i(WaitPosition_.x, WaitPosition_.y - 1),
+		"NEXT",
+		EColor::AQUA
+	);
 
 	ConsoleManager::Get().RenderText(
 		PlayTimePosition_,
