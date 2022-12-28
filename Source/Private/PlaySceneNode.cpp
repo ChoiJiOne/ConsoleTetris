@@ -6,6 +6,15 @@
 
 #include <array>
 
+std::unordered_map<PlaySceneNode::ELevel, const float> PlaySceneNode::LevelToMaxAccrueTime_ = {
+	{ PlaySceneNode::ELevel::LEVEL1, 1.0f },
+	{ PlaySceneNode::ELevel::LEVEL2, 0.8f },
+	{ PlaySceneNode::ELevel::LEVEL3, 0.6f },
+	{ PlaySceneNode::ELevel::LEVEL4, 0.4f },
+	{ PlaySceneNode::ELevel::LEVEL5, 0.2f },
+	{ PlaySceneNode::ELevel::LEVEL6, 0.1f },
+};
+
 PlaySceneNode::PlaySceneNode()
 	: SceneNode("PlayScene")
 {
@@ -27,6 +36,7 @@ void PlaySceneNode::Reset()
 
 	Level_ = ELevel::LEVEL1;
 	PlayerLevelPosition_ = Vec2i(15, 14);
+	Tetromino::SetMaxAccrueTime(LevelToMaxAccrueTime_[Level_]);
 
 	StartPosition_ = Vec2i(6, 3);
 	WaitPosition_ = Vec2i(15, 3);

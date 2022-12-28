@@ -3,6 +3,8 @@
 #include <Vector.hpp>
 #include <SceneNode.h>
 
+#include <unordered_map>
+
 class Board;
 class Tetromino;
 
@@ -132,4 +134,10 @@ private:
 	 * 테트리스 보드입니다.
 	 */
 	std::unique_ptr<Board> Board_ = nullptr;
+
+
+	/**
+	 * 플레이어 레벨에 대응하는 최대 테트로미노 누적 시간입니다.
+	 */
+	static std::unordered_map<ELevel, const float> LevelToMaxAccrueTime_;
 };
