@@ -35,6 +35,7 @@ void PlaySceneNode::Reset()
 	RemoveLinePosition_ = Vec2i(15, 12);
 
 	Level_ = ELevel::LEVEL1;
+	AccruePlayTime_ = 0.0f;
 	PlayerLevelPosition_ = Vec2i(15, 14);
 	Tetromino::SetMaxAccrueTime(LevelToMaxAccrueTime_[Level_]);
 
@@ -52,6 +53,7 @@ void PlaySceneNode::Reset()
 void PlaySceneNode::Update(float InDeltaSeconds)
 {
 	PlayTime_ += InDeltaSeconds;
+	AccruePlayTime_ += InDeltaSeconds;
 
 	if (InputManager::Get().GetKeyPressState(EKeyCode::ESCAPE) == EPressState::PRESSED)
 	{
@@ -80,6 +82,13 @@ void PlaySceneNode::Update(float InDeltaSeconds)
 		{
 			RunSwitchEvent();
 		}
+	}
+
+	if (AccruePlayTime_ >= 10.0f && Level_ != ELevel::LEVEL6)
+	{
+		AccruePlayTime_ = 0.0f;
+		Level_ = static_cast<ELevel>(static_cast<int32_t>(Level_) + 1);
+		Tetromino::SetMaxAccrueTime(LevelToMaxAccrueTime_[Level_]);
 	}
 }
 

@@ -101,6 +101,12 @@ private:
 
 
 	/**
+	 * 레벨 증가를 확인하기 위한 누적 시간 ㄴ값입니다.
+	 */
+	float AccruePlayTime_ = 0.0f;
+
+
+	/**
 	 * 플레이어 레벨의 콘솔 상 위치입니다.
 	 */
 	Vec2i PlayerLevelPosition_;
