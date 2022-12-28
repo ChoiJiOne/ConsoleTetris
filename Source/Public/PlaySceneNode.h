@@ -72,6 +72,12 @@ private:
 
 
 	/**
+	 * 플레이어가 삭제한 라인 수의 콘솔 상 위치입니다.
+	 */
+	Vec2i RemoveLinePosition_;
+
+
+	/**
 	 * 테트로미노의 시작점입니다.
 	 */
 	Vec2i StartPosition_;
