@@ -137,6 +137,12 @@ private:
 
 
 	/**
+	 * 테트리스 보드의 위치입니다.
+	 */
+	Vec2i BoardPosition_;
+
+
+	/**
 	 * 테트로미노의 시작점입니다.
 	 */
 	Vec2i StartPosition_;

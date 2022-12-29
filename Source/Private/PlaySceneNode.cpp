@@ -39,6 +39,7 @@ void PlaySceneNode::Reset()
 	PlayerLevelPosition_ = Vec2i(15, 14);
 	Tetromino::SetMaxAccrueTime(LevelToMaxAccrueTime_[Level_]);
 
+	BoardPosition_ = Vec2i(2, 2);
 	StartPosition_ = Vec2i(6, 3);
 	WaitPosition_ = Vec2i(15, 3);
 
@@ -47,7 +48,7 @@ void PlaySceneNode::Reset()
 
 	NextTetromino_ = std::make_shared<Tetromino>(WaitPosition_);
 
-	Board_ = std::make_unique<Board>(Vec2i(2, 2), 12, 22);
+	Board_ = std::make_unique<Board>(BoardPosition_, 12, 22);
 }
 
 int32_t PlaySceneNode::GetRemoveLine() const
