@@ -36,3 +36,13 @@ SceneNode* SceneNode::FindLinkNode(const std::string& InSignature)
 
 	return TargetSceneNode;
 }
+
+void SceneNode::LoadSceneUIJson()
+{
+	SceneUI = LoadJsonFromFile(Text::Format("%s.json", Signature_.c_str()));
+}
+
+Vec2i SceneNode::GetUIPosition(const std::string& InUIElement)
+{
+	return Vec2i(SceneUI[InUIElement]["x"], SceneUI[InUIElement]["y"]);
+}

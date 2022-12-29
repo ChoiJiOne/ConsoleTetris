@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Macro.h>
+#include <Json.h>
+#include <Vector.hpp>
 
 #include <string>
 #include <list>
@@ -100,6 +102,25 @@ public:
 
 
 	/**
+	 * 현재 씬 노드의 UI 정보를 저장한 Json 파일을 로딩합니다.
+	 * 이때, Json파일은 씬 노드의 시그니처와 일치해야 합니다.
+	 * 
+	 * @throws 시그니처와 일치하는 Json 파일이 존재하지 않으면 C++ 표준 예외를 던집니다.
+	 */
+	void LoadSceneUIJson();
+
+
+	/**
+	 * UI 요소의 좌표를 얻습니다.
+	 * 
+	 * @param InUIElement - UI 요소입니다.
+	 * 
+	 * @return UI 요소의 위치입니다.
+	 */
+	Vec2i GetUIPosition(const std::string& InUIElement);
+
+
+	/**
 	 * 현재 씬을 업데이트합니다.
 	 * 
 	 * @param InDeltaTime - 초단위 델타 시간값입니다.
@@ -131,4 +152,9 @@ private:
 	 */
 	std::list<SceneNode*> LinkNodes_;
 
+
+	/**
+	 * 현재 씬 노드의 UI 정보를 보관하는 Json 객체입니다.
+	 */
+	Json SceneUI;
 };
