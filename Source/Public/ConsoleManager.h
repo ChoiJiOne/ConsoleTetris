@@ -137,6 +137,12 @@ public:
 	 * @throws 콘솔 창에 텍스트 그리기를 실패하면 C++ 표준 예외를 던집니다.
      */
 	void RenderText(const Vec2i& InPosition, const std::wstring& InText, const EColor& InColor);
+
+
+	/**
+	 * Setting.json 파일을 기반으로 세팅을 수행합니다.
+	 */
+	void SettingFromJson();
 	
 
 private:

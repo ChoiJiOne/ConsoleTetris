@@ -44,11 +44,7 @@ public:
 	void Init()
 	{
 		SetUnhandledExceptionFilter(UnhandledExceptionHandler);
-
-		ConsoleManager::Get().SetWindow(Vec2i(200, 200), 600, 500);
-		ConsoleManager::Get().Clear();
-		ConsoleManager::Get().SetTitle("ConsoleTetris");
-		ConsoleManager::Get().SetCursorVisible(false);
+		ConsoleManager::Get().SettingFromJson();
 
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
 		PlaySceneNode_->SetSwitchEvent([&]() { 

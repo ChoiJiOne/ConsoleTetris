@@ -1,4 +1,5 @@
 #include <ConsoleManager.h>
+#include <Json.h>
 
 #include <iostream>
 #include <windows.h>
@@ -62,6 +63,21 @@ void ConsoleManager::RenderText(const Vec2i& InPosition, const std::wstring& InT
 	SetTextColor(InColor);
 
 	std::wcout << InText;
+}
+
+void ConsoleManager::SettingFromJson()
+{
+	Json Setting = LoadJsonFromFile("Setting.json");
+
+	ConsoleManager::Get().SetWindow(
+		Vec2i(Setting["Window"]["x"], Setting["Window"]["y"]),
+		Setting["Window"]["w"],
+		Setting["Window"]["h"]
+	);
+
+	ConsoleManager::Get().Clear();
+	ConsoleManager::Get().SetTitle(Setting["Title"]);
+	ConsoleManager::Get().SetCursorVisible(Setting["CursorVisible"]);
 }
 
 ConsoleManager::~ConsoleManager()
