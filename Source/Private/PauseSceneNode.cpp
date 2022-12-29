@@ -5,8 +5,8 @@
 PauseSceneNode::PauseSceneNode()
 	: SceneNode("PauseScene")
 	, CurrentSelectMenu_(0)
-	, TitlePosition_(Vec2i(2, 2))
-	, SelectMenuPosition_(Vec2i(10, 15))
+	, TitlePosition_(GetUIPosition("Title"))
+	, SelectMenuPosition_(GetUIPosition("SelectMenu"))
 {
 	SelectMenu_ = {
 		"RESET",
