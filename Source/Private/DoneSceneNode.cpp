@@ -6,11 +6,11 @@
 DoneSceneNode::DoneSceneNode()
 	: SceneNode("DoneScene")
 	, CurrentSelectMenu_(0)
-	, TitlePosition_(Vec2i(2, 2))
-	, PlayTimePosition_(Vec2i(10, 15))
-	, RemoveLinePosition_(Vec2i(10, 16))
-	, PlayerLevelPosition_(Vec2i(10, 17))
-	, SelectMenuPosition_(Vec2i(9, 19))
+	, TitlePosition_(GetUIPosition("Title"))
+	, PlayTimePosition_(GetUIPosition("Time"))
+	, RemoveLinePosition_(GetUIPosition("Line"))
+	, PlayerLevelPosition_(GetUIPosition("Level"))
+	, SelectMenuPosition_(GetUIPosition("SelectMenu"))
 {
 	SelectMenu_ = {
 		"RESTART",
