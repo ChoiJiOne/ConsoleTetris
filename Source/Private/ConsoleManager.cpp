@@ -69,12 +69,6 @@ void ConsoleManager::SettingFromJson()
 {
 	Json Setting = LoadJsonFromFile("Setting.json");
 
-	ConsoleManager::Get().SetWindow(
-		Vec2i(Setting["Window"]["x"], Setting["Window"]["y"]),
-		Setting["Window"]["w"],
-		Setting["Window"]["h"]
-	);
-
 	ConsoleManager::Get().Clear();
 	ConsoleManager::Get().SetTitle(Setting["Title"]);
 	ConsoleManager::Get().SetCursorVisible(Setting["CursorVisible"]);
