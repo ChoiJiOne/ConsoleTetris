@@ -30,18 +30,18 @@ void PlaySceneNode::Reset()
 	CleanupAllProperties();
 
 	PlayTime_ = 0.0f;
-	PlayTimePosition_ = Vec2i(15, 10);
+	PlayTimePosition_ = GetUIPosition("Time");
 
-	RemoveLinePosition_ = Vec2i(15, 12);
+	RemoveLinePosition_ = GetUIPosition("Line");
 
 	Level_ = ELevel::LEVEL1;
 	AccruePlayTime_ = 0.0f;
-	PlayerLevelPosition_ = Vec2i(15, 14);
+	PlayerLevelPosition_ = GetUIPosition("Level");
 	Tetromino::SetMaxAccrueTime(LevelToMaxAccrueTime_[Level_]);
 
-	BoardPosition_ = Vec2i(2, 2);
-	StartPosition_ = Vec2i(6, 3);
-	WaitPosition_ = Vec2i(15, 3);
+	BoardPosition_ = GetUIPosition("Board");
+	StartPosition_ = GetUIPosition("Start");
+	WaitPosition_ = GetUIPosition("Wait");
 
 	CurrTetromino_ = std::make_shared<Tetromino>(StartPosition_);
 	CurrTetromino_->SetCurrentState(Tetromino::EState::ACTIVE);
