@@ -34,7 +34,8 @@ workspace "ConsoleTetris"
 
       -- 명령행 인수를 설정합니다.
       debugargs {
-         "-Dump=%{wks.location}..\\Dump\\"
+         "-Dump=%{wks.location}..\\Dump\\",
+         "-Content=%{wks.location}..\\Content\\",
       }
 
       -- 소스 코드의 include 경로를 추가합니다.
