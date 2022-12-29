@@ -45,6 +45,7 @@ public:
 	{
 		SetUnhandledExceptionFilter(UnhandledExceptionHandler);
 
+		ConsoleManager::Get().SetWindow(Vec2i(200, 200), 600, 500);
 		ConsoleManager::Get().Clear();
 		ConsoleManager::Get().SetTitle("ConsoleTetris");
 		ConsoleManager::Get().SetCursorVisible(false);
@@ -142,28 +143,9 @@ public:
 			Timer_.Tick();
 			InputManager::Get().Tick();
 
-			Update();
-			Render();
+			CurrentSceneNode_->Update(Timer_.GetDeltaTime());
+			CurrentSceneNode_->Render();
 		}
-	}
-
-
-private:
-	/**
-	 * 루프를 업데이트합니다.
-	 */
-	void Update()
-	{
-		CurrentSceneNode_->Update(Timer_.GetDeltaTime());
-	}
-
-
-	/**
-	 * 콘솔 화면에 렌더링을 수행합니다.
-	 */
-	void Render()
-	{
-		CurrentSceneNode_->Render();
 	}
 
 
