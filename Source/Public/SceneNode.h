@@ -22,8 +22,7 @@ public:
 	 * 
 	 * @param InSignature - 씬 노드의 시그니처입니다.
 	 */
-	explicit SceneNode(const std::string& InSignature)
-		: Signature_(InSignature) {}
+	explicit SceneNode(const std::string& InSignature);
 
 
 	/**

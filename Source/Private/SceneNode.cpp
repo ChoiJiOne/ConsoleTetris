@@ -2,6 +2,12 @@
 
 #include <algorithm>
 
+SceneNode::SceneNode(const std::string& InSignature)
+	: Signature_(InSignature)
+{
+	LoadSceneUIJson();
+}
+
 void SceneNode::LinkNode(SceneNode* InSceneNode)
 {
 	if (this == InSceneNode) return;
