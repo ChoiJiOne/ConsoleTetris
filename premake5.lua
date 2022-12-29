@@ -20,6 +20,9 @@ workspace "ConsoleTetris"
    -- 외부 라이브러리 경로를 설정합니다.
    thirdparty="%{wks.location}/../ThirdParty"
 
+   -- 컨텐츠 경로를 설정합니다.
+   content="%{wks.location}/../Content"
+
    -- ConsoleTetris 프로젝트입니다.
    project "ConsoleTetris"
 
@@ -52,6 +55,8 @@ workspace "ConsoleTetris"
          "%{source}/*",
          "%{source}/Public/*",
          "%{source}/Private/*",
+
+         "%{content}/*",
 
          "%{thirdparty}/Json/*",
          "%{thirdparty}/miniaudio/*",
