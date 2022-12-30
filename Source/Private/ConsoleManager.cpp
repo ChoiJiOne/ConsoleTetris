@@ -72,7 +72,7 @@ void ConsoleManager::SettingFromInfoFile()
 	std::string SettingPath = CommandLineManager::Get().GetValue("-Content") + std::string("Setting.Info");
 
 	std::ifstream SettingFile(SettingPath);
-	CHECK((SettingFile.is_open()), "failed to load scene file");
+	CHECK((SettingFile.is_open()), "failed to load info file");
 
 	std::unordered_map<std::string, std::string> SettingInfo;
 
