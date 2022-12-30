@@ -17,9 +17,6 @@ workspace "ConsoleTetris"
    -- 소스 코드 경로를 설정합니다.
    source="%{wks.location}/../Source"
 
-   -- 외부 라이브러리 경로를 설정합니다.
-   thirdparty="%{wks.location}/../ThirdParty"
-
    -- 컨텐츠 경로를 설정합니다.
    content="%{wks.location}/../Content"
 
@@ -46,8 +43,6 @@ workspace "ConsoleTetris"
          "%{source}",
          "%{source}/Public",
          "%{source}/Private",
-
-         "%{thirdparty}",
       }
 
       -- 소스 코드의 file을 추가합니다.
@@ -57,8 +52,6 @@ workspace "ConsoleTetris"
          "%{source}/Private/*",
 
          "%{content}/*",
-
-         "%{thirdparty}/Json/*",
       }
 
       -- 빌드의 구성 요소별 설정을 수행합니다.
