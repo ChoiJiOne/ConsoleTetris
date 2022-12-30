@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Macro.h>
-#include <Json.h>
 #include <Vector.hpp>
 
 #include <string>
@@ -101,15 +100,6 @@ public:
 
 
 	/**
-	 * 현재 씬 노드의 UI 정보를 저장한 Json 파일을 로딩합니다.
-	 * 이때, Json파일은 씬 노드의 시그니처와 일치해야 합니다.
-	 * 
-	 * @throws 시그니처와 일치하는 Json 파일이 존재하지 않으면 C++ 표준 예외를 던집니다.
-	 */
-	void LoadSceneUIJson();
-
-
-	/**
 	 * UI 요소의 좌표를 얻습니다.
 	 * 
 	 * @param InUIElement - UI 요소입니다.
@@ -135,6 +125,15 @@ public:
 
 private:
 	/**
+	 * Scene 파일을 파싱합니다.
+	 * 
+	 * @return 씬의 UI 요소의 이름과 위치를 key, value로 저장하는 자료구조를 반환합니다.
+	 */
+	std::unordered_map<std::string, Vec2i> ParseSceneFromFile();
+
+
+private:
+	/**
 	 * 씬 그래프 노드의 시그니처 값입니다.
 	 */
 	std::string Signature_;
@@ -153,7 +152,7 @@ private:
 
 
 	/**
-	 * 현재 씬 노드의 UI 정보를 보관하는 Json 객체입니다.
+	 * 현재 씬 노드의 UI 위치 정보입니다.
 	 */
-	Json SceneUI;
+	std::unordered_map<std::string, Vec2i> SceneUIInfo_;
 };
