@@ -1,6 +1,8 @@
 #include <ConsoleManager.h>
-#include <Json.h>
+#include <CommandLineManager.h>
+#include <Text.hpp>
 
+#include <fstream>
 #include <iostream>
 #include <windows.h>
 
@@ -65,13 +67,29 @@ void ConsoleManager::RenderText(const Vec2i& InPosition, const std::wstring& InT
 	std::wcout << InText;
 }
 
-void ConsoleManager::SettingFromJson()
+void ConsoleManager::SettingFromInfoFile()
 {
-	Json Setting = LoadJsonFromFile("Setting.json");
+	std::string SettingPath = CommandLineManager::Get().GetValue("-Content") + std::string("Setting.Info");
+
+	std::ifstream SettingFile(SettingPath);
+	CHECK((SettingFile.is_open()), "failed to load scene file");
+
+	std::unordered_map<std::string, std::string> SettingInfo;
+
+	std::string ReadLine;
+	while (SettingFile)
+	{
+		std::getline(SettingFile, ReadLine);
+
+		std::vector<std::string> Elements = Text::Split(ReadLine, ":");
+		SettingInfo.insert({ Elements[0], Elements[1] });
+	}
+
+	SettingFile.close();
 
 	ConsoleManager::Get().Clear();
-	ConsoleManager::Get().SetTitle(Setting["Title"]);
-	ConsoleManager::Get().SetCursorVisible(Setting["CursorVisible"]);
+	ConsoleManager::Get().SetTitle(SettingInfo["Title"]);
+	ConsoleManager::Get().SetCursorVisible(SettingInfo["CursorVisible"].compare("0"));
 }
 
 ConsoleManager::~ConsoleManager()

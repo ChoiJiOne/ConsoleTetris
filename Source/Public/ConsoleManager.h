@@ -140,9 +140,9 @@ public:
 
 
 	/**
-	 * Setting.json 파일을 기반으로 세팅을 수행합니다.
+	 * Setting.Info 파일을 기반으로 세팅을 수행합니다.
 	 */
-	void SettingFromJson();
+	void SettingFromInfoFile();
 	
 
 private:
