@@ -59,7 +59,6 @@ workspace "ConsoleTetris"
          "%{content}/*",
 
          "%{thirdparty}/Json/*",
-         "%{thirdparty}/miniaudio/*",
       }
 
       -- 빌드의 구성 요소별 설정을 수행합니다.
