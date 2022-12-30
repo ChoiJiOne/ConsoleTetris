@@ -44,7 +44,7 @@ public:
 	void Init()
 	{
 		SetUnhandledExceptionFilter(UnhandledExceptionHandler);
-		ConsoleManager::Get().SettingFromJson();
+		ConsoleManager::Get().SettingFromInfoFile();
 
 		PlaySceneNode_ = std::make_unique<PlaySceneNode>();
 		PlaySceneNode_->SetSwitchEvent([&]() { 
