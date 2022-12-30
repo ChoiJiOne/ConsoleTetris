@@ -3,12 +3,6 @@
 <br><br>
 
 
-## Platform
-
-이 프로젝트는 Windows Platform을 타겟으로 개발되었습니다.  
-<br><br>
-
-
 ## Release
 
 [여기](https://github.com/ChoiJiOne/ConsoleTetris/releases/tag/0.0) 에서 Console 테트리스 게임 *0.0* 버전을 다운받을 수 있습니다.  
