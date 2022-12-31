@@ -90,7 +90,7 @@ void PlaySceneNode::Update(float InDeltaSeconds)
 		}
 	}
 
-	if (AccruePlayTime_ >= 30.0f && Level_ != ELevel::LEVEL6)
+	if (AccruePlayTime_ >= 60.0f && Level_ != ELevel::LEVEL6)
 	{
 		AccruePlayTime_ = 0.0f;
 		Level_ = static_cast<ELevel>(static_cast<int32_t>(Level_) + 1);
