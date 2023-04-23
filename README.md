@@ -1,11 +1,11 @@
-# Console Tetris *1.0*
-- Console 테트리스 게임의 *1.0* 버전입니다.
+# Console Tetris *v1.0*
+- Console 테트리스 게임의 *v1.0* 버전입니다.
 <br><br>
 
 
 ## Release
 
-[여기](https://github.com/ChoiJiOne/ConsoleTetris/releases/tag/1.0) 에서 Console 테트리스 게임 *1.0* 버전을 다운받을 수 있습니다.  
+[여기](https://github.com/ChoiJiOne/ConsoleTetris/releases/tag/v1.0) 에서 Console 테트리스 게임 *v1.0* 버전을 다운받을 수 있습니다.  
 <br><br>
 
 
@@ -19,9 +19,9 @@
 
 ## 소스 코드 얻기
 
-`CMD` 에서 다음과 같이 수행하시면 *1.0* 버전의 소스 코드를 얻을 수 있습니다.
+`CMD` 에서 다음과 같이 수행하시면 *v1.0* 버전의 소스 코드를 얻을 수 있습니다.
 ```
-> git clone https://github.com/ChoiJiOne/ConsoleTetris --single-branch -b 1.0
+> git clone https://github.com/ChoiJiOne/ConsoleTetris --single-branch -b v1.0
 ```
 <br><br>
 
