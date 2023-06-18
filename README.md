@@ -3,12 +3,6 @@
 <br><br>
 
 
-## Release
-
-[여기](https://github.com/ChoiJiOne/ConsoleTetris/releases/tag/v0.0) 에서 Console 테트리스 게임 *v0.0* 버전을 다운받을 수 있습니다.  
-<br><br>
-
-
 ## 사전 준비
 
 이 프로젝트를 빌드 및 유지 개발을 진행하기 위해서는 다음 요소가 필요합니다.
