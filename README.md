@@ -13,7 +13,7 @@
 
 ## 저장소 복제본 얻기
 
-`CMD` 에서 다음과 같이 수행하시면 *v0.0* 버전의 소스 코드를 얻을 수 있습니다.
+`CMD` 에서 다음과 같이 수행하시면 *v0.0*의 저장소 복제본을 얻을 수 있습니다.
 ```
 > git clone https://github.com/ChoiJiOne/ConsoleTetris --single-branch -b v0.0
 ```
