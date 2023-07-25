@@ -1,4 +1,4 @@
-# Console Tetris *v1.0*
+# ConsoleTetris *v1.0*
 - Console 테트리스 게임의 *v1.0* 버전입니다.
 <br><br>
 
@@ -11,9 +11,9 @@
 <br><br>
 
 
-## 소스 코드 얻기
+## 저장소 복제본 얻기
 
-`CMD` 에서 다음과 같이 수행하시면 *v1.0* 버전의 소스 코드를 얻을 수 있습니다.
+`CMD` 에서 다음과 같이 수행하시면 *v1.0*의 저장소 복제본을 얻을 수 있습니다.
 ```
 > git clone https://github.com/ChoiJiOne/ConsoleTetris --single-branch -b v1.0
 ```
@@ -22,7 +22,7 @@
 
 ## Visual Studio Solution 생성
 
-`CMD` 에서 다음과 같이 수행하시면 `Visual Studio` Solution를 생성할 수 있습니다.
+`CMD` 에서 다음과 같이 수행하시면 Visual Studio Solution를 생성할 수 있습니다.
 ```
 > GenerateProjectFiles.bat
 ```
@@ -31,8 +31,10 @@
 
 ## 빌드
 
-이 프로젝트는 `Visual Studio` 에서의 빌드 이외의 빌드 기능을 제공합니다.  
+이 프로젝트는 Visual Studio 에서의 빌드 이외의 빌드 기능을 제공합니다.  
 `CMD` 에서 다음과 같이 수행하시면 프로젝트를 빌드할 수 있습니다.  
+
+> ※ 단, MSBuild.exe 경로가 환경 변수에 등록되어 있어야 합니다.
 
 ### `Debug` 빌드
 ```
