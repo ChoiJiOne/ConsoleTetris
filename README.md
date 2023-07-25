@@ -1,4 +1,4 @@
-# Console Tetris *v0.0*
+# ConsoleTetris *v0.0*
 - Console 테트리스 게임의 *v0.0* 버전입니다.
 <br><br>
 
@@ -22,7 +22,7 @@
 
 ## Visual Studio Solution 생성
 
-`CMD` 에서 다음과 같이 수행하시면 `Visual Studio` Solution를 생성할 수 있습니다.
+`CMD` 에서 다음과 같이 수행하시면 Visual Studio Solution를 생성할 수 있습니다.
 ```
 > GenerateProjectFiles.bat
 ```
@@ -33,6 +33,8 @@
 
 이 프로젝트는 `Visual Studio` 에서의 빌드 이외의 빌드 기능을 제공합니다.  
 `CMD` 에서 다음과 같이 수행하시면 프로젝트를 빌드할 수 있습니다.  
+
+> ※ 단, MSBuild.exe 경로가 환경 변수에 등록되어 있어야 합니다.
 
 ### `Debug` 빌드
 ```
